@@ -1,5 +1,3 @@
-@import url("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");
-
 :root {
   --primary-color: #4caf50;
   --secondary-color: #ff9800;
@@ -18,33 +16,7 @@
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-}
-
-.error-border {
-  border-color: var(--error-color);
-}
-
-.normal-border {
-  border-color: var(--form-control-border);
-}
-
-.default-btn {
-  background-color: var(--button-background);
-  color: #ffffff;
-}
-
-.default-btn:hover {
-  background-color: var(--button-hover-background);
-}
-
-.modal-content {
-  background-color: #ffffff;
-}
-
-.modal-backdrop.show {
-  background-color: var(--modal-background);
-}
-
-.incorrect-help-text {
-  color: var(--error-color);
+  padding: none;
+  box-sizing: border-box;
+  margin: 0;
 }
