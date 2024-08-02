@@ -1,0 +1,95 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .searchBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .searchInput {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 1rem;
+  }
+  
+  .searchButton {
+    background-color: #ff7a45;
+    color: white;
+    border: none;
+    padding: 1rem;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    
+  }
+
+  .searchButton:hover {
+    background-color: #ff5a2f;
+  }
+  
+  .searchButton i {
+    margin-right: 5px;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .filterItem {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .filterItem label {
+    margin-right: 10px;
+    font-size: 16px;
+  }
+  
+  .filterDropdown {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+  }
+  
+  .filterDropdown:hover {
+    border:1px #ff7a45; /* Orange color on hover */
+  }
+  
+  .resultsCount {
+    font-size: 16px;
+  }
+
+  select {
+    padding: 0.4rem;
+  }
+
+  select:hover{
+    border-color: #ff7a45;
+    cursor: pointer;
+    border-radius: 3px;
+    
+  }
+  
