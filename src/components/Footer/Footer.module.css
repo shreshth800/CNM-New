@@ -1,15 +1,18 @@
 
 
 
-  /* Footer.module.css */
+
+
 .footer {
     background-color: #f8f9fa;
     padding: 1rem;
     display: flex; /* Use flexbox to align content */
     justify-content: space-between; /* Space between content and icons */
     align-items: center; /* Center items vertically */
+    bottom: 0;
   }
   
+  /* Responsive layout for footer content and icons */
   .footerContent {
     display: flex;
     flex-direction: column; /* Stack items vertically */
@@ -33,5 +36,31 @@
   
   .footerIcons a:hover {
     color: #495057; /* Darker grey on hover */
+  }
+  
+  /* Media queries for responsiveness */
+  @media (max-width: 768px) {
+    .footer {
+      flex-direction: column; /* Stack footer content and icons vertically */
+      align-items: flex-start; /* Align items to the start */
+    }
+  
+    .footerIcons {
+      margin-top: 1rem; /* Add margin on top for spacing */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .footerContent p {
+      font-size: 0.8rem; /* Adjust text size for smaller screens */
+    }
+  
+    .footerIcons a {
+      font-size: 0.9rem; /* Adjust icon size for smaller screens */
+    }
+  
+    .footer {
+      padding: 0.5rem; /* Reduce padding for smaller screens */
+    }
   }
   

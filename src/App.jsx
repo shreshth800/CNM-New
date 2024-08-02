@@ -6,8 +6,9 @@ function App() {
   return (
     <>
       <Header />
-      <Footer />
       <HowItWorks />
+      <Footer />
+     
     </>
   );
 }
