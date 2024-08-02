@@ -11,13 +11,13 @@ const Footer = () => {
         <p>&copy; {new Date().getFullYear()} Caterersnearme. All rights reserved.</p>
       </div>
       <div className={styles.footerIcons}>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/company/caterersnearme/" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={faLinkedin} />
           </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-            <FontAwesomeIcon icon={faTwitter} />
+          <a href="https://www.facebook.com/people/caterersnearme/61558542239502" target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faFacebook} />
           </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/caterersnearme/?igsh=ZTBieXMzNXJsZXBm" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={faInstagram} />
           </a>
         </div>
