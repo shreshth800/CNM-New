@@ -1,14 +1,25 @@
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import HowItWorks from "./components/HowItWorks/HowItWorks";
-import AboutUsSection from "./components/AboutUsSection/AboutUsSection";
+import HomePage from "./pages/HomePage/HomePage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CatererSearch from "./pages/CatererSearch/CatererSearch";
 
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <HomePage />,
+    },
+    {
+      path: "/caterer-search",
+      element: <CatererSearch />,
+    },
+  ]);
+
   return (
     <>
       <Header />
-      <AboutUsSection />
-      <HowItWorks />
+      <RouterProvider router={router} />
       <Footer />
     </>
   );
