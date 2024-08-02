@@ -1,0 +1,37 @@
+
+
+
+  /* Footer.module.css */
+.footer {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    display: flex; /* Use flexbox to align content */
+    justify-content: space-between; /* Space between content and icons */
+    align-items: center; /* Center items vertically */
+  }
+  
+  .footerContent {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+  }
+  
+  .footerContent p {
+    font-size: 0.9rem;
+    color: #333; /* Adjust text color as needed */
+  }
+  
+  .footerIcons {
+    display: flex; /* Use flexbox to align icons */
+    gap: 1rem; /* Space between icons */
+  }
+  
+  .footerIcons a {
+    color: #6c757d; /* Grey color for icons */
+    font-size: 1rem; /* Adjust icon size */
+    text-decoration: none; /* Ensure no underline */
+  }
+  
+  .footerIcons a:hover {
+    color: #495057; /* Darker grey on hover */
+  }
+  
