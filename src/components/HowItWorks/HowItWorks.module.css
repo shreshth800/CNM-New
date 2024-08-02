@@ -8,6 +8,7 @@
     justify-content: space-around;
     align-items: center;
     position: relative;
+    padding: 4rem;
   }
   
   .step {
