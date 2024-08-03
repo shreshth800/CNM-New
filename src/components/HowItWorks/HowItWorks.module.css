@@ -49,21 +49,16 @@
     background-color: #f97316;
     color: white;
     border-radius: 50%;
-    width: 1rem;
+    width:1.3rem;
     padding: 0.5rem;
     font-size: 0.9rem;
   }
-  
-  .connector {
-    width: 200px;
-    height: 2px;
-    position: absolute;
-    top: 40%;
-    left: 100%;
+  .steps::before{
+    background-image: url;
   }
   
   .step h3 {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     font-size: 1rem;
     color: #333;
   }
