@@ -8,6 +8,21 @@ import deliveryIcon from '../../assets/icons/delivery.png';
 import rightArrow from '../../assets/icons/right-arrow.png';
 import leftArrow from '../../assets/icons/right-arrow.png';
 
+function RightArrow(){
+  return(
+    <div className={styles.arrowright}>
+    <img src={rightArrow} alt='rightArrow'/>
+    </div>
+  )
+}
+function LeftArrow(){
+  return(
+    <div className={styles.arrowleft}>
+    <img src={leftArrow} alt='rightArrow'/>
+    </div>
+  )
+}
+
 const HowItWorks = () => {
   const steps = [
     { id: 1, title: 'Search', icon: searchIcon },
@@ -22,17 +37,17 @@ const HowItWorks = () => {
       <h2>How Caterer Near Me Works</h2>
       <div className={styles.steps}>
         {steps.map((step, index) => (
-          <div key={step.id} className={styles.step}>
+          <div key={step.id} className={index===steps.length-1?styles.lastStep:styles.step}>
             <div className={styles.stepIcon}>
               <img src={step.icon} alt={`${step.title} icon`} />
               <div className={styles.stepNumber}>{step.id}</div>
             </div>
-            <h3>{step.title}</h3>
             {index < steps.length - 1 && (
               <div className={styles.connector}>
-                <img src={index % 2 === 0 ? rightArrow : leftArrow} alt="arrow" />
+                {index%2===0?<RightArrow/>:<LeftArrow/>}
               </div>
             )}
+            <h3>{step.title}</h3>
           </div>
         ))}
       </div>
