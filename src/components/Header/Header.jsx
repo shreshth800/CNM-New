@@ -71,9 +71,11 @@ import React, { useState, useEffect } from "react";
 import styles from "./Header.module.css";
 import CNMLogo from "../../assets/CNMLogo-NoBG.png";
 import LoginRegisterModal from "../loginRegisterModal/LoginRegisterModal";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate=useNavigate()
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -132,7 +134,7 @@ const Header = () => {
           </div>
         </div>
         <ul className={`${styles.navLinks} ${styles.rowUl}`}>
-          <li className={styles.findCaterers}>Find Caterers</li>
+          <li className={styles.findCaterers} onClick={()=>navigate('caterer-search')}>Find Caterers</li>
           <li className={styles.navContact}>+91 123456789</li>
           <li className={styles.navLogin} onClick={openModal}>
             Login/Register
