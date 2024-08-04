@@ -64,8 +64,6 @@
 
 // export default Header;
 
-
-
 // src/components/Header/Header.jsx
 import React, { useState, useEffect } from "react";
 import styles from "./Header.module.css";
@@ -75,7 +73,7 @@ import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -115,7 +113,9 @@ const Header = () => {
           <div className={styles.imgContainer}>
             <img className={styles.logoImg} src={CNMLogo} alt="CNM" />
           </div>
-          <h1 className={styles.logoText}>CATERERSNEARME</h1>
+          <h1 className={styles.logoText} onClick={() => navigate("/")}>
+            CATERERSNEARME
+          </h1>
         </div>
         <div className={styles.hamburger}>
           <div className={styles.dropdown} data-dropdown>
@@ -134,7 +134,12 @@ const Header = () => {
           </div>
         </div>
         <ul className={`${styles.navLinks} ${styles.rowUl}`}>
-          <li className={styles.findCaterers} onClick={()=>navigate('caterer-search')}>Find Caterers</li>
+          <li
+            className={styles.findCaterers}
+            onClick={() => navigate("caterer-search")}
+          >
+            Find Caterers
+          </li>
           <li className={styles.navContact}>+91 123456789</li>
           <li className={styles.navLogin} onClick={openModal}>
             Login/Register

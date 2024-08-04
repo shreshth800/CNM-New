@@ -35,9 +35,9 @@
   font-size: auto;
   font-weight: bold;
   background: linear-gradient(to right, #ff6f00, #ffb000);
-  -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  cursor: pointer;
 }
 
 .navLinks {

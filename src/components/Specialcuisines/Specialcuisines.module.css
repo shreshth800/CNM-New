@@ -1,36 +1,37 @@
-.container{
-    background-image: url('../../assets/icons/ourSpeciality.png');
-    background-repeat: no-repeat;
-    border-radius: 1rem;
-    width:19rem;
-    background-size:contain;
-    padding:0;
-    height:22rem;
-    background-color: #ecf1f4;
-    position: relative;
+.container {
+  background-image: url("../../assets/icons/ourSpeciality.png");
+  background-repeat: no-repeat;
+  border-radius: 1rem;
+  min-width: 15rem;
+  width: 20%;
+  background-size: contain;
+  padding: 0;
+  height: 22rem;
+  background-color: #ecf1f4;
+  position: relative;
 }
-.image{
-    display:inline-block;
-    width:90%;
-    border:0.5rem solid #fdc56b;
-    border-radius: 50%;
+.image {
+  display: inline-block;
+  width: 90%;
+  border: 0.5rem solid #fdc56b;
+  border-radius: 50%;
 }
-.whiteBorder{
-    display: inline-block;
-    position: absolute;
-    top:40%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    width:11rem;
-    height:11rem;
-    border-radius: 50%;
-    border:0.5rem solid white;
+.whiteBorder {
+  display: inline-block;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 11rem;
+  height: 11rem;
+  border-radius: 50%;
+  border: 0.5rem solid white;
 }
-.name{
-    margin:0;
-    display: inline-block;
-    position: absolute;
-    top:77%;
-    left:50%;
-    transform: translate(-50%,0);
+.name {
+  margin: 0;
+  display: inline-block;
+  position: absolute;
+  top: 77%;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
