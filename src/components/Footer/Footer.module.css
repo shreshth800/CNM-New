@@ -1,66 +1,60 @@
-
-
-
-
-
 .footer {
-    background-color: #f8f9fa;
-    padding: 1rem;
-    display: flex; /* Use flexbox to align content */
-    justify-content: space-between; /* Space between content and icons */
-    align-items: center; /* Center items vertically */
-    bottom: 0;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  bottom: 0;
+}
+
+/* Responsive layout for footer content and icons */
+.footerContent {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+}
+
+.footerContent p {
+  font-size: 0.9rem;
+  color: #333; /* Adjust text color as needed */
+}
+
+.footerIcons {
+  display: flex; /* Use flexbox to align icons */
+  gap: 1rem; /* Space between icons */
+}
+
+.footerIcons a {
+  color: #6c757d; /* Grey color for icons */
+  font-size: 1rem; /* Adjust icon size */
+  text-decoration: none; /* Ensure no underline */
+}
+
+.footerIcons a:hover {
+  color: #495057; /* Darker grey on hover */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column; /* Stack footer content and icons vertically */
+    align-items: flex-start; /* Align items to the start */
   }
-  
-  /* Responsive layout for footer content and icons */
-  .footerContent {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-  }
-  
-  .footerContent p {
-    font-size: 0.9rem;
-    color: #333; /* Adjust text color as needed */
-  }
-  
+
   .footerIcons {
-    display: flex; /* Use flexbox to align icons */
-    gap: 1rem; /* Space between icons */
+    margin-top: 1rem; /* Add margin on top for spacing */
   }
-  
+}
+
+@media (max-width: 480px) {
+  .footerContent p {
+    font-size: 0.8rem; /* Adjust text size for smaller screens */
+  }
+
   .footerIcons a {
-    color: #6c757d; /* Grey color for icons */
-    font-size: 1rem; /* Adjust icon size */
-    text-decoration: none; /* Ensure no underline */
+    font-size: 0.9rem; /* Adjust icon size for smaller screens */
   }
-  
-  .footerIcons a:hover {
-    color: #495057; /* Darker grey on hover */
+
+  .footer {
+    padding: 0.5rem; /* Reduce padding for smaller screens */
   }
-  
-  /* Media queries for responsiveness */
-  @media (max-width: 768px) {
-    .footer {
-      flex-direction: column; /* Stack footer content and icons vertically */
-      align-items: flex-start; /* Align items to the start */
-    }
-  
-    .footerIcons {
-      margin-top: 1rem; /* Add margin on top for spacing */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .footerContent p {
-      font-size: 0.8rem; /* Adjust text size for smaller screens */
-    }
-  
-    .footerIcons a {
-      font-size: 0.9rem; /* Adjust icon size for smaller screens */
-    }
-  
-    .footer {
-      padding: 0.5rem; /* Reduce padding for smaller screens */
-    }
-  }
-  
+}

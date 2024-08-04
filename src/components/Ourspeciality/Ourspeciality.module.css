@@ -1,11 +1,12 @@
-.container{
-    padding:4.8rem;
-    background-color: white;
+.container {
+  padding: 4.8rem;
+  background-color: white;
 }
-.dishContainer{
-    padding-top: 1rem;
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    row-gap: 2rem;
-    column-gap: 2rem;
+.dishContainer {
+  padding-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
 }
