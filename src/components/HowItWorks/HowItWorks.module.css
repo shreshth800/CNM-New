@@ -2,7 +2,26 @@
     text-align: center;
     padding: 2rem;
   }
-  
+  .arrowright{
+    display: flex;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top:35%;
+    transform: translate(-50%,0);
+  }
+  .arrowleft{
+    transform: scaleX(-1);
+    transform: scaleY(-1);
+    position: relative;
+    top:43%;
+    left:0;
+    transform: translate(-50,50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .steps {
     display: flex;
     justify-content: space-around;
@@ -12,10 +31,13 @@
   }
   
   .step {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+  }
+  .lastStep{
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
   }
   
   .stepIcon {

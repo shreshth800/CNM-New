@@ -15,10 +15,10 @@ function App() {
           index: true,
           element: <HomePage />,
         },
-        {
-          path: "/caterer-search",
-          element: <CatererSearch/>
-        }
+        // {
+        //   path: "/caterer-search",
+        //   element: <CatererSearch/>
+        // }
       ]
     }
   ]);
