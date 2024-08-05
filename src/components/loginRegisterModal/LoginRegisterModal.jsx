@@ -80,8 +80,22 @@ import styles from "./LoginRegisterModal.module.css";
 
 const LoginRegisterModal = ({ isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
+  const [role, setRole] = useState('USER'); // State for role
 
   if (!isOpen) return null;
+
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const roleValue = role === 'USER' ? 2 : 3; // Convert role to backend values
+    formData.set('role', roleValue);
+    // Submit the form data to the backend here
+    console.log('Form data:', Object.fromEntries(formData));
+  };
 
   return (
     <div className={styles.modalOverlay}>
@@ -105,40 +119,67 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
           </button>
         </div>
         {isLogin ? (
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
               <label>Email address</label>
-              <input type="email" placeholder="Enter email" required />
+              <input type="email" name="email" placeholder="Enter email" required />
             </div>
             <div className={styles.formGroup}>
               <label>Password</label>
-              <input type="password" placeholder="Password" required />
+              <input type="password" name="password" placeholder="Password" required />
             </div>
             <button type="submit" className={styles.submitButton}>
               Login
             </button>
           </form>
         ) : (
-          <form>
-             <div className={styles.formGroup}>
+          <form onSubmit={handleSubmit}>
+            <div className={styles.formGroup}>
               <label>First Name</label>
-              <input type="text" placeholder="Enter First Name" required />
+              <input type="text" name="firstName" placeholder="Enter First Name" required />
             </div>
             <div className={styles.formGroup}>
               <label>Last Name</label>
-              <input type="text" placeholder="Enter Last Name" required />
+              <input type="text" name="lastName" placeholder="Enter Last Name" required />
             </div>
             <div className={styles.formGroup}>
               <label>Email address</label>
-              <input type="email" placeholder="Enter email" required />
+              <input type="email" name="email" placeholder="Enter email" required />
             </div>
             <div className={styles.formGroup}>
               <label>Password</label>
-              <input type="password" placeholder="Password" required />
+              <input type="password" name="password" placeholder="Password" required />
             </div>
             <div className={styles.formGroup}>
               <label>Confirm Password</label>
-              <input type="password" placeholder="Confirm Password" required />
+              <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Role</label>
+              <div className={styles.radioButton}>
+                <div>
+                  <input
+                    type="radio"
+                    id="roleUser"
+                    name="role"
+                    value="USER"
+                    checked={role === 'USER'}
+                    onChange={handleRoleChange}
+                  />
+                  <label htmlFor="roleUser">User</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="roleCaterer"
+                    name="role"
+                    value="CATERER"
+                    checked={role === 'CATERER'}
+                    onChange={handleRoleChange}
+                  />
+                  <label htmlFor="roleCaterer">Caterer</label>
+                </div>
+              </div>
             </div>
             <button type="submit" className={styles.submitButton}>
               Register
@@ -151,7 +192,3 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
 };
 
 export default LoginRegisterModal;
-
-
-
-

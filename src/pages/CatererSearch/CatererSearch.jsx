@@ -3,6 +3,7 @@ import styles from "./CatererSearch.module.css"; // Add your CSS styles here
 
 const CatererSearch = () => {
   return (
+    
     <div className={styles.container}>
       <div className={styles.searchBar}>
         <input 

@@ -127,3 +127,9 @@
 .checkboxGroup input {
   margin-right: 8px;
 }
+
+.radioButton{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
