@@ -19,6 +19,7 @@
   border-radius: 8px;
   width: 28rem;
   max-width: 90%;
+  position: relative;
 }
 
 .closeButton {
@@ -26,6 +27,9 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .tabButtons {
@@ -40,10 +44,39 @@
   padding: 10px;
   cursor: pointer;
   font-size: 16px;
+  color: #555;
 }
 
 .tabButton.active {
   border-bottom: 2px solid #dc7e3f;
+  font-weight: bold;
+  color: #333;
+}
+
+.roleButtons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 20px;
+}
+
+.roleButton {
+  background: none;
+  width: auto;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 0.3rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.roleButton.active {
+  background-color: #ed682a;
+  color: white;
+}
+
+.roleButton:not(.active):hover {
+  background-color: #f5f5f5;
 }
 
 .formGroup {
@@ -63,6 +96,12 @@
   border-radius: 4px;
 }
 
+.formGroup .rolesButtons{
+  background-color: #ed682a;
+  padding: 10rem;
+
+}
+
 .submitButton {
   width: 100%;
   padding: 10px;
@@ -70,11 +109,21 @@
   border: none;
   color: white;
   cursor: pointer;
-  border-radius: 40px;
+  border-radius: 4px;
   margin-top: 15px;
   transition: background-color 0.3s ease;
 }
 
 .submitButton:hover {
   background: #ee540c;
+}
+
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.checkboxGroup input {
+  margin-right: 8px;
 }

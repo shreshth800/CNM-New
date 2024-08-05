@@ -1,83 +1,80 @@
-// import React, { useState } from 'react';
-// import styles from './LoginRegister.module.css';
+// // import React, { useState } from 'react';
+// // import styles from './LoginRegister.module.css';
 
-// const LoginRegisterModal = ({ show, handleClose }) => {
-//   const [key, setKey] = useState('login');
+// // const LoginRegisterModal = ({ show, handleClose }) => {
+// //   const [key, setKey] = useState('login');
 
-//   if (!show) return null;
+// //   if (!show) return null;
 
-//   return (
-//     <div className={styles.modalOverlay}>
-//       <div className={styles.modal}>
-//         <div className={styles.modalHeader}>
-//           <h2>{key === 'login' ? 'Login' : 'Register'}</h2>
-//           <button className={styles.closeButton} onClick={handleClose}>
-//             &times;
-//           </button>
-//         </div>
-//         <div className={styles.modalBody}>
-//           <div className={styles.tabButtons}>
-//             <button
-//               className={`${styles.tabButton} ${key === 'login' && styles.active}`}
-//               onClick={() => setKey('login')}
-//             >
-//               Login
-//             </button>
-//             <button
-//               className={`${styles.tabButton} ${key === 'register' && styles.active}`}
-//               onClick={() => setKey('register')}
-//             >
-//               Register
-//             </button>
-//           </div>
-//           {key === 'login' ? (
-//             <form>
-//               <div className={styles.formGroup}>
-//                 <label>Email address</label>
-//                 <input type="email" placeholder="Enter email" />
-//               </div>
-//               <div className={styles.formGroup}>
-//                 <label>Password</label>
-//                 <input type="password" placeholder="Password" />
-//               </div>
-//               <button type="submit" className={styles.submitButton}>
-//                 Login
-//               </button>
-//             </form>
-//           ) : (
-//             <form>
-//               <div className={styles.formGroup}>
-//                 <label>Email address</label>
-//                 <input type="email" placeholder="Enter email" />
-//               </div>
-//               <div className={styles.formGroup}>
-//                 <label>Password</label>
-//                 <input type="password" placeholder="Password" />
-//               </div>
-//               <div className={styles.formGroup}>
-//                 <label>Confirm Password</label>
-//                 <input type="password" placeholder="Confirm Password" />
-//               </div>
-//               <button type="submit" className={styles.submitButton}>
-//                 Register
-//               </button>
-//             </form>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
+// //   return (
+// //     <div className={styles.modalOverlay}>
+// //       <div className={styles.modal}>
+// //         <div className={styles.modalHeader}>
+// //           <h2>{key === 'login' ? 'Login' : 'Register'}</h2>
+// //           <button className={styles.closeButton} onClick={handleClose}>
+// //             &times;
+// //           </button>
+// //         </div>
+// //         <div className={styles.modalBody}>
+// //           <div className={styles.tabButtons}>
+// //             <button
+// //               className={`${styles.tabButton} ${key === 'login' && styles.active}`}
+// //               onClick={() => setKey('login')}
+// //             >
+// //               Login
+// //             </button>
+// //             <button
+// //               className={`${styles.tabButton} ${key === 'register' && styles.active}`}
+// //               onClick={() => setKey('register')}
+// //             >
+// //               Register
+// //             </button>
+// //           </div>
+// //           {key === 'login' ? (
+// //             <form>
+// //               <div className={styles.formGroup}>
+// //                 <label>Email address</label>
+// //                 <input type="email" placeholder="Enter email" />
+// //               </div>
+// //               <div className={styles.formGroup}>
+// //                 <label>Password</label>
+// //                 <input type="password" placeholder="Password" />
+// //               </div>
+// //               <button type="submit" className={styles.submitButton}>
+// //                 Login
+// //               </button>
+// //             </form>
+// //           ) : (
+// //             <form>
+// //               <div className={styles.formGroup}>
+// //                 <label>Email address</label>
+// //                 <input type="email" placeholder="Enter email" />
+// //               </div>
+// //               <div className={styles.formGroup}>
+// //                 <label>Password</label>
+// //                 <input type="password" placeholder="Password" />
+// //               </div>
+// //               <div className={styles.formGroup}>
+// //                 <label>Confirm Password</label>
+// //                 <input type="password" placeholder="Confirm Password" />
+// //               </div>
+// //               <button type="submit" className={styles.submitButton}>
+// //                 Register
+// //               </button>
+// //             </form>
+// //           )}
+// //         </div>
+// //       </div>
+// //     </div>
+// //   );
+// // };
 
-// export default LoginRegisterModal;
-
-
+// // export default LoginRegisterModal;
 
 
 
 
 
-// src/components/LoginRegisterModal/LoginRegisterModal.jsx
 import React, { useState } from "react";
 import styles from "./LoginRegisterModal.module.css";
 
@@ -123,6 +120,14 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
           </form>
         ) : (
           <form>
+             <div className={styles.formGroup}>
+              <label>First Name</label>
+              <input type="text" placeholder="Enter First Name" required />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Last Name</label>
+              <input type="text" placeholder="Enter Last Name" required />
+            </div>
             <div className={styles.formGroup}>
               <label>Email address</label>
               <input type="email" placeholder="Enter email" required />
@@ -146,3 +151,7 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
 };
 
 export default LoginRegisterModal;
+
+
+
+
