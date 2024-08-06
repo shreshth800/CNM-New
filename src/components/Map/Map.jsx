@@ -4,10 +4,11 @@ import styles from "./Map.module.css";
 const MapComponent = () => {
   const mapRef = useRef(null);
 
+  const key = import.meta.env.VITE_MAPS_KEY;
   useEffect(() => {
     const loadGoogleMaps = () => {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAXhrptH_fdCihaABilLOZDW8Tzt3CjQrk&callback=initMap`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`;
       script.async = true;
       script.defer = true;
       window.initMap = initMap;
