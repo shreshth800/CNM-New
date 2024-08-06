@@ -1,16 +1,15 @@
 :root {
-  --primary-color: #4caf50;
-  --secondary-color: #ff9800;
-  --background-color: #f5f5f5;
-  --text-color: #333333;
-  --error-color: #ff0000;
-  --success-color: #4caf50;
-  --button-background: #007bff;
-  --button-hover-background: #0056b3;
-  --modal-background: rgba(0, 0, 0, 0.5);
-  --form-control-border: #ced4da;
-  --form-control-shadow: rgba(0, 123, 255, 0.25);
-  --nav-link-active-color: #007bff;
+  --primaryColor: #f37f40;
+  --vegColor: #39b54a;
+  --nonVegColor: #ff0000;
+  --secondaryColor: #fdc56b;
+  --dishColor: #ffdea9;
+  --headingColor: #404145;
+  --bodyColor: #62646a;
+  --whiteColor: #ffffff;
+  --borderColor: #e0e6e9;
+  --transition: all ease 0.5s;
+  --fontSize: 16px;
 }
 
 body {

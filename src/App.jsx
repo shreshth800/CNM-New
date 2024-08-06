@@ -1,9 +1,8 @@
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
 import HomePage from "./pages/HomePage/HomePage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CatererSearch from "./pages/CatererSearch/CatererSearch";
 import AppLayout from "../src/components/AppLayout";
+import OrderPage from "./pages/OrderPage/OrderPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -18,6 +17,10 @@ function App() {
         {
           path: "/caterer-search",
           element: <CatererSearch />,
+        },
+        {
+          path: "/order",
+          element: <OrderPage />,
         },
       ],
     },

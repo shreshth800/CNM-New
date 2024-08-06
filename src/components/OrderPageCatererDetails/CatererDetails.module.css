@@ -1,0 +1,29 @@
+.catererDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.catererDetails ul {
+  display: flex;
+  gap: 2rem;
+  padding: 0;
+}
+
+.catererDetails ul li:first-child {
+  list-style-type: none;
+}
+
+@media (max-width: 768px) {
+  .catererDetails {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .catererDetails ul {
+    font-size: small;
+  }
+}
