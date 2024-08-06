@@ -1,0 +1,9 @@
+.caterInfo {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.caterInfo p {
+  width: 100%;
+}
