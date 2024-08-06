@@ -1,5 +1,4 @@
-.container {
-  
+/* .container {
   margin: 0 auto;
   padding: 20px;
   display: flex;
@@ -23,14 +22,13 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
-  padding: 1rem;
 }
 
 .searchButton {
   background-color: #ff7a45;
   color: white;
   border: none;
-  padding: 1rem;
+  padding: 10px;
   margin-left: 10px;
   border-radius: 5px;
   cursor: pointer;
@@ -75,7 +73,7 @@
 }
 
 .filterDropdown:hover {
-  border: 1px #ff7a45;
+  border-color: #ff7a45;
 }
 
 .resultsCount {
@@ -90,5 +88,238 @@ select {
 select:hover {
   border-color: #ff7a45;
   cursor: pointer;
+}
+
+.catererList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  margin-top: 20px;
+}
+
+.catererCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+  background-color: #fff;
+}
+
+.catererCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.catererDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.catererDetails h3 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.catererDetails p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #666;
+}
+
+.detailsButton {
+  background-color: #ff7a45;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.detailsButton:hover {
+  background-color: #ff5a2f;
+} */
+
+
+
+.container {
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 74vh;
+  width: 40%;
+}
+
+.searchBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.searchButton {
+  background-color: #ff7a45;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.searchButton:hover {
+  background-color: #ff5a2f;
+}
+
+.searchButton i {
+  margin-right: 5px;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.filterItem {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.filterItem label {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.filterDropdown {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.filterDropdown:hover {
+  border-color: #ff7a45;
+}
+
+.resultsCount {
+  font-size: 16px;
+}
+
+select {
+  padding: 0.4rem;
   border-radius: 0.3rem;
+}
+
+select:hover {
+  border-color: #ff7a45;
+  cursor: pointer;
+}
+
+.catererList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+  width: 100%;
+}
+
+.catererCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+  background-color: #fff;
+}
+
+.catererCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.catererImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.catererDetails {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+}
+
+.catererDetails h3 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.catererDetails p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #666;
+}
+
+.catererUpper{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cardPrice{
+  margin-top: 1rem;
+}
+
+.cardPrice b{
+  color: black;
+}
+
+.cardPrice i{
+  color: #ff5a2f;
+}
+
+.detailsButton {
+  background-color: #ff7a45;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.detailsButton:hover {
+  background-color: #ff5a2f;
 }
