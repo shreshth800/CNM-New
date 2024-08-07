@@ -369,6 +369,10 @@ const CatererSearch = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+      <h5>There are {filteredCaterers.length} caterers for you!</h5>
+      </div>
+      <div className={styles.afterHeader}>
       <div className={styles.searchBar}>
         <input 
           type="text" 
@@ -416,9 +420,7 @@ const CatererSearch = () => {
               <div className={styles.catererDetails}>
                 <div className={styles.catererUpper}>
                   <div className={styles.catererUpperLeft}>
-                    {/* <div className={styles.catererImg}> */}
                       <img src={menuImage} alt="Caterer Menu" className={styles.catererImage}/>
-                    {/* </div>   */}
                     <div className={styles.catererText}>
                       <h3>{caterer.name}</h3>
                       <p>{caterer.address}</p>
@@ -442,6 +444,8 @@ const CatererSearch = () => {
           );
         })}
       </div>
+      </div>
+      
     </div>
   );
 };
