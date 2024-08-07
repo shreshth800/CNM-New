@@ -415,13 +415,19 @@ const CatererSearch = () => {
             <div key={caterer.id} className={styles.catererCard}>
               <div className={styles.catererDetails}>
                 <div className={styles.catererUpper}>
-                  <div className={styles.catererImg}>
-                    <img src={menuImage} alt="Caterer Menu" className={styles.catererImage}/>
-                  </div>  
-                  <div>
-                    <h3>{caterer.name}</h3>
-                    <p>{caterer.address}</p>
-                    <p>{caterer.cateringType.join(", ").toUpperCase()}</p>
+                  <div className={styles.catererUpperLeft}>
+                    {/* <div className={styles.catererImg}> */}
+                      <img src={menuImage} alt="Caterer Menu" className={styles.catererImage}/>
+                    {/* </div>   */}
+                    <div className={styles.catererText}>
+                      <h3>{caterer.name}</h3>
+                      <p>{caterer.address}</p>
+                      <p>{caterer.cateringType.join(", ").toUpperCase()}</p>
+                  </div>
+                  </div>
+                  
+                  <div className={styles.catererUpperRight}>
+                  <button className={styles.detailsButton}>Details</button>
                   </div>
                 </div>
                 {caterer.minPrice !== undefined && caterer.maxPrice !== undefined && (
@@ -432,7 +438,6 @@ const CatererSearch = () => {
                   </div>
                 )}
               </div>
-              <button className={styles.detailsButton}>Details</button>
             </div>
           );
         })}
