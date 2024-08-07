@@ -347,7 +347,8 @@ const CatererSearch = () => {
 
     if (searchQuery) {
       filtered = filtered.filter(caterer =>
-        caterer.name.toLowerCase().includes(searchQuery.toLowerCase())
+        caterer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        caterer.address.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
