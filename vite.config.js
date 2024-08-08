@@ -8,4 +8,13 @@ export default defineConfig({
     outDir: "dist",
   },
   publicDir: "public",
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://3.6.41.54/api/",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
 });

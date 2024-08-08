@@ -4,6 +4,7 @@ import CatererSearch from "./pages/CatererSearch/CatererSearch";
 import AppLayout from "../src/components/AppLayout";
 import OrderPage from "./pages/OrderPage/OrderPage";
 import AddToCart from "./pages/AddToCart/AddToCart";
+import Bill from "./pages/Bill/Bill";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,9 +25,13 @@ function App() {
           element: <OrderPage />,
         },
         {
-          path:"/add-to-cart",
-          element:<AddToCart />
-        }
+          path: "/add-to-cart",
+          element: <AddToCart />,
+        },
+        {
+          path: "/bill",
+          element: <Bill />,
+        },
       ],
     },
   ]);
