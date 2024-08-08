@@ -1,4 +1,5 @@
-/* .container {
+.container {
+  
   margin: 0 auto;
   padding: 20px;
   display: flex;
@@ -22,13 +23,14 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  padding: 1rem;
 }
 
 .searchButton {
   background-color: #ff7a45;
   color: white;
   border: none;
-  padding: 10px;
+  padding: 1rem;
   margin-left: 10px;
   border-radius: 5px;
   cursor: pointer;
@@ -73,7 +75,7 @@
 }
 
 .filterDropdown:hover {
-  border-color: #ff7a45;
+  border: 1px #ff7a45;
 }
 
 .resultsCount {
@@ -88,76 +90,10 @@ select {
 select:hover {
   border-color: #ff7a45;
   cursor: pointer;
+  border-radius: 0.3rem;
 }
 
-.catererList {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 80%;
-  margin-top: 20px;
-}
-
-.catererCard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  transition: box-shadow 0.3s ease;
-  background-color: #fff;
-}
-
-.catererCard:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.catererDetails {
-  display: flex;
-  flex-direction: column;
-}
-
-.catererDetails h3 {
-  margin: 0;
-  font-size: 24px;
-  color: #333;
-}
-
-.catererDetails p {
-  margin: 5px 0;
-  font-size: 16px;
-  color: #666;
-}
-
-.detailsButton {
-  background-color: #ff7a45;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.detailsButton:hover {
-  background-color: #ff5a2f;
-} */
-
-
-/* .container {
-  margin: 0 auto;
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 74vh;
-  width: 40%;
-} */
-
+/* 
 .header{
   background-color: #f7f8f8;
   padding: 0.1rem;
@@ -366,4 +302,4 @@ select:hover {
 
 .detailsButton:hover {
   background-color: #ff5a2f;
-}
+} */
