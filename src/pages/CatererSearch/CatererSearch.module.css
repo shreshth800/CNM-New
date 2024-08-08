@@ -1,4 +1,4 @@
-.container {
+/* .container {
   
   margin: 0 auto;
   padding: 20px;
@@ -91,9 +91,18 @@ select:hover {
   border-color: #ff7a45;
   cursor: pointer;
   border-radius: 0.3rem;
-}
+} */
 
-/* 
+
+
+
+
+
+
+
+
+
+
 .header{
   background-color: #f7f8f8;
   padding: 0.1rem;
@@ -302,4 +311,4 @@ select:hover {
 
 .detailsButton:hover {
   background-color: #ff5a2f;
-} */
+} 
