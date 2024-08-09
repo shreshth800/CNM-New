@@ -7,8 +7,8 @@ const HomePage = () => {
   return (
     <>
       <AboutUsSection />
-      <Ourspeciality/>
-      <Gallery/>
+      <Ourspeciality />
+      <Gallery />
       <HowItWorks />
     </>
   );

@@ -1,15 +1,23 @@
 import React from "react";
 import styles from "./CatererSummary.module.css";
 
-const CatererSummary = () => {
+const CatererSummary = ({
+  serviceStartDate,
+  capacity,
+  cateringType,
+  serviceLocation,
+}) => {
   return (
     <div className={styles.catererSummary}>
       <h3>Caterer Summary</h3>
-      <span>In Service Since: 2022</span>
-      <span>Capacity: 10000 </span>
-      <span>Catering Type: veg,nonVeg </span>
-      <span>Experience: At least 5 Year(s) </span>
-      <span>Service location: Goregaon, Mumbai, India</span>
+      <span>In Service Since: {serviceStartDate}</span>
+      <span>Capacity: {capacity}</span>
+      <span>Catering Type: {cateringType}</span>
+      <span>
+        Experience: At least {new Date().getFullYear() - serviceStartDate}{" "}
+        Year(s)
+      </span>
+      <span>Service Location: {serviceLocation}</span>
     </div>
   );
 };
