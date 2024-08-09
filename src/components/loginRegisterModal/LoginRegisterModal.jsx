@@ -71,10 +71,6 @@
 
 // // export default LoginRegisterModal;
 
-
-
-
-
 // import React, { useState } from "react";
 // import styles from "./LoginRegisterModal.module.css";
 
@@ -192,8 +188,6 @@
 // };
 
 // export default LoginRegisterModal;
-
-
 
 // import React, { useState } from "react";
 // import styles from "./LoginRegisterModal.module.css";
@@ -350,22 +344,40 @@
 
 // export default LoginRegisterModal;
 
-
-
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./LoginRegisterModal.module.css";
 
 const LoginRegisterModal = ({ isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('USER'); // State for role
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [role, setRole] = useState("USER");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
+  };
+
+  const handleOverlayClick = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
   };
 
   const handleLoginSubmit = async (event) => {
@@ -377,32 +389,74 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
     };
 
     try {
-      const response = await fetch('http://3.6.41.54/api/auth/email/login', {
-        method: 'POST',
+      const response = await fetch("http://3.6.41.54/api/auth/email/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(loginData),
       });
 
       if (!response.ok) {
-        alert("Login Failed")
-        throw new Error('Login failed');
+        alert("Login Failed");
+        throw new Error("Login failed");
       }
 
       const result = await response.json();
-      // Handle successful login (e.g., store tokens, redirect, etc.)
-      console.log('Login successful:', result);
-      alert("login successful");
-      onClose(); // Close the modal
+
+      sessionStorage.setItem("token", result.token);
+      sessionStorage.setItem("refreshToken", result.refreshToken);
+      sessionStorage.setItem("user", JSON.stringify(result.user));
+
+      console.log("Login successful:", result);
+      alert("Login successful");
+      onClose();
     } catch (error) {
-      console.error('Error:', error);
-      // Handle login error (e.g., show error message)
+      console.error("Error:", error);
+    }
+  };
+
+  const handleRegisterSubmit = async (event) => {
+    event.preventDefault();
+
+    const registerData = {
+      email,
+      password,
+      confirmPassword,
+      phone,
+      firstName,
+      lastName,
+      role: role === "USER" ? "2" : "3",
+    };
+
+    console.log(registerData);
+
+    try {
+      const response = await fetch("http://3.6.41.54/api/auth/email/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(registerData),
+      });
+
+      if (!response.ok) {
+        alert("Registration Failed");
+        throw new Error("Registration failed");
+      }
+
+      const result = await response.json();
+
+      console.log("Registration successful:", result);
+      alert("Registration successful");
+      onClose();
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
   return (
-    <div className={styles.modalOverlay}>
+    <div className={styles.modalOverlay} onClick={handleOverlayClick}>
       <div className={styles.modalContent}>
         <button className={styles.closeButton} onClick={onClose}>
           &times;
@@ -449,26 +503,68 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
             </button>
           </form>
         ) : (
-          <form>
+          <form
+            className={styles.registrationForm}
+            onSubmit={handleRegisterSubmit}
+          >
             <div className={styles.formGroup}>
               <label>First Name</label>
-              <input type="text" placeholder="Enter First Name" required />
+              <input
+                type="text"
+                placeholder="Enter First Name"
+                required
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
             </div>
             <div className={styles.formGroup}>
               <label>Last Name</label>
-              <input type="text" placeholder="Enter Last Name" required />
+              <input
+                type="text"
+                placeholder="Enter Last Name"
+                required
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
             </div>
             <div className={styles.formGroup}>
               <label>Email address</label>
-              <input type="email" placeholder="Enter email" required />
+              <input
+                type="email"
+                placeholder="Enter email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <div className={styles.formGroup}>
               <label>Password</label>
-              <input type="password" placeholder="Password" required />
+              <input
+                type="password"
+                placeholder="Password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             <div className={styles.formGroup}>
               <label>Confirm Password</label>
-              <input type="password" placeholder="Confirm Password" required />
+              <input
+                type="text"
+                placeholder="Confirm Password"
+                required
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Phone</label>
+              <input
+                type="text"
+                placeholder="Enter Phone Number"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
             </div>
             <div className={styles.formGroup}>
               <label>Role</label>
@@ -479,7 +575,7 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
                     id="roleUser"
                     name="role"
                     value="USER"
-                    checked={role === 'USER'}
+                    checked={role === "USER"}
                     onChange={handleRoleChange}
                   />
                   <label htmlFor="roleUser">User</label>
@@ -490,7 +586,7 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
                     id="roleCaterer"
                     name="role"
                     value="CATERER"
-                    checked={role === 'CATERER'}
+                    checked={role === "CATERER"}
                     onChange={handleRoleChange}
                   />
                   <label htmlFor="roleCaterer">Caterer</label>

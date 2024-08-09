@@ -1,5 +1,3 @@
-/* src/components/LoginRegisterModal/LoginRegisterModal.module.css */
-
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -11,6 +9,21 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.modalContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .modalContent {
@@ -19,7 +32,11 @@
   border-radius: 8px;
   width: 28rem;
   max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
   position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
 }
 
 .closeButton {
@@ -79,8 +96,16 @@
   background-color: #f5f5f5;
 }
 
+.registrationForm {
+  display: flex;
+  flex-direction: column;
+  max-height: 60vh;
+  box-sizing: border-box;
+}
+
 .formGroup {
   margin-bottom: 15px;
+  max-height: 50vh;
 }
 
 .formGroup label {
@@ -96,10 +121,9 @@
   border-radius: 4px;
 }
 
-.formGroup .rolesButtons{
+.formGroup .rolesButtons {
   background-color: #ed682a;
   padding: 10rem;
-
 }
 
 .submitButton {
@@ -128,7 +152,7 @@
   margin-right: 8px;
 }
 
-.radioButton{
+.radioButton {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
