@@ -50,6 +50,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import styles from "./CatererSearch.module.css";
 import menuImage from "../../assets/caterer/menu1.jpeg"; // Replace with your image path
 
@@ -59,6 +60,9 @@ const CatererSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("default");
   const [foodType, setFoodType] = useState("all");
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchCaterers = async () => {
@@ -77,6 +81,10 @@ const CatererSearch = () => {
     };
     fetchCaterers();
   }, []);
+
+  const handleDetailClick=()=>{
+    navigate("/order");
+  }
 
   const handleFilterAndSort = () => {
     let filtered = [...caterers];
@@ -195,7 +203,7 @@ const CatererSearch = () => {
                       </div>
 
                       <div className={styles.catererUpperRight}>
-                        <button className={styles.detailsButton}>
+                        <button className={styles.detailsButton} onClick={handleDetailClick}>
                           Details
                         </button>
                       </div>
