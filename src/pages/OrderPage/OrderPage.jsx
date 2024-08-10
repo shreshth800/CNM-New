@@ -8,15 +8,17 @@ import Reviews from "../../components/Reviews/Reviews";
 import CatererSummary from "../../components/CatererSummary/CatererSummary";
 import Map from "../../components/Map/Map";
 import CatererDetails from "../../components/OrderPageCatererDetails/CatererDetails";
+import { useParams } from "react-router-dom";
 
 const OrderPage = () => {
+  const {id}=useParams()
   const [catererData, setCatererData] = useState(null);
 
   useEffect(() => {
     const fetchCatererData = async () => {
       try {
         const response = await fetch(
-          "http://3.6.41.54/api/caterer/666095d61be89c4a23318324"
+          `http://3.6.41.54/api/caterer/${id}`
         );
         const data = await response.json();
         setCatererData(data);

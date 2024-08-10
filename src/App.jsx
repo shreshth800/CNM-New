@@ -1,36 +1,61 @@
-import HomePage from "./pages/HomePage/HomePage";
+import React, { Suspense } from 'react'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CatererSearch from "./pages/CatererSearch/CatererSearch";
-import AppLayout from "../src/components/AppLayout";
-import OrderPage from "./pages/OrderPage/OrderPage";
-import AddToCart from "./pages/AddToCart/AddToCart";
-import Bill from "./pages/Bill/Bill";
+const CatererSearch=React.lazy(()=>import("./pages/CatererSearch/CatererSearch"));
+const OrderPage=React.lazy(()=>import("./pages/OrderPage/OrderPage"));
+const HomePage = React.lazy(() => import('./pages/HomePage/HomePage'));
+const AddToCart = React.lazy(() => import('./pages/AddToCart/AddToCart'));
+const Bill = React.lazy(() => import('./pages/Bill/Bill'));
+const AppLayout = React.lazy(() => import('./components/AppLayout'));
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <AppLayout />,
+      element: (
+        <Suspense fallback={<div>Loading App Layout...</div>}>
+          <AppLayout />
+        </Suspense>
+      ),
       children: [
         {
           index: true,
-          element: <HomePage />,
+          element: (
+            <Suspense fallback={<div>Loading Home Page...</div>}>
+              <HomePage />
+            </Suspense>
+          ),
         },
         {
           path: "/caterer-search",
-          element: <CatererSearch />,
+          element: (
+            <Suspense fallback={<div>Loading Caterer Search...</div>}>
+              <CatererSearch />
+            </Suspense>
+          ),
         },
         {
-          path: "/order",
-          element: <OrderPage />,
+          path: "/order/:id",
+          element: (
+            <Suspense fallback={<div>Loading Order Page...</div>}>
+              <OrderPage />
+            </Suspense>
+          ),
         },
         {
           path: "/add-to-cart",
-          element: <AddToCart />,
+          element: (
+            <Suspense fallback={<div>Loading Add to Cart...</div>}>
+              <AddToCart />
+            </Suspense>
+          ),
         },
         {
           path: "/bill",
-          element: <Bill />,
+          element: (
+            <Suspense fallback={<div>Loading Bill...</div>}>
+              <Bill />
+            </Suspense>
+          ),
         },
       ],
     },

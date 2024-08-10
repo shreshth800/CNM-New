@@ -2,14 +2,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem;
+  padding:0;
   background-color: #259f6f;
 }
 
 .aboutUsRight {
   width: 50%;
+  padding:2rem 2rem 0 0;
 }
-
+.aboutUsLeft{
+  padding:2rem;
+}
 .aboutUsLeft h1,
 .aboutUsLeft p {
   color: white;
