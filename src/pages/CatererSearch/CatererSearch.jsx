@@ -50,9 +50,9 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import styles from "./CatererSearch.module.css";
-import menuImage from "../../assets/caterer/menu1.jpeg"; // Replace with your image path
+import menuImage from "../../assets/caterer/menu1.jpeg";
 
 const CatererSearch = () => {
   const [caterers, setCaterers] = useState([]);
@@ -63,15 +63,14 @@ const CatererSearch = () => {
 
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const fetchCaterers = async () => {
       try {
         const response = await axios.get("http://3.6.41.54/api/caterer");
         if (Array.isArray(response.data.data)) {
-          console.log(response.data.data); // Log the data here
+          console.log(response.data.data);
           setCaterers(response.data.data);
-          setFilteredCaterers(response.data.data); // Set initial filtered caterers
+          setFilteredCaterers(response.data.data);
         } else {
           console.error("API response is not an array:", response.data);
         }
@@ -82,9 +81,9 @@ const CatererSearch = () => {
     fetchCaterers();
   }, []);
 
-  const handleDetailClick=()=>{
+  const handleDetailClick = () => {
     navigate("/order");
-  }
+  };
 
   const handleFilterAndSort = () => {
     let filtered = [...caterers];
@@ -203,7 +202,10 @@ const CatererSearch = () => {
                       </div>
 
                       <div className={styles.catererUpperRight}>
-                        <button className={styles.detailsButton} onClick={handleDetailClick}>
+                        <button
+                          className={styles.detailsButton}
+                          onClick={handleDetailClick}
+                        >
                           Details
                         </button>
                       </div>
