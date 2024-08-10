@@ -124,7 +124,12 @@ const Header = () => {
             </button>
             <div className={styles.dropdownMenu}>
               <ul className={styles.navLinks}>
-                <li className={styles.findCaterers}>Find Caterers</li>
+                <li
+                  className={styles.findCaterers}
+                  onClick={() => navigate("caterer-search")}
+                >
+                  Find Caterers
+                </li>
                 <li className={styles.navContact}>+91 123456789</li>
                 <li className={styles.navLogin} onClick={openModal}>
                   Login/Register

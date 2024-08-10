@@ -1,11 +1,15 @@
 import React from "react";
 import styles from "./Reviews.module.css";
 
-const Reviews = () => {
+const Reviews = ({ reviews }) => {
   return (
     <div className={styles.reviews}>
       <h3>Reviews</h3>
-      <p>1. Great Food</p>
+      {reviews.map((review, index) => (
+        <div className={styles.review} key={index}>
+          <p>{review}</p>
+        </div>
+      ))}
     </div>
   );
 };

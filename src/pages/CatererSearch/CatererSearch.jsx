@@ -47,11 +47,11 @@
 // };
 
 // export default CatererSearch;
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import styles from "./CatererSearch.module.css";
-import menuImage from "../../assets/caterer/menu1.jpeg"; // Replace with your image path
+import menuImage from "../../assets/caterer/menu1.jpeg";
 
 const CatererSearch = () => {
   const [caterers, setCaterers] = useState([]);
@@ -59,6 +59,10 @@ const CatererSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("default");
   const [foodType, setFoodType] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCaterers = async () => {
@@ -67,7 +71,7 @@ const CatererSearch = () => {
         if (Array.isArray(response.data.data)) {
           console.log(response.data.data); // Log the data here
           setCaterers(response.data.data);
-          setFilteredCaterers(response.data.data); // Set initial filtered caterers
+          setFilteredCaterers(response.data.data);
         } else {
           console.error("API response is not an array:", response.data);
         }
@@ -77,6 +81,10 @@ const CatererSearch = () => {
     };
     fetchCaterers();
   }, []);
+
+  const handleDetailClick = (id) => {
+    navigate(`/order/${id}`); // Navigate to OrderPage with the caterer ID as a parameter
+  };
 
   const handleFilterAndSort = () => {
     let filtered = [...caterers];
@@ -104,11 +112,22 @@ const CatererSearch = () => {
     }
 
     setFilteredCaterers(filtered);
+    setCurrentPage(1);
   };
 
   useEffect(() => {
     handleFilterAndSort();
   }, [searchQuery, sortOrder, foodType, caterers]);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCaterers = filteredCaterers.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const totalPages = Math.ceil(filteredCaterers.length / itemsPerPage);
 
   return (
     <div className={styles.container}>
@@ -128,55 +147,48 @@ const CatererSearch = () => {
             <i className="fa fa-search" aria-hidden="true"></i> Search
           </button>
         </div>
-        <div className={styles.filters}>
-          <div className={`${styles.filterItem} ${styles.sortBy}`}>
-            <label htmlFor="sort">Sort By: </label>
-            <select
-              id="sort"
-              className={styles.filterDropdown}
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
-            >
-              <option value="default">Default</option>
-              <option value="rating">Price: Low-High</option>
-              <option value="popularity">Price: High-Low</option>
-            </select>
-          </div>
-          <div className={`${styles.filterItem} ${styles.foodType}`}>
-            <label htmlFor="food-type">Food Type: </label>
-            <select
-              id="food-type"
-              className={styles.filterDropdown}
-              value={foodType}
-              onChange={(e) => setFoodType(e.target.value)}
-            >
-              <option value="all">All</option>
-              <option value="north-indian">North Indian</option>
-              <option value="south-indian">South Indian</option>
-              <option value="gujarati">Gujarati</option>
-              <option value="chinese">Chinese</option>
-              <option value="kathiyawadi">Kathiyawadi</option>
-              <option value="punjabi">Punjabi</option>
-              <option value="jain">Jain</option>
-              <option value="kokani">Kokani</option>
-            </select>
+        <div className={styles.options}>
+          <div className={styles.filters}>
+            <div className={`${styles.filterItem} ${styles.sortBy}`}>
+              <label htmlFor="sort">Sort By: </label>
+              <select
+                id="sort"
+                className={styles.filterDropdown}
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+              >
+                <option value="default">Default</option>
+                <option value="rating">Price: Low-High</option>
+                <option value="popularity">Price: High-Low</option>
+              </select>
+            </div>
+            <div className={`${styles.filterItem} ${styles.foodType}`}>
+              <label htmlFor="food-type">Food Type: </label>
+              <select
+                id="food-type"
+                className={styles.filterDropdown}
+                value={foodType}
+                onChange={(e) => setFoodType(e.target.value)}
+              >
+                <option value="all">All</option>
+                <option value="north-indian">North Indian</option>
+                <option value="south-indian">South Indian</option>
+                <option value="gujarati">Gujarati</option>
+                <option value="chinese">Chinese</option>
+                <option value="kathiyawadi">Kathiyawadi</option>
+                <option value="punjabi">Punjabi</option>
+                <option value="jain">Jain</option>
+                <option value="kokani">Kokani</option>
+              </select>
+            </div>
           </div>
           <div className={styles.resultsCount}>
-            Showing 1 - {filteredCaterers.length} of {filteredCaterers.length}{" "}
-            results
+            Showing {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, filteredCaterers.length)} of {filteredCaterers.length} results
           </div>
         </div>
         <div className={styles.catererList}>
-          {Array.isArray(filteredCaterers) &&
-            filteredCaterers.map((caterer) => {
-              console.log(
-                "Rendering caterer:",
-                caterer.name,
-                "Price:",
-                caterer.minPrice,
-                "-",
-                caterer.maxPrice
-              );
+          {Array.isArray(currentCaterers) &&
+            currentCaterers.map((caterer) => {
               return (
                 <div key={caterer.id} className={styles.catererCard}>
                   <div className={styles.catererDetails}>
@@ -193,9 +205,8 @@ const CatererSearch = () => {
                           <p>{caterer.cateringType.join(", ").toUpperCase()}</p>
                         </div>
                       </div>
-
                       <div className={styles.catererUpperRight}>
-                        <button className={styles.detailsButton}>
+                        <button className={styles.detailsButton} onClick={() => handleDetailClick(caterer.id)}>
                           Details
                         </button>
                       </div>
@@ -204,7 +215,7 @@ const CatererSearch = () => {
                       caterer.maxPrice !== undefined && (
                         <div className={styles.cardPrice}>
                           <p>
-                            <b>Price: </b>{" "}
+                            <b>Price: </b>
                             <i>
                               ₹{caterer.minPrice} - ₹{caterer.maxPrice}
                             </i>
@@ -216,9 +227,36 @@ const CatererSearch = () => {
               );
             })}
         </div>
+        <div className={styles.pagination}>
+          <button
+            className={`${styles.pageButton} ${styles.arrowButton} ${currentPage === 1 ? styles.disabled : ''}`}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            &laquo; Previous
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              className={`${styles.pageButton} ${currentPage === i + 1 ? styles.active : ''}`}
+              onClick={() => handlePageChange(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            className={`${styles.pageButton} ${styles.arrowButton} ${currentPage === totalPages ? styles.disabled : ''}`}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next &raquo;
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
 export default CatererSearch;
+
+

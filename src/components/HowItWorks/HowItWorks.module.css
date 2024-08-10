@@ -32,7 +32,7 @@
 
 .step {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns:repeat(2, 1fr);
 }
 .lastStep {
   display: flex;
@@ -80,4 +80,73 @@
   margin-top: 1.5rem;
   font-size: 1rem;
   color: #333;
+}
+@media(max-width:1330px){
+  .step{
+    grid-template-columns: 1fr;
+  }
+}
+@media(max-width:963px){
+  .howItWorks{
+    padding: 0;
+  }
+ .stepIcon{
+  width:100px;
+  height:100px;
+ }
+ .stepNumber{
+  width:1rem;
+  font-size: 0.6rem;
+  padding: 0.5rem;
+ }
+}
+@media(max-width:686px){
+  .steps{
+    padding:2rem;
+  }
+  .howItWorks{
+    padding: 0;
+  }
+ .stepIcon{
+  width:80px;
+  height:80px;
+ }
+ .stepNumber{
+  width:0.5rem;
+  font-size: 0.4rem;
+  padding: 0.4rem;
+ }
+ .step h3 {
+  margin-top: 1.5rem;
+  font-size: 0.7rem;
+  color: #333;
+}
+.lastStep h3{
+  margin-top: 1.5rem;
+  font-size: 0.7rem;
+  color: #333;
+}
+}
+@media(max-width:493px){
+  .steps{
+    padding: 0;
+  }
+}
+@media(max-width:427px){
+  .stepIcon{
+    width:55px;
+    height:55px;
+   }
+   .step h3 {
+    margin-top: 1.5rem;
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: #333;
+  }
+  .lastStep h3{
+    margin-top: 1.5rem;
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: #333;
+  }
 }

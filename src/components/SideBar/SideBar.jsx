@@ -1,15 +1,15 @@
-import React from 'react';
-import styles from './SideBar.module.css';
+import React from "react";
+import styles from "./SideBar.module.css";
 
-const Sidebar = ({ categories, selectedCategory, onCategorySelect }) => {
+const SideBar = ({ categories, selectedCategory, onCategorySelect }) => {
   return (
     <div className={styles.sidebar}>
       <h3>Menu for 200 Dish</h3>
       <ul>
         {categories.map((category, index) => (
-          <li 
-            key={index} 
-            className={selectedCategory === category ? styles.selected : ''} 
+          <li
+            key={index}
+            className={selectedCategory === category ? styles.selected : ""}
             onClick={() => onCategorySelect(category)}
           >
             {category}
@@ -20,4 +20,4 @@ const Sidebar = ({ categories, selectedCategory, onCategorySelect }) => {
   );
 };
 
-export default Sidebar;
+export default SideBar;
