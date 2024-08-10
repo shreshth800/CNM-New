@@ -82,9 +82,9 @@ const CatererSearch = () => {
     fetchCaterers();
   }, []);
 
-  const handleDetailClick=()=>{
-    navigate("/order");
-  }
+  const handleDetailClick = (id) => {
+    navigate(`/order/${id}`); // Navigate to OrderPage with the caterer ID as a parameter
+  };
 
   const handleFilterAndSort = () => {
     let filtered = [...caterers];
@@ -206,7 +206,7 @@ const CatererSearch = () => {
                         </div>
                       </div>
                       <div className={styles.catererUpperRight}>
-                        <button className={styles.detailsButton} onClick={handleDetailClick}>
+                        <button className={styles.detailsButton} onClick={() => handleDetailClick(caterer.id)}>
                           Details
                         </button>
                       </div>

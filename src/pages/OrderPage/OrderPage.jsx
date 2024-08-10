@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom"; // Import useParams
 import styles from "./OrderPage.module.css";
 import OrderPageDishes from "../../components/OrderPageDishes/OrderPageDishes";
 import Card from "../../components/Card/Card";
@@ -8,17 +9,16 @@ import Reviews from "../../components/Reviews/Reviews";
 import CatererSummary from "../../components/CatererSummary/CatererSummary";
 import Map from "../../components/Map/Map";
 import CatererDetails from "../../components/OrderPageCatererDetails/CatererDetails";
-import { useParams } from "react-router-dom";
 
 const OrderPage = () => {
-  const {id}=useParams()
+  const { id } = useParams(); // Get the catererId from the URL
   const [catererData, setCatererData] = useState(null);
 
   useEffect(() => {
     const fetchCatererData = async () => {
       try {
         const response = await fetch(
-          `http://3.6.41.54/api/caterer/${id}`
+          `http://3.6.41.54/api/caterer/${id}` // Use the id from the URL
         );
         const data = await response.json();
         setCatererData(data);
@@ -27,8 +27,10 @@ const OrderPage = () => {
       }
     };
 
-    fetchCatererData();
-  }, []);
+    if (id) {
+      fetchCatererData();
+    }
+  }, [id]); // Re-fetch data when id changes
 
   if (!catererData) {
     return <div>Loading...</div>;
