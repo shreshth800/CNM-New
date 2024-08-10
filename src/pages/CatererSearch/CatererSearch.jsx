@@ -69,7 +69,7 @@ const CatererSearch = () => {
       try {
         const response = await axios.get("http://3.6.41.54/api/caterer");
         if (Array.isArray(response.data.data)) {
-          console.log(response.data.data)
+          console.log(response.data.data); // Log the data here
           setCaterers(response.data.data);
           setFilteredCaterers(response.data.data);
         } else {
@@ -82,9 +82,9 @@ const CatererSearch = () => {
     fetchCaterers();
   }, []);
 
-  const handleDetailClick = (id) => {
-    navigate(`/order/${id}`);
-  };
+  const handleDetailClick=()=>{
+    navigate("/order");
+  }
 
   const handleFilterAndSort = () => {
     let filtered = [...caterers];
@@ -206,7 +206,7 @@ const CatererSearch = () => {
                         </div>
                       </div>
                       <div className={styles.catererUpperRight}>
-                        <button className={styles.detailsButton} onClick={()=>handleDetailClick(caterer.id)}>
+                        <button className={styles.detailsButton} onClick={handleDetailClick}>
                           Details
                         </button>
                       </div>
