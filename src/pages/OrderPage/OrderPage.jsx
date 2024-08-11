@@ -11,15 +11,13 @@ import Map from "../../components/Map/Map";
 import CatererDetails from "../../components/OrderPageCatererDetails/CatererDetails";
 
 const OrderPage = () => {
-  const { id } = useParams(); // Get the catererId from the URL
+  const { id } = useParams();
   const [catererData, setCatererData] = useState(null);
 
   useEffect(() => {
     const fetchCatererData = async () => {
       try {
-        const response = await fetch(
-          `http://3.6.41.54/api/caterer/${id}` // Use the id from the URL
-        );
+        const response = await fetch(`http://3.6.41.54/api/caterer/${id}`);
         const data = await response.json();
         setCatererData(data);
       } catch (error) {
@@ -30,7 +28,7 @@ const OrderPage = () => {
     if (id) {
       fetchCatererData();
     }
-  }, [id]); // Re-fetch data when id changes
+  }, [id]);
 
   if (!catererData) {
     return <div>Loading...</div>;

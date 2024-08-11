@@ -7,6 +7,10 @@
   padding: 10px;
 }
 
+.accordionContainer {
+  width: 100%;
+}
+
 .mainBill {
   display: flex;
   align-items: flex-start;

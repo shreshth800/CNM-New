@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import styles from "./Accordion.module.css";
 
-const Accordion = ({ data }) => {
+const Accordion = (props) => {
   const [selected, setSelected] = useState(null);
   const accordionContentRefs = useRef([]);
 
@@ -15,7 +15,7 @@ const Accordion = ({ data }) => {
 
   return (
     <div className={styles.accordionContainer}>
-      {data.map((item, index) => {
+      {props.data.map((item, index) => {
         const isSelected = selected === index;
         const contentRef = accordionContentRefs.current[index];
         const contentHeight =

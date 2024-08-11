@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "../../components/SideBar/SideBar";
 import DishSelection from "../../components/DishSelection/DishSelection";
-import SelectedItems from "../../components/SelectedItems/SelectedItems";
+import Accordion from "../../components/Accordion/Accordion";
 import styles from "./AddToCart.module.css";
 
 const AddToCart = () => {
@@ -44,6 +44,8 @@ const AddToCart = () => {
           const availableCategories = specificDish.items.map(
             (item) => item.item
           );
+
+          localStorage.setItem("dishDetails", JSON.stringify(specificDish));
 
           const filteredStorageObject = initialStorageObject.filter(
             (category) => availableCategories.includes(category.name)
@@ -113,7 +115,9 @@ const AddToCart = () => {
           selectedItems={selectedDishes}
           onDishSelect={handleDishSelect}
         />
-        <SelectedItems selectedDishes={selectedDishes} />
+        <div className={styles.accordionContainer}>
+          <Accordion data={storageObject} />
+        </div>
       </div>
       <div className={styles.previewOrderButton}>
         <button>Preview Order</button>

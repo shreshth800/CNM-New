@@ -5,6 +5,10 @@
   justify-content: space-between;
 }
 
+.accordionContainer {
+  width: 40%;
+}
+
 .addtocart {
   display: flex;
   padding: 1rem;
