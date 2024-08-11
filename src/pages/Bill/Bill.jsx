@@ -214,25 +214,30 @@ import styles from "./Bill.module.css";
 const Bill = () => {
   const [cartData, setCartData] = useState([]);
   const [dishDetails, setDishDetails] = useState(null);
-  const [dishQuantity, setDishQuantity] = useState(1); // Default quantity
+  const [dishQuantity, setDishQuantity] = useState(1); // Initial value set to 1
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     // Retrieve cartData from local storage
-    const storedCartData = JSON.parse(localStorage.getItem("cartData"));
-    if (storedCartData) {
-      setCartData(storedCartData);
+    const cart = JSON.parse(localStorage.getItem("cartData"));
+    if (cart) {
+      setCartData(cart);
     }
 
     // Retrieve dishDetails from local storage
     const storedDishDetails = JSON.parse(localStorage.getItem("dishDetails"));
     if (storedDishDetails) {
       setDishDetails(storedDishDetails);
+      setTotalPrice(storedDishDetails.price); // Set initial total price
     }
   }, []);
 
-  // Calculating the values based on dishDetails and quantity
-  const dishPrice = dishDetails?.price || 0;
-  const totalPrice = dishPrice * dishQuantity;
+  const handleQuantityChange = (e) => {
+    const value = Math.max(1, Number(e.target.value)); // Ensure the value is at least 1
+    setDishQuantity(value);
+    const newTotalPrice = value * (dishDetails?.price || 0);
+    setTotalPrice(newTotalPrice);
+  };
 
   return (
     <div className={styles.billContainer}>
@@ -244,8 +249,7 @@ const Bill = () => {
           <div className={styles.leftHeading}>
             <h3>Dish Details:</h3>
           </div>
-          {/* Accordion displaying cartData */}
-          <Accordion data={cartData} />
+          <Accordion data={cartData} /> {/* Pass cartData to Accordion */}
         </div>
         <div className={styles.billRight}>
           <div className={styles.rightHeading}>
@@ -260,15 +264,15 @@ const Bill = () => {
                 className={styles.dishQuantityInput}
                 type="number"
                 value={dishQuantity}
-                onChange={(e) => setDishQuantity(parseInt(e.target.value))}
-                min="1"
+                onChange={handleQuantityChange}
+                min={1} // Prevent entering values less than 1
               />
             </div>
             <div className={styles.addAnItem}>
-              <h3>Dish Price: {dishPrice}</h3>
+              <h3>Dish Price: {dishDetails?.price || 0}</h3>
             </div>
-            <div className={styles.addAnItem}>
-              <h3>Final Price: {totalPrice}</h3>
+            <div className={styles.totalPrice}>
+              <h3>Total: {totalPrice}</h3>
             </div>
             <div className={styles.couponCode}>
               <input
