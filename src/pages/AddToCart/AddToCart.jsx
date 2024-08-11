@@ -31,7 +31,6 @@ const AddToCart = () => {
           setSelectedCategory(categoryNames[0]);
         }
 
-        // Fetch specific dish data
         const dishResponse = await fetch(
           "http://3.6.41.54/api/caterer/666095d61be89c4a23318324"
         );
@@ -46,13 +45,11 @@ const AddToCart = () => {
             (item) => item.item
           );
 
-          // Filter the storageObject to only include the categories in the specific dish
           const filteredStorageObject = initialStorageObject.filter(
             (category) => availableCategories.includes(category.name)
           );
           setStorageObject(filteredStorageObject);
 
-          // Set the categories and select the first available category
           setCategories(availableCategories);
           if (availableCategories.length > 0) {
             setSelectedCategory(availableCategories[0]);
@@ -69,7 +66,6 @@ const AddToCart = () => {
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
 
-    // Set selected dishes based on the selected category
     const categoryData = storageObject.find((item) => item.name === category);
     setSelectedDishes(categoryData ? categoryData.dishes : []);
   };
@@ -90,13 +86,11 @@ const AddToCart = () => {
   };
 
   useEffect(() => {
-    // Update the selectedDishes state when storageObject changes
     const categoryData = storageObject.find(
       (item) => item.name === selectedCategory
     );
     setSelectedDishes(categoryData ? categoryData.dishes : []);
 
-    // Update local storage whenever storageObject changes
     localStorage.setItem("cartData", JSON.stringify(storageObject));
   }, [storageObject, selectedCategory]);
 
