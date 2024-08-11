@@ -346,12 +346,12 @@
 
 import React, { useState, useEffect } from "react";
 import styles from "./LoginRegisterModal.module.css";
+import Modal from "../Modal/Modal";
 
-const LoginRegisterModal = ({ isOpen, onClose }) => {
+const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("USER");
@@ -374,11 +374,6 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
     setRole(event.target.value);
   };
 
-  const handleOverlayClick = (event) => {
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  };
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -403,7 +398,7 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
       }
 
       const result = await response.json();
-
+      setFirstName(result.user.firstName)
       sessionStorage.setItem("token", result.token);
       sessionStorage.setItem("refreshToken", result.refreshToken);
       sessionStorage.setItem("user", JSON.stringify(result.user));
@@ -456,11 +451,7 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className={styles.modalOverlay} onClick={handleOverlayClick}>
-      <div className={styles.modalContent}>
-        <button className={styles.closeButton} onClick={onClose}>
-          &times;
-        </button>
+      <Modal onClose={onClose}>
         <h2>{isLogin ? "Login" : "Register"}</h2>
         <div className={styles.tabButtons}>
           <button
@@ -598,8 +589,7 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
             </button>
           </form>
         )}
-      </div>
-    </div>
+      </Modal>
   );
 };
 
