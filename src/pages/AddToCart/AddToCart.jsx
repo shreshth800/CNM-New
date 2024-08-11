@@ -3,6 +3,7 @@ import SideBar from "../../components/SideBar/SideBar";
 import DishSelection from "../../components/DishSelection/DishSelection";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./AddToCart.module.css";
+import { useNavigate } from "react-router-dom";
 
 const AddToCart = () => {
   const [categories, setCategories] = useState([]);
@@ -10,6 +11,8 @@ const AddToCart = () => {
   const [selectedDishes, setSelectedDishes] = useState([]);
   const [allDishes, setAllDishes] = useState([]);
   const [storageObject, setStorageObject] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMenuData = async () => {
@@ -120,7 +123,13 @@ const AddToCart = () => {
         </div>
       </div>
       <div className={styles.previewOrderButton}>
-        <button>Preview Order</button>
+        <button
+          onClick={() => {
+            navigate("/bill");
+          }}
+        >
+          Preview Order
+        </button>
       </div>
     </div>
   );
