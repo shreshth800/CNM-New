@@ -1,24 +1,3 @@
-// import React from 'react'
-// import {Sidebar} from '../../components/SideBar/SideBar'
-// import { SelectedItems } from '../../components/SelectedItems/SelectedItems'
-// import { DishSelection } from '../../components/DishSelection/DishSelection'
-// import styles from './AddToCart.module.css'
-
-// export const AddToCart = () => {
-//   return (
-//     <>
-//         <div className={styles.AddToCart}>
-//             <Sidebar />
-//             <SelectedItems />
-//             <DishSelection />
-
-//         </div>
-//     </>
-//   )
-// }
-
-// export default AddToCart;
-
 import React, { useState, useEffect } from "react";
 import SideBar from "../../components/SideBar/SideBar";
 import DishSelection from "../../components/DishSelection/DishSelection";
@@ -30,57 +9,96 @@ const AddToCart = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedDishes, setSelectedDishes] = useState([]);
   const [allDishes, setAllDishes] = useState([]);
+  const [storageObject, setStorageObject] = useState([]);
 
   useEffect(() => {
-    // First API call to fetch all categories
-    fetch("http://3.6.41.54//api/menus/")
-      .then((response) => response.json())
-      .then((data) => {
-        const categoryNames = data.data.map((section) => section.name);
+    const fetchMenuData = async () => {
+      try {
+        const menuResponse = await fetch("http://3.6.41.54//api/menus/");
+        const menuData = await menuResponse.json();
+
+        const categoryNames = menuData.data.map((section) => section.name);
         setCategories(categoryNames);
-        setAllDishes(data.data);
+        setAllDishes(menuData.data);
+
+        const initialStorageObject = categoryNames.map((category) => ({
+          name: category,
+          dishes: [],
+        }));
+        setStorageObject(initialStorageObject);
 
         if (categoryNames.length > 0) {
           setSelectedCategory(categoryNames[0]);
         }
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
 
-  useEffect(() => {
-    // Second API call to fetch the specific dish data
-    fetch("http://3.6.41.54/api/caterer/666095d61be89c4a23318324")
-      .then((response) => response.json())
-      .then((data) => {
-        // Find the specific dish by ID
-        const specificDish = data.dishes.find(
+        // Fetch specific dish data
+        const dishResponse = await fetch(
+          "http://3.6.41.54/api/caterer/666095d61be89c4a23318324"
+        );
+        const dishData = await dishResponse.json();
+
+        const specificDish = dishData.dishes.find(
           (dish) => dish.id === "669d1af62082e0d75fc87c13"
         );
 
         if (specificDish) {
-          const availableItems = specificDish.items.map((item) => item.item);
-          setCategories(availableItems);
-          if (availableItems.length > 0) {
-            setSelectedCategory(availableItems[0]);
+          const availableCategories = specificDish.items.map(
+            (item) => item.item
+          );
+
+          // Filter the storageObject to only include the categories in the specific dish
+          const filteredStorageObject = initialStorageObject.filter(
+            (category) => availableCategories.includes(category.name)
+          );
+          setStorageObject(filteredStorageObject);
+
+          // Set the categories and select the first available category
+          setCategories(availableCategories);
+          if (availableCategories.length > 0) {
+            setSelectedCategory(availableCategories[0]);
           }
         }
-      })
-      .catch((error) => console.error("Error fetching dish data:", error));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchMenuData();
   }, []);
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
+
+    // Set selected dishes based on the selected category
+    const categoryData = storageObject.find((item) => item.name === category);
+    setSelectedDishes(categoryData ? categoryData.dishes : []);
   };
 
   const handleDishSelect = (dish, isSelected) => {
-    setSelectedDishes((prevDishes) => {
-      if (isSelected) {
-        return [...prevDishes, dish];
-      } else {
-        return prevDishes.filter((d) => d.name !== dish.name);
-      }
+    setStorageObject((prevStorageObject) => {
+      return prevStorageObject.map((categoryData) => {
+        if (categoryData.name === selectedCategory) {
+          const updatedDishes = isSelected
+            ? [...categoryData.dishes, dish]
+            : categoryData.dishes.filter((d) => d !== dish);
+
+          return { ...categoryData, dishes: updatedDishes };
+        }
+        return categoryData;
+      });
     });
   };
+
+  useEffect(() => {
+    // Update the selectedDishes state when storageObject changes
+    const categoryData = storageObject.find(
+      (item) => item.name === selectedCategory
+    );
+    setSelectedDishes(categoryData ? categoryData.dishes : []);
+
+    // Update local storage whenever storageObject changes
+    localStorage.setItem("cartData", JSON.stringify(storageObject));
+  }, [storageObject, selectedCategory]);
 
   const filteredDishes =
     allDishes
@@ -98,6 +116,7 @@ const AddToCart = () => {
         />
         <DishSelection
           dishes={filteredDishes}
+          selectedItems={selectedDishes}
           onDishSelect={handleDishSelect}
         />
         <SelectedItems selectedDishes={selectedDishes} />
