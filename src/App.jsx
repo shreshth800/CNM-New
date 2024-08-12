@@ -1,5 +1,6 @@
-import React, { Suspense } from 'react'
+import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 const CatererSearch=React.lazy(()=>import("./pages/CatererSearch/CatererSearch"));
 const OrderPage=React.lazy(()=>import("./pages/OrderPage/OrderPage"));
 const HomePage = React.lazy(() => import('./pages/HomePage/HomePage'));
@@ -46,17 +47,21 @@ function App() {
         {
           path: "/add-to-cart",
           element: (
-            <Suspense fallback={<div>Loading Add to Cart...</div>}>
-              <AddToCart />
-            </Suspense>
+            <ProtectedRoute>
+              <Suspense fallback={<div>Loading Add to Cart...</div>}>
+                <AddToCart />
+              </Suspense>
+            </ProtectedRoute>
           ),
         },
         {
           path: "/bill",
           element: (
-            <Suspense fallback={<div>Loading Bill...</div>}>
-              <Bill />
-            </Suspense>
+            <ProtectedRoute>
+              <Suspense fallback={<div>Loading Bill...</div>}>
+                <Bill />
+              </Suspense>
+            </ProtectedRoute>
           ),
         },
         {
