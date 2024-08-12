@@ -21,18 +21,12 @@ const AddToCart = () => {
         const menuData = await menuResponse.json();
 
         const categoryNames = menuData.data.map((section) => section.name);
-        setCategories(categoryNames);
         setAllDishes(menuData.data);
 
         const initialStorageObject = categoryNames.map((category) => ({
           name: category,
           dishes: [],
         }));
-        setStorageObject(initialStorageObject);
-
-        if (categoryNames.length > 0) {
-          setSelectedCategory(categoryNames[0]);
-        }
 
         const dishResponse = await fetch(
           "http://3.6.41.54/api/caterer/666095d61be89c4a23318324"
