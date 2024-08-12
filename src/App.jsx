@@ -5,6 +5,8 @@ const OrderPage=React.lazy(()=>import("./pages/OrderPage/OrderPage"));
 const HomePage = React.lazy(() => import('./pages/HomePage/HomePage'));
 const AddToCart = React.lazy(() => import('./pages/AddToCart/AddToCart'));
 const Bill = React.lazy(() => import('./pages/Bill/Bill'));
+
+const MyOrder = React.lazy(()=> import('./pages/MyOrders/MyOrder'))
 const AppLayout = React.lazy(() => import('./components/AppLayout'));
 
 function App() {
@@ -54,6 +56,14 @@ function App() {
           element: (
             <Suspense fallback={<div>Loading Bill...</div>}>
               <Bill />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/my-orders",
+          element: (
+            <Suspense fallback={<div>Loading My Orders...</div>}>
+              <MyOrder />
             </Suspense>
           ),
         },
