@@ -1,11 +1,14 @@
-import React, { Suspense } from 'react'
+import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-const CatererSearch=React.lazy(()=>import("./pages/CatererSearch/CatererSearch"));
-const OrderPage=React.lazy(()=>import("./pages/OrderPage/OrderPage"));
-const HomePage = React.lazy(() => import('./pages/HomePage/HomePage'));
-const AddToCart = React.lazy(() => import('./pages/AddToCart/AddToCart'));
-const Bill = React.lazy(() => import('./pages/Bill/Bill'));
-const AppLayout = React.lazy(() => import('./components/AppLayout'));
+const CatererSearch = React.lazy(() =>
+  import("./pages/CatererSearch/CatererSearch")
+);
+const OrderPage = React.lazy(() => import("./pages/OrderPage/OrderPage"));
+const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
+const AddToCart = React.lazy(() => import("./pages/AddToCart/AddToCart"));
+const Bill = React.lazy(() => import("./pages/Bill/Bill"));
+const AppLayout = React.lazy(() => import("./components/AppLayout"));
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -44,17 +47,21 @@ function App() {
         {
           path: "/add-to-cart",
           element: (
-            <Suspense fallback={<div>Loading Add to Cart...</div>}>
-              <AddToCart />
-            </Suspense>
+            <ProtectedRoute>
+              <Suspense fallback={<div>Loading Add to Cart...</div>}>
+                <AddToCart />
+              </Suspense>
+            </ProtectedRoute>
           ),
         },
         {
           path: "/bill",
           element: (
-            <Suspense fallback={<div>Loading Bill...</div>}>
-              <Bill />
-            </Suspense>
+            <ProtectedRoute>
+              <Suspense fallback={<div>Loading Bill...</div>}>
+                <Bill />
+              </Suspense>
+            </ProtectedRoute>
           ),
         },
       ],

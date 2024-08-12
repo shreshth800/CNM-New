@@ -73,7 +73,9 @@ import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [firstName, setFirstName] = useState("");
   const navigate = useNavigate();
+  console.log(firstName);
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -106,6 +108,14 @@ const Header = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const handleSignout = () => {
+    sessionStorage.removeItem("refreshToken");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+    setFirstName("");
+    navigate("/");
+  };
+
   return (
     <>
       <nav className={styles.navbar}>
@@ -130,10 +140,21 @@ const Header = () => {
                 >
                   Find Caterers
                 </li>
+                {firstName && <li className={styles.booking}>Bookings</li>}
                 <li className={styles.navContact}>+91 123456789</li>
-                <li className={styles.navLogin} onClick={openModal}>
-                  Login/Register
-                </li>
+                {!firstName && (
+                  <li className={styles.navLogin} onClick={openModal}>
+                    Login/Register
+                  </li>
+                )}
+                {firstName && (
+                  <li className={styles.navProfile}>{firstName}</li>
+                )}
+                {firstName && (
+                  <li onClick={handleSignout} className={styles.signout}>
+                    SignOut
+                  </li>
+                )}
               </ul>
             </div>
           </div>
@@ -145,13 +166,23 @@ const Header = () => {
           >
             Find Caterers
           </li>
+          {firstName && <li className={styles.booking}>Bookings</li>}
           <li className={styles.navContact}>+91 123456789</li>
-          <li className={styles.navLogin} onClick={openModal}>
-            Login/Register
-          </li>
+          {!firstName && (
+            <li className={styles.navLogin} onClick={openModal}>
+              Login/Register
+            </li>
+          )}
+          {firstName && <li className={styles.navProfile}>{firstName}</li>}
+          {firstName && <li className={styles.signout}>SignOut</li>}
         </ul>
       </nav>
-      <LoginRegisterModal isOpen={isModalOpen} onClose={closeModal} />
+      <LoginRegisterModal
+        firstName={firstName}
+        setFirstName={setFirstName}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      />
     </>
   );
 };
