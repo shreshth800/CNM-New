@@ -5,6 +5,8 @@ const Accordion = (props) => {
   const [selected, setSelected] = useState(null);
   const accordionContentRefs = useRef([]);
 
+  // console.log(props);
+
   const toggle = (index) => {
     if (selected === index) {
       setSelected(null);
