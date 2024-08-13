@@ -218,25 +218,30 @@ const Bill = () => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    // Retrieve cartData from local storage
+    // Retrieve cartData and dishDetails from local storage
     const cart = JSON.parse(localStorage.getItem("cartData"));
+    const storedDishDetails = JSON.parse(localStorage.getItem("dishDetails"));
+
     if (cart) {
       setCartData(cart);
     }
-
-    // Retrieve dishDetails from local storage
-    const storedDishDetails = JSON.parse(localStorage.getItem("dishDetails"));
     if (storedDishDetails) {
       setDishDetails(storedDishDetails);
-      setTotalPrice(storedDishDetails.price); // Set initial total price
     }
   }, []);
+
+  useEffect(() => {
+    // Calculate prices whenever dishQuantity or dishDetails or cartData changes
+    if (dishDetails && cartData.length > 0) {
+      const addOnPrice = cartData.reduce((sum, item) => sum + item.price * item.addon, 0);
+      const total = dishDetails.price + addOnPrice;
+      setTotalPrice(total * dishQuantity);
+    }
+  }, [dishQuantity, dishDetails, cartData]);
 
   const handleQuantityChange = (e) => {
     const value = Math.max(1, Number(e.target.value)); // Ensure the value is at least 1
     setDishQuantity(value);
-    const newTotalPrice = value * (dishDetails?.price || 0);
-    setTotalPrice(newTotalPrice);
   };
 
   return (
@@ -270,6 +275,15 @@ const Bill = () => {
             </div>
             <div className={styles.addAnItem}>
               <h3>Dish Price: {dishDetails?.price || 0}</h3>
+            </div>
+            <div className={styles.totalPrice}>
+              <h3>Add On Item Price: {cartData.reduce((sum, item) => sum + item.price * item.addon, 0)}</h3>
+            </div>
+            <div className={styles.totalPrice}>
+              <h3>Final Per Dish Price: {dishDetails?.price + cartData.reduce((sum, item) => sum + item.price * item.addon, 0) || 0}</h3>
+            </div>
+            <div className={styles.totalPrice}>
+              <h3>Final Price: {dishDetails ? (dishDetails.price + cartData.reduce((sum, item) => sum + item.price * item.addon, 0)) * dishQuantity : 0}</h3>
             </div>
             <div className={styles.totalPrice}>
               <h3>Total: {totalPrice}</h3>

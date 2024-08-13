@@ -346,7 +346,6 @@
 
 import React, { useState, useEffect } from "react";
 import styles from "./LoginRegisterModal.module.css";
-import Modal from "../Modal/Modal";
 
 const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -372,6 +371,11 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
+  };
+  const handleOverlayClick = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
   };
 
 
@@ -451,7 +455,11 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
   };
 
   return (
-      <Modal onClose={onClose}>
+    <div className={styles.modalOverlay} onClick={handleOverlayClick}>
+    <div className={styles.modalContent}>
+    <button className={styles.closeButton} onClick={onClose}>
+      &times;
+    </button>
         <h2>{isLogin ? "Login" : "Register"}</h2>
         <div className={styles.tabButtons}>
           <button
@@ -589,7 +597,8 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
             </button>
           </form>
         )}
-      </Modal>
+      </div>
+      </div>
   );
 };
 

@@ -11,6 +11,7 @@ const AddToCart = () => {
   const [selectedDishes, setSelectedDishes] = useState([]);
   const [allDishes, setAllDishes] = useState([]);
   const [storageObject, setStorageObject] = useState([]);
+  const [initialState,setInitialState]=useState()
 
   const navigate = useNavigate();
 
@@ -42,10 +43,11 @@ const AddToCart = () => {
             (item) => item.item
           );
           const finalStorageObject = specificDish.items.map((item) => {
-            const newItem = { ...item, name: item.item, dishes: [] };
+            const newItem = { ...item,addon:0, name: item.item, dishes: [] };
             delete newItem.item;
             return newItem;
           });
+          setInitialState(finalStorageObject)
           setStorageObject(finalStorageObject);
 
           setCategories(availableCategories);
@@ -89,6 +91,17 @@ const AddToCart = () => {
       });
     });
   };
+  function handlePreview(){
+    const totalQuantity=storageObject.map(item=>{
+      return item.quantity===item.dishes.length?true:false
+    })
+    if(totalQuantity.includes(false)){
+      alert('select the proper number of items')
+    }
+    else{
+      navigate('/bill')
+    }
+  }
 
   useEffect(() => {
     const categoryData = storageObject.find(
@@ -104,7 +117,6 @@ const AddToCart = () => {
       .find((section) => section.name === selectedCategory)
       ?.items.map((item) => item.items)
       .flat() || [];
-
   return (
     <div className={styles.addtocartContainer}>
       <div className={styles.addtocart}>
@@ -112,6 +124,9 @@ const AddToCart = () => {
           categories={categories}
           selectedCategory={selectedCategory}
           onCategorySelect={handleCategorySelect}
+          storageObject={storageObject}
+          setStorageObject={setStorageObject}
+          initialState={initialState}
         />
         <DishSelection
           dishes={filteredDishes}
@@ -127,7 +142,7 @@ const AddToCart = () => {
       <div className={styles.previewOrderButton}>
         <button
           onClick={() => {
-            navigate("/bill");
+            handlePreview()
           }}
         >
           Preview Order
