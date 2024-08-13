@@ -41,13 +41,12 @@ const AddToCart = () => {
           const availableCategories = specificDish.items.map(
             (item) => item.item
           );
-
-          localStorage.setItem("dishDetails", JSON.stringify(specificDish));
-
-          const filteredStorageObject = initialStorageObject.filter(
-            (category) => availableCategories.includes(category.name)
-          );
-          setStorageObject(filteredStorageObject);
+          const finalStorageObject = specificDish.items.map((item) => {
+            const newItem = { ...item, name: item.item, dishes: [] };
+            delete newItem.item;
+            return newItem;
+          });
+          setStorageObject(finalStorageObject);
 
           setCategories(availableCategories);
           if (availableCategories.length > 0) {
@@ -73,11 +72,18 @@ const AddToCart = () => {
     setStorageObject((prevStorageObject) => {
       return prevStorageObject.map((categoryData) => {
         if (categoryData.name === selectedCategory) {
-          const updatedDishes = isSelected
-            ? [...categoryData.dishes, dish]
-            : categoryData.dishes.filter((d) => d !== dish);
-
-          return { ...categoryData, dishes: updatedDishes };
+          if (
+            isSelected &&
+            categoryData.dishes.length < categoryData.quantity
+          ) {
+            // Add dish if under the limit
+            const updatedDishes = [...categoryData.dishes, dish];
+            return { ...categoryData, dishes: updatedDishes };
+          } else if (!isSelected) {
+            // Remove dish if unselected
+            const updatedDishes = categoryData.dishes.filter((d) => d !== dish);
+            return { ...categoryData, dishes: updatedDishes };
+          }
         }
         return categoryData;
       });
@@ -111,6 +117,8 @@ const AddToCart = () => {
           dishes={filteredDishes}
           selectedItems={selectedDishes}
           onDishSelect={handleDishSelect}
+          storageObject={storageObject}
+          selectedCategory={selectedCategory}
         />
         <div className={styles.accordionContainer}>
           <Accordion data={storageObject} />
