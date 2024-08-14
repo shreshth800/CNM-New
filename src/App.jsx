@@ -6,7 +6,6 @@ const OrderPage=React.lazy(()=>import("./pages/OrderPage/OrderPage"));
 const HomePage = React.lazy(() => import('./pages/HomePage/HomePage'));
 const AddToCart = React.lazy(() => import('./pages/AddToCart/AddToCart'));
 const Bill = React.lazy(() => import('./pages/Bill/Bill'));
-
 const MyOrder = React.lazy(()=> import('./pages/MyOrders/MyOrder'))
 const AppLayout = React.lazy(() => import('./components/AppLayout'));
 

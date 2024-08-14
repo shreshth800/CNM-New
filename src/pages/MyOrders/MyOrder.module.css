@@ -104,3 +104,14 @@
  .paymentStatus p{
   color: #ff7a45;
  }
+
+
+ p {
+  color: #666;
+ }
+
+ .modalUpper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+ }
