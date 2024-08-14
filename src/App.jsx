@@ -28,7 +28,7 @@ function App() {
           ),
         },
         {
-          path: "/caterer-search",
+          path: "/caterer",
           element: (
             <Suspense fallback={<div>Loading Caterer Search...</div>}>
               <CatererSearch />
@@ -36,7 +36,7 @@ function App() {
           ),
         },
         {
-          path: "/order/:id",
+          path: "/caterer/:id",
           element: (
             <Suspense fallback={<div>Loading Order Page...</div>}>
               <OrderPage />
