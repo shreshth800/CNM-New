@@ -139,17 +139,15 @@ const Bill = () => {
   const [discount, setDiscount] = useState(0); // State for discount
 
   useEffect(() => {
-    // Retrieve cartData from local storage
+    // Retrieve cartData and dishDetails from local storage
     const cart = JSON.parse(localStorage.getItem("cartData"));
+    const storedDishDetails = JSON.parse(localStorage.getItem("dishDetails"));
+
     if (cart) {
       setCartData(cart);
     }
-
-    // Retrieve dishDetails from local storage
-    const storedDishDetails = JSON.parse(localStorage.getItem("dishDetails"));
     if (storedDishDetails) {
       setDishDetails(storedDishDetails);
-      setTotalPrice(storedDishDetails.price); // Set initial total price
     }
   }, []);
 
