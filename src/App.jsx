@@ -6,7 +6,6 @@ const OrderPage=React.lazy(()=>import("./pages/OrderPage/OrderPage"));
 const HomePage = React.lazy(() => import('./pages/HomePage/HomePage'));
 const AddToCart = React.lazy(() => import('./pages/AddToCart/AddToCart'));
 const Bill = React.lazy(() => import('./pages/Bill/Bill'));
-
 const MyOrder = React.lazy(()=> import('./pages/MyOrders/MyOrder'))
 const AppLayout = React.lazy(() => import('./components/AppLayout'));
 
@@ -29,7 +28,7 @@ function App() {
           ),
         },
         {
-          path: "/caterer-search",
+          path: "/caterer",
           element: (
             <Suspense fallback={<div>Loading Caterer Search...</div>}>
               <CatererSearch />
@@ -37,11 +36,12 @@ function App() {
           ),
         },
         {
-          path: "/order/:id",
+          path: "/caterer/:id",
           element: (
-            <Suspense fallback={<div>Loading Order Page...</div>}>
-              <OrderPage />
-            </Suspense>
+                <Suspense fallback={<div>Loading Order Page...</div>}>
+                <OrderPage />
+              </Suspense>
+            
           ),
         },
         {
