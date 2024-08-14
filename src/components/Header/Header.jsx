@@ -8,9 +8,14 @@ const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const navigate = useNavigate();
-  console.log(firstName);
 
+  // Retrieve firstName from localStorage when the component mounts
   useEffect(() => {
+    const storedFirstName = localStorage.getItem("firstName");
+    if (storedFirstName) {
+      setFirstName(storedFirstName);
+    }
+
     const handleClick = (e) => {
       const isDropDownButton = e.target.matches("[data-dropdown-button]");
       if (!isDropDownButton && e.target.closest("[data-dropdown]") != null)
@@ -33,18 +38,34 @@ const Header = () => {
 
     document.addEventListener("click", handleClick);
 
+    // Listen for changes in localStorage (e.g., login or logout in another tab)
+    const handleStorageChange = (event) => {
+      if (event.key === "firstName") {
+        if (event.newValue) {
+          setFirstName(event.newValue); // User has logged in
+        } else {
+          setFirstName(""); // User has logged out
+          navigate("/");
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
     return () => {
       document.removeEventListener("click", handleClick);
+      window.removeEventListener("storage", handleStorageChange);
     };
-  }, []);
+  }, [navigate]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const handleSignout = () => {
-    sessionStorage.removeItem("refreshToken");
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("firstName"); // Clear firstName from localStorage
     setFirstName("");
     navigate("/");
   };
@@ -69,7 +90,7 @@ const Header = () => {
               <ul className={styles.navLinks}>
                 <li
                   className={styles.findCaterers}
-                  onClick={() => navigate("caterer-search")}
+                  onClick={() => navigate("caterer")}
                 >
                   Find Caterers
                 </li>
@@ -107,12 +128,15 @@ const Header = () => {
             </li>
           )}
           {firstName && <li className={styles.navProfile}>{firstName}</li>}
-          {firstName && <li className={styles.signout}>SignOut</li>}
+          {firstName && <li className={styles.signout} onClick={handleSignout}>SignOut</li>}
         </ul>
       </nav>
       <LoginRegisterModal
         firstName={firstName}
-        setFirstName={setFirstName}
+        setFirstName={(name) => {
+          setFirstName(name);
+          localStorage.setItem("firstName", name); // Store firstName in localStorage
+        }}
         isOpen={isModalOpen}
         onClose={closeModal}
       />
