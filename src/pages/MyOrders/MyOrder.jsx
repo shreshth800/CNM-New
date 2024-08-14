@@ -34,7 +34,7 @@ const fromLocalData = JSON.parse(localStorage.getItem("cartData"));
 
               <div className={styles.catererDetails}>
               <h2 className={styles.catererName}>{order.catererId.name}</h2>
-              <p>Dish Items: {order.items.length} | Order Quantity: {order.totalQuantity}</p>
+              <p>Dish Items: {order.items.length} | Order Quantity: {order.dishQuantity}</p>
 
               <div className={styles.paymentStatus}>
               <p>Amount: ₹{order.totalAmount}</p>
