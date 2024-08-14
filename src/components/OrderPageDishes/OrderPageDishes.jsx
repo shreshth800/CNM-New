@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 const OrderPageDishes = ({ dishes }) => {
   const navigate = useNavigate();
   const handleDishClick = (dish) => {
-    console.log("Clicked Dish:", dish);
-    navigate("/add-to-cart");
+    const id = dish.id;
+    navigate(`/order/${id}`);
   };
 
   return (

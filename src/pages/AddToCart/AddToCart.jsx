@@ -3,6 +3,7 @@ import SideBar from "../../components/SideBar/SideBar";
 import DishSelection from "../../components/DishSelection/DishSelection";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./AddToCart.module.css";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const AddToCart = () => {
@@ -11,8 +12,11 @@ const AddToCart = () => {
   const [selectedDishes, setSelectedDishes] = useState([]);
   const [allDishes, setAllDishes] = useState([]);
   const [storageObject, setStorageObject] = useState([]);
+  const [initialState, setInitialState] = useState();
 
   const navigate = useNavigate();
+
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchMenuData = async () => {
@@ -29,12 +33,12 @@ const AddToCart = () => {
         }));
 
         const dishResponse = await fetch(
-          "http://3.6.41.54/api/caterer/666095d61be89c4a23318324"
+          `http://3.6.41.54/api/caterer/666095d61be89c4a23318324`
         );
         const dishData = await dishResponse.json();
 
         const specificDish = dishData.dishes.find(
-          (dish) => dish.id === "669d1af62082e0d75fc87c13"
+          (dish) => dish.id === `${id}`
         );
 
         if (specificDish) {
@@ -42,10 +46,11 @@ const AddToCart = () => {
             (item) => item.item
           );
           const finalStorageObject = specificDish.items.map((item) => {
-            const newItem = { ...item, name: item.item, dishes: [] };
+            const newItem = { ...item, addon: 0, name: item.item, dishes: [] };
             delete newItem.item;
             return newItem;
           });
+          setInitialState(finalStorageObject);
           setStorageObject(finalStorageObject);
 
           setCategories(availableCategories);
@@ -76,11 +81,9 @@ const AddToCart = () => {
             isSelected &&
             categoryData.dishes.length < categoryData.quantity
           ) {
-            // Add dish if under the limit
             const updatedDishes = [...categoryData.dishes, dish];
             return { ...categoryData, dishes: updatedDishes };
           } else if (!isSelected) {
-            // Remove dish if unselected
             const updatedDishes = categoryData.dishes.filter((d) => d !== dish);
             return { ...categoryData, dishes: updatedDishes };
           }
@@ -89,6 +92,16 @@ const AddToCart = () => {
       });
     });
   };
+  function handlePreview() {
+    const totalQuantity = storageObject.map((item) => {
+      return item.quantity === item.dishes.length ? true : false;
+    });
+    if (totalQuantity.includes(false)) {
+      alert("select the proper number of items");
+    } else {
+      navigate("/bill");
+    }
+  }
 
   useEffect(() => {
     const categoryData = storageObject.find(
@@ -127,7 +140,7 @@ const AddToCart = () => {
       <div className={styles.previewOrderButton}>
         <button
           onClick={() => {
-            navigate("/bill");
+            handlePreview();
           }}
         >
           Preview Order

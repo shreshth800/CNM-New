@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Import useParams
+import { useParams } from "react-router-dom";
 import styles from "./OrderPage.module.css";
 import OrderPageDishes from "../../components/OrderPageDishes/OrderPageDishes";
 import Card from "../../components/Card/Card";

@@ -1,6 +1,10 @@
 .howItWorks {
   text-align: center;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .arrowright {
   display: flex;
@@ -32,7 +36,7 @@
 
 .step {
   display: grid;
-  grid-template-columns:repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr);
 }
 .lastStep {
   display: flex;
@@ -42,8 +46,8 @@
 
 .stepIcon {
   position: relative;
-  width: 150px; /* Adjust size as needed */
-  height: 150px; /* Adjust size as needed */
+  width: 150px;
+  height: 150px;
   border: 2px solid #e0e0e0;
   border-radius: 50%;
   display: flex;
@@ -53,13 +57,13 @@
 }
 
 .stepIcon:hover {
-  border-color: #fb8530e6; /* Orange color outline on hover */
+  border-color: #fb8530e6;
   transition: 0.3s;
 }
 
 .iconImage {
-  width: 50%; /* Adjust size as needed */
-  height: 50%; /* Adjust size as needed */
+  width: 50%;
+  height: 50%;
 }
 
 .stepNumber {
@@ -81,69 +85,72 @@
   font-size: 1rem;
   color: #333;
 }
-@media(max-width:1330px){
-  .step{
+@media (max-width: 1330px) {
+  .step {
     grid-template-columns: 1fr;
   }
 }
-@media(max-width:963px){
-  .howItWorks{
+@media (max-width: 963px) {
+  .howItWorks {
     padding: 0;
   }
- .stepIcon{
-  width:100px;
-  height:100px;
- }
- .stepNumber{
-  width:1rem;
-  font-size: 0.6rem;
-  padding: 0.5rem;
- }
-}
-@media(max-width:686px){
-  .steps{
-    padding:2rem;
+  .stepIcon {
+    width: 100px;
+    height: 100px;
   }
-  .howItWorks{
+  .stepNumber {
+    width: 1rem;
+    font-size: 0.6rem;
+    padding: 0.5rem;
+  }
+  .connector {
+    display: none;
+  }
+}
+@media (max-width: 686px) {
+  .steps {
+    padding: 2rem;
+  }
+  .howItWorks {
     padding: 0;
   }
- .stepIcon{
-  width:80px;
-  height:80px;
- }
- .stepNumber{
-  width:0.5rem;
-  font-size: 0.4rem;
-  padding: 0.4rem;
- }
- .step h3 {
-  margin-top: 1.5rem;
-  font-size: 0.7rem;
-  color: #333;
+  .stepIcon {
+    width: 80px;
+    height: 80px;
+  }
+  .stepNumber {
+    width: 0.5rem;
+    font-size: 0.4rem;
+    padding: 0.4rem;
+  }
+  .step h3 {
+    margin-top: 1.5rem;
+    font-size: 0.7rem;
+    color: #333;
+  }
+  .lastStep h3 {
+    margin-top: 1.5rem;
+    font-size: 0.7rem;
+    color: #333;
+  }
 }
-.lastStep h3{
-  margin-top: 1.5rem;
-  font-size: 0.7rem;
-  color: #333;
-}
-}
-@media(max-width:493px){
-  .steps{
+@media (max-width: 493px) {
+  .steps {
     padding: 0;
   }
 }
-@media(max-width:427px){
-  .stepIcon{
-    width:55px;
-    height:55px;
-   }
-   .step h3 {
+@media (max-width: 427px) {
+  .stepIcon {
+    width: 55px;
+    height: 55px;
+  }
+  .step h3 {
     margin-top: 1.5rem;
     font-size: 0.6rem;
     font-weight: 400;
     color: #333;
   }
-  .lastStep h3{
+  .lastStep h3 {
     margin-top: 1.5rem;
     font-size: 0.6rem;
     font-weight: 400;

@@ -1,9 +1,14 @@
 .dishSelection {
-    width: 40%;
-    padding: 1rem;
+  width: 40%;
+  padding: 1rem;
+}
+
+.dishItem {
+  margin: 10px 0;
+}
+
+@media screen and (max-width: 768px) {
+  .dishSelection {
+    width: 100%;
   }
-  
-  .dishItem {
-    margin: 10px 0;
-  }
-  
+}

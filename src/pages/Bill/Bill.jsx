@@ -125,100 +125,56 @@
 
 // Bill.jsx
 
-// import React from "react";
-// import Accordion from "../../components/Accordion/Accordion";
-// import styles from "./Bill.module.css";
-
-// const detailsList = [
-//   {
-//     name: "Main Course",
-//     dishes: ["Mix Veg"],
-//   },
-//   {
-//     name: "Dal",
-//     dishes: ["Makhani Dal", "Dal Tadka"],
-//   },
-//   {
-//     name: "Rice",
-//     dishes: ["Jeera Rice"],
-//   },
-//   {
-//     name: "Breads",
-//     dishes: ["Naan", "Butter Naan", "Garlic Naan"],
-//   },
-// ];
-
-// const Bill = () => {
-//   return (
-//     <div className={styles.billContainer}>
-//       <div className={styles.mainHeading}>
-//         <h2>Order Summary</h2>
-//       </div>
-//       <div className={styles.mainBill}>
-//         <div className={styles.billLeft}>
-//           <div className={styles.leftHeading}>
-//             <h3>Dish Details:</h3>
-//           </div>
-//           <Accordion data={detailsList} />
-//         </div>
-//         <div className={styles.billRight}>
-//           <div className={styles.rightHeading}>
-//             <h3>Order Summary:</h3>
-//             <div className={styles.deliveryDate}>
-//               <h3>Delivery Date</h3>
-//               <input className={styles.deliveryDateInput} type="date" />
-//             </div>
-//             <div className={styles.dishQuantity}>
-//               <h3>Dish Quantity:</h3>
-//               <input className={styles.dishQuantityInput} type="number" />
-//             </div>
-//             <div className={styles.addAnItem}>
-//               <h3>Dish Price: </h3>
-//             </div>
-//             <div className={styles.addAnItem}>
-//               <h3>Add on Item Per Price: </h3>
-//             </div>
-//             <div className={styles.addAnItem}>
-//               <h3>Final Per Dish Price: </h3>
-//             </div>
-//             <div className={styles.addAnItem}>
-//               <h3>Final Price: </h3>
-//             </div>
-//             <div className={styles.totalPrice}>
-//               <h3>Total: </h3>
-//             </div>
-//             <div className={styles.couponCode}>
-//               <input
-//                 className={styles.couponCodeInput}
-//                 type="text"
-//                 placeholder="Coupon Code"
-//               />
-//               <button className={styles.couponButton}>Apply</button>
-//             </div>
-//             <button className={styles.placeOrder}>Place Order</button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Bill;
-
-
-
 import React, { useEffect, useState } from "react";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./Bill.module.css";
+import emailjs from "@emailjs/browser";
 
 const Bill = () => {
   const [cartData, setCartData] = useState([]);
   const [dishDetails, setDishDetails] = useState(null);
-  const [dishQuantity, setDishQuantity] = useState(1); // Initial value set to 1
+  const [dishQuantity, setDishQuantity] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const [couponCode, setCouponCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+
+  const sendEmail = (finalBill) => {
+    const templateParams = {
+      finalBill: JSON.stringify(finalBill, null, 2),
+    };
+
+    emailjs
+      .send(
+        "service_6we88bu",
+        "template_mbg8ctx",
+        templateParams,
+        "IaQUXsw6xhiEuTVdD"
+      )
+      .then((response) => {
+        console.log("Email sent successfully!", response.status, response.text);
+      })
+      .catch((err) => {
+        console.error("Failed to send email. Error: ", err);
+      });
+  };
+
+  const finalBill = () => {
+    const dishes = cartData.map((dish) => dish.name);
+    const nameOfDish = dishDetails.name;
+
+    const finalBill = {
+      name: nameOfDish,
+      dishes: dishes,
+      dishQuantity: dishQuantity,
+      totalPrice: totalPrice,
+      couponCode: couponCode,
+      discount: discount,
+    };
+
+    return finalBill;
+  };
 
   useEffect(() => {
-    // Retrieve cartData from local storage
     const cart = JSON.parse(localStorage.getItem("cartData"));
     if (cart) {
       setCartData(cart);
@@ -232,11 +188,46 @@ const Bill = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (dishDetails && cartData.length > 0) {
+      const addOnPrice = cartData.reduce(
+        (sum, item) => sum + item.price * item.addon,
+        0
+      );
+      const total = dishDetails.price + addOnPrice;
+      const finalQuantity = dishQuantity === "" ? 1 : dishQuantity;
+      const discountedTotal = total * finalQuantity * (1 - discount);
+      setTotalPrice(discountedTotal);
+    }
+  }, [dishQuantity, dishDetails, cartData, discount]);
+
   const handleQuantityChange = (e) => {
-    const value = Math.max(1, Number(e.target.value)); // Ensure the value is at least 1
-    setDishQuantity(value);
-    const newTotalPrice = value * (dishDetails?.price || 0);
-    setTotalPrice(newTotalPrice);
+    const value = e.target.value;
+    if (
+      value === "" ||
+      (Number(value) > 0 && Number.isInteger(Number(value)))
+    ) {
+      setDishQuantity(value);
+    }
+  };
+
+  const handleQuantityBlur = () => {
+    if (dishQuantity === "" || dishQuantity === "0") {
+      setDishQuantity(1);
+    }
+  };
+
+  const handleCouponChange = (e) => {
+    setCouponCode(e.target.value);
+  };
+
+  const handleCouponBlur = () => {
+    if (couponCode === "caterer@10") {
+      setDiscount(0.1);
+    } else if (couponCode !== "") {
+      setDiscount(0);
+      alert("Invalid coupon code");
+    }
   };
 
   return (
@@ -249,7 +240,7 @@ const Bill = () => {
           <div className={styles.leftHeading}>
             <h3>Dish Details:</h3>
           </div>
-          <Accordion data={cartData} /> {/* Pass cartData to Accordion */}
+          <Accordion data={cartData} />
         </div>
         <div className={styles.billRight}>
           <div className={styles.rightHeading}>
@@ -265,24 +256,70 @@ const Bill = () => {
                 type="number"
                 value={dishQuantity}
                 onChange={handleQuantityChange}
-                min={1} // Prevent entering values less than 1
+                onBlur={handleQuantityBlur}
+                min={1}
               />
             </div>
             <div className={styles.addAnItem}>
               <h3>Dish Price: {dishDetails?.price || 0}</h3>
             </div>
             <div className={styles.totalPrice}>
-              <h3>Total: {totalPrice}</h3>
+              <h3>
+                Add On Item Price:{" "}
+                {cartData.reduce(
+                  (sum, item) => sum + item.price * item.addon,
+                  0
+                )}
+              </h3>
+            </div>
+            <div className={styles.totalPrice}>
+              <h3>
+                Final Per Dish Price:{" "}
+                {dishDetails?.price +
+                  cartData.reduce(
+                    (sum, item) => sum + item.price * item.addon,
+                    0
+                  ) || 0}
+              </h3>
+            </div>
+            <div className={styles.totalPrice}>
+              <h3>
+                Final Price:{" "}
+                {dishDetails
+                  ? (dishDetails.price +
+                      cartData.reduce(
+                        (sum, item) => sum + item.price * item.addon,
+                        0
+                      )) *
+                    (dishQuantity || 1)
+                  : 0}
+              </h3>
+            </div>
+            <div className={styles.totalPrice}>
+              <h3>Total: {totalPrice.toFixed(2)}</h3>
             </div>
             <div className={styles.couponCode}>
               <input
                 className={styles.couponCodeInput}
                 type="text"
                 placeholder="Coupon Code"
+                value={couponCode}
+                onChange={handleCouponChange}
+                onBlur={handleCouponBlur}
               />
-              <button className={styles.couponButton}>Apply</button>
+              <button
+                className={styles.couponButton}
+                onClick={handleCouponBlur}
+              >
+                Apply
+              </button>
             </div>
-            <button className={styles.placeOrder}>Place Order</button>
+            {/* <button onClick={handleOrderPlace} className={styles.placeOrder}>
+              Place Order
+            </button> */}
+            <button onClick={sendEmail} className={styles.placeOrder}>
+              Place Order
+            </button>
           </div>
         </div>
       </div>
