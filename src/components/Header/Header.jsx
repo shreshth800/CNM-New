@@ -95,7 +95,7 @@ const Header = () => {
         <ul className={`${styles.navLinks} ${styles.rowUl}`}>
           <li
             className={styles.findCaterers}
-            onClick={() => navigate("caterer-search")}
+            onClick={() => navigate("caterer")}
           >
             Find Caterers
           </li>

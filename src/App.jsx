@@ -38,9 +38,10 @@ function App() {
         {
           path: "/caterer/:id",
           element: (
-            <Suspense fallback={<div>Loading Order Page...</div>}>
-              <OrderPage />
-            </Suspense>
+                <Suspense fallback={<div>Loading Order Page...</div>}>
+                <OrderPage />
+              </Suspense>
+            
           ),
         },
         {
