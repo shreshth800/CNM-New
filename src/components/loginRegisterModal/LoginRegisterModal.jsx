@@ -403,9 +403,9 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
 
       const result = await response.json();
       setFirstName(result.user.firstName)
-      sessionStorage.setItem("token", result.token);
-      sessionStorage.setItem("refreshToken", result.refreshToken);
-      sessionStorage.setItem("user", JSON.stringify(result.user));
+      localStorage.setItem("token", result.token);
+      localStorage.setItem("refreshToken", result.refreshToken);
+      localStorage.setItem("user", JSON.stringify(result.user));
 
       console.log("Login successful:", result);
       alert("Login successful");

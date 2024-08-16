@@ -4,6 +4,7 @@
     align-items: center;
     margin-top: 5rem;
     width: 100%;
+    height: 73vh;
   }
   
   .orderCard {
@@ -103,4 +104,15 @@
 
  .paymentStatus p{
   color: #ff7a45;
+ }
+
+
+ p {
+  color: #666;
+ }
+
+ .modalUpper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
  }
