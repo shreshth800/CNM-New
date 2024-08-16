@@ -210,12 +210,19 @@
 import React, { useEffect, useState } from "react";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./Bill.module.css";
+import { CatererContext} from "../../App";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Bill = () => {
   const [cartData, setCartData] = useState([]);
   const [dishDetails, setDishDetails] = useState(null);
   const [dishQuantity, setDishQuantity] = useState(1); // Initial value set to 1
   const [totalPrice, setTotalPrice] = useState(0);
+  const [couponCode, setCouponCode] = useState(""); // State for coupon code
+  const [discount, setDiscount] = useState(0); // State for discount
+  const { catererId } = useContext(CatererContext);
+  const navigate=useNavigate()
 
   useEffect(() => {
     // Retrieve cartData and dishDetails from local storage
@@ -240,8 +247,62 @@ const Bill = () => {
   }, [dishQuantity, dishDetails, cartData]);
 
   const handleQuantityChange = (e) => {
-    const value = Math.max(1, Number(e.target.value)); // Ensure the value is at least 1
-    setDishQuantity(value);
+    const value = e.target.value;
+    if (value === "" || (Number(value) > 0 && Number.isInteger(Number(value)))) {
+      setDishQuantity(value); // Allow empty or valid numbers only
+    }
+  };
+
+  const handleQuantityBlur = () => {
+    if (dishQuantity === "" || dishQuantity === "0") {
+      setDishQuantity(1); // Set to 1 if the field is left empty or contains 0
+    }
+  };
+
+  const handleCouponChange = (e) => {
+    setCouponCode(e.target.value);
+  };
+
+  const handleCouponBlur = () => {
+    // Assume "caterer@10" is the valid coupon code for a 10% discount
+    if (couponCode === "caterer@10") {
+      setDiscount(0.1); // 10% discount
+    } else if (couponCode !== "") {
+      setDiscount(0); // Invalid coupon, no discount
+      alert("Invalid coupon code");
+    }
+  };
+
+  const handleOrder = async () => {
+    try {
+      const dish =await JSON.parse(localStorage.getItem("dishDetails"));
+      const user =await JSON.parse(localStorage.getItem("user"));
+      const cartItems = cartData.map(item => ({
+        item: item.name,
+        quantity: item.quantity,
+        menuItem: item.dishes,
+      }));
+
+      const myorder = {
+        catererId,
+        dishId: dish?.id || "",
+        userId: user?.id || "",
+        items: cartItems,
+        totalAmount: Number(totalPrice),
+        dishQuantity: Number(dishQuantity)||1,
+        paymentStatus: "Accepted",
+        orderDate: new Date().toISOString(),
+        deliveryDate: "2022-01-01T00:00:00.000Z",
+        status: {
+          id: 0
+        }
+      };
+      console.log(myorder)
+      await axios.post('http://3.6.41.54/api/orders', myorder);
+      navigate('/my-orders')
+    } catch (error) {
+      console.error("Order submission failed:", error);
+    }
   };
 
   return (

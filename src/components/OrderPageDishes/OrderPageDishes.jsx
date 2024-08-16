@@ -7,7 +7,8 @@ const OrderPageDishes = ({ dishes }) => {
   const navigate = useNavigate();
   const handleDishClick = (dish) => {
     console.log("Clicked Dish:", dish);
-    navigate("/add-to-cart");
+    localStorage.setItem('dishDetails',JSON.stringify(dish))
+    navigate(`/add-to-cart/${dish.id}`);
   };
 
   return (
