@@ -126,7 +126,7 @@
 // Bill.jsx
 
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./Bill.module.css";
 import { CatererContext} from "../../App";
@@ -284,7 +284,7 @@ const Bill = () => {
                 Apply
               </button>
             </div>
-            <button className={styles.placeOrder}>Place Order</button>
+            <button className={styles.placeOrder} onClick={handleOrder}>Place Order</button>
           </div>
         </div>
       </div>

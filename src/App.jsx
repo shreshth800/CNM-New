@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { createContext, Suspense, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Spinner from "./components/Spinner/Spinner";
@@ -10,6 +10,7 @@ const Bill = React.lazy(() => import('./pages/Bill/Bill'));
 const MyOrder = React.lazy(()=> import('./pages/MyOrders/MyOrder'))
 const AppLayout = React.lazy(() => import('./components/AppLayout'));
 
+export const CatererContext=createContext()
 function App() {
   const router = createBrowserRouter([
     {
@@ -39,10 +40,6 @@ function App() {
         {
           path: "/caterer/:id",
           element: (
-                <Suspense fallback={<div>Loading Order Page...</div>}>
-                <OrderPage />
-              </Suspense>
-            
                 <Suspense fallback={<Spinner/>}>
                 <OrderPage />
               </Suspense>
@@ -80,10 +77,15 @@ function App() {
       ],
     },
   ]);
-
+  const [catererId,setCatererId]=useState('')
   return (
     <>
+    <CatererContext.Provider value={{
+      catererId,
+      setCatererId
+    }}>
       <RouterProvider router={router} />
+      </CatererContext.Provider>
     </>
   );
 }

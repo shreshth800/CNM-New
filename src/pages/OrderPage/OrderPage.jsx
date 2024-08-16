@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // Import useParams
 import styles from "./OrderPage.module.css";
 import OrderPageDishes from "../../components/OrderPageDishes/OrderPageDishes";
@@ -14,7 +14,7 @@ import Spinner from "../../components/Spinner/Spinner";
 
 const OrderPage = () => {
   const { id } = useParams();
-
+  const {setCatererId}=useContext(CatererContext)
 
   const [catererData, setCatererData] = useState(null);
 
