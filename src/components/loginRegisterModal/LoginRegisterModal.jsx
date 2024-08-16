@@ -347,7 +347,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./LoginRegisterModal.module.css";
 
-const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
+const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -378,7 +378,6 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
     }
   };
 
-
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
 
@@ -402,7 +401,7 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
       }
 
       const result = await response.json();
-      setFirstName(result.user.firstName)
+      setFirstName(result.user.firstName);
       localStorage.setItem("token", result.token);
       localStorage.setItem("refreshToken", result.refreshToken);
       localStorage.setItem("user", JSON.stringify(result.user));
@@ -421,7 +420,7 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
     const registerData = {
       email,
       password,
-      confirmPassword,
+      // confirmPassword,
       phone,
       firstName,
       lastName,
@@ -444,10 +443,11 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
         throw new Error("Registration failed");
       }
 
-      const result = await response.json();
+      // const result = await response.json();
 
-      console.log("Registration successful:", result);
+      // console.log("Registration successful:", result);
       alert("Registration successful");
+      setisLogin(true);
       onClose();
     } catch (error) {
       console.error("Error:", error);
@@ -456,10 +456,10 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
 
   return (
     <div className={styles.modalOverlay} onClick={handleOverlayClick}>
-    <div className={styles.modalContent}>
-    <button className={styles.closeButton} onClick={onClose}>
-      &times;
-    </button>
+      <div className={styles.modalContent}>
+        <button className={styles.closeButton} onClick={onClose}>
+          &times;
+        </button>
         <h2>{isLogin ? "Login" : "Register"}</h2>
         <div className={styles.tabButtons}>
           <button
@@ -598,7 +598,7 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
           </form>
         )}
       </div>
-      </div>
+    </div>
   );
 };
 
