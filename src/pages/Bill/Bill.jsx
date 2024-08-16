@@ -126,9 +126,11 @@
 // Bill.jsx
 
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./Bill.module.css";
+import { CatererContext} from "../../App";
+import axios from "axios";
 
 const Bill = () => {
   const [cartData, setCartData] = useState([]);
@@ -137,6 +139,7 @@ const Bill = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [couponCode, setCouponCode] = useState(""); // State for coupon code
   const [discount, setDiscount] = useState(0); // State for discount
+  const { catererId } = useContext(CatererContext);
 
   useEffect(() => {
     // Retrieve cartData and dishDetails from local storage
@@ -156,7 +159,7 @@ const Bill = () => {
     if (dishDetails && cartData.length > 0) {
       const addOnPrice = cartData.reduce((sum, item) => sum + item.price * item.addon, 0);
       const total = dishDetails.price + addOnPrice;
-      const finalQuantity = dishQuantity === "" ? 1 : dishQuantity;
+      const finalQuantity = dishQuantity === "" ? 1 : parseInt(dishQuantity, 10);
       const discountedTotal = total * finalQuantity * (1 - discount);
       setTotalPrice(discountedTotal);
     }
@@ -180,12 +183,43 @@ const Bill = () => {
   };
 
   const handleCouponBlur = () => {
-    // Assume "DISCOUNT10" is the valid coupon code for a 10% discount
+    // Assume "caterer@10" is the valid coupon code for a 10% discount
     if (couponCode === "caterer@10") {
       setDiscount(0.1); // 10% discount
     } else if (couponCode !== "") {
       setDiscount(0); // Invalid coupon, no discount
       alert("Invalid coupon code");
+    }
+  };
+
+  const handleOrder = async () => {
+    try {
+      const dish =await JSON.parse(localStorage.getItem("dishDetails"));
+      const user =await JSON.parse(localStorage.getItem("user"));
+      const cartItems = cartData.map(item => ({
+        item: item.name,
+        quantity: item.quantity,
+        menuItem: item.dishes,
+      }));
+
+      const myorder = {
+        catererId,
+        dishId: dish?.id || "",
+        userId: user?.id || "",
+        items: cartItems,
+        totalAmount: Number(totalPrice),
+        dishQuantity: dishQuantity||1,
+        paymentStatus: "Accepted",
+        orderDate: new Date().toISOString(),
+        deliveryDate: "2022-01-01T00:00:00.000Z",
+        status: {
+          id: 0,
+          name: "abhishek"
+        }
+      };
+      await axios.post('http://3.6.41.54/api/orders', myorder);
+    } catch (error) {
+      console.error("Order submission failed:", error);
     }
   };
 
@@ -215,7 +249,7 @@ const Bill = () => {
                 type="number"
                 value={dishQuantity}
                 onChange={handleQuantityChange}
-                onBlur={handleQuantityBlur} // Ensure a valid value after leaving the input
+                onBlur={handleQuantityBlur}
                 min={1} // Prevent entering values less than 1
               />
             </div>
@@ -226,13 +260,13 @@ const Bill = () => {
               <h3>Add On Item Price: {cartData.reduce((sum, item) => sum + item.price * item.addon, 0)}</h3>
             </div>
             <div className={styles.totalPrice}>
-              <h3>Final Per Dish Price: {dishDetails?.price + cartData.reduce((sum, item) => sum + item.price * item.addon, 0) || 0}</h3>
+              <h3>Final Per Dish Price: {dishDetails ? dishDetails.price + cartData.reduce((sum, item) => sum + item.price * item.addon, 0) : 0}</h3>
             </div>
             <div className={styles.totalPrice}>
               <h3>Final Price: {dishDetails ? (dishDetails.price + cartData.reduce((sum, item) => sum + item.price * item.addon, 0)) * (dishQuantity || 1) : 0}</h3>
             </div>
             <div className={styles.totalPrice}>
-              <h3>Total: {totalPrice.toFixed(2)}</h3> {/* Display the total price with discount */}
+              <h3>Total: {totalPrice.toFixed(2)}</h3>
             </div>
             <div className={styles.couponCode}>
               <input
@@ -241,13 +275,13 @@ const Bill = () => {
                 placeholder="Coupon Code"
                 value={couponCode}
                 onChange={handleCouponChange}
-                onBlur={handleCouponBlur} // Validate the coupon on blur
+                onBlur={handleCouponBlur}
               />
               <button className={styles.couponButton} onClick={handleCouponBlur}>
                 Apply
               </button>
             </div>
-            <button className={styles.placeOrder}>Place Order</button>
+            <button className={styles.placeOrder} onClick={handleOrder}>Place Order</button>
           </div>
         </div>
       </div>

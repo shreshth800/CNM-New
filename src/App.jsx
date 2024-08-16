@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { createContext, Suspense, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 const CatererSearch=React.lazy(()=>import("./pages/CatererSearch/CatererSearch"));
@@ -9,6 +9,7 @@ const Bill = React.lazy(() => import('./pages/Bill/Bill'));
 const MyOrder = React.lazy(()=> import('./pages/MyOrders/MyOrder'))
 const AppLayout = React.lazy(() => import('./components/AppLayout'));
 
+export const CatererContext=createContext()
 function App() {
   const router = createBrowserRouter([
     {
@@ -75,10 +76,15 @@ function App() {
       ],
     },
   ]);
-
+const [catererId,setCatererId]=useState('')
   return (
     <>
+    <CatererContext.Provider value={{
+      catererId,
+      setCatererId
+    }}>
       <RouterProvider router={router} />
+    </CatererContext.Provider>
     </>
   );
 }
