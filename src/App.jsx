@@ -2,6 +2,7 @@ import React, { createContext, Suspense, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Spinner from "./components/Spinner/Spinner";
+import CreateMenu from "./pages/CreateMenu/CreateMenu";
 const CatererSearch=React.lazy(()=>import("./pages/CatererSearch/CatererSearch"));
 const OrderPage=React.lazy(()=>import("./pages/OrderPage/OrderPage"));
 const HomePage = React.lazy(() => import('./pages/HomePage/HomePage'));
@@ -74,6 +75,14 @@ function App() {
             </Suspense>
           ),
         },
+        {
+          path:'create-menu',
+          element:(
+            <Suspense fallback={<Spinner/>}>
+              <CreateMenu/>
+            </Suspense>
+          )
+        }
       ],
     },
   ]);
