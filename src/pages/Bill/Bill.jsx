@@ -131,6 +131,7 @@ import Accordion from "../../components/Accordion/Accordion";
 import styles from "./Bill.module.css";
 import { CatererContext} from "../../App";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Bill = () => {
   const [cartData, setCartData] = useState([]);
@@ -140,6 +141,8 @@ const Bill = () => {
   const [couponCode, setCouponCode] = useState(""); // State for coupon code
   const [discount, setDiscount] = useState(0); // State for discount
   const { catererId } = useContext(CatererContext);
+  const [deliveryDate,setDeliveryDate]=useState('')
+  const navigate=useNavigate()
 
   useEffect(() => {
     // Retrieve cartData and dishDetails from local storage
@@ -208,16 +211,17 @@ const Bill = () => {
         userId: user?.id || "",
         items: cartItems,
         totalAmount: Number(totalPrice),
-        dishQuantity: dishQuantity||1,
+        dishQuantity: Number(dishQuantity)||1,
         paymentStatus: "Accepted",
         orderDate: new Date().toISOString(),
-        deliveryDate: "2022-01-01T00:00:00.000Z",
+        deliveryDate: deliveryDate,
         status: {
-          id: 0,
-          name: "abhishek"
+          id: 0
         }
       };
+      console.log(myorder)
       await axios.post('http://3.6.41.54/api/orders', myorder);
+      navigate('/my-orders')
     } catch (error) {
       console.error("Order submission failed:", error);
     }
@@ -240,7 +244,7 @@ const Bill = () => {
             <h3>Order Summary:</h3>
             <div className={styles.deliveryDate}>
               <h3>Delivery Date</h3>
-              <input className={styles.deliveryDateInput} type="date" />
+              <input value={deliveryDate} onChange={(e)=>setDeliveryDate(e.target.value)} className={styles.deliveryDateInput} type="date" />
             </div>
             <div className={styles.dishQuantity}>
               <h3>Dish Quantity:</h3>

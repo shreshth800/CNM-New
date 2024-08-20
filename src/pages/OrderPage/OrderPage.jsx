@@ -10,11 +10,11 @@ import CatererSummary from "../../components/CatererSummary/CatererSummary";
 import Map from "../../components/Map/Map";
 import CatererDetails from "../../components/OrderPageCatererDetails/CatererDetails";
 import {  CatererContext, } from "../../App";
+import Spinner from "../../components/Spinner/Spinner";
 
 const OrderPage = () => {
   const {setCatererId}=useContext(CatererContext)
   const { id } = useParams();
-  setCatererId(id)
 
   const [catererData, setCatererData] = useState(null);
 
@@ -33,9 +33,10 @@ const OrderPage = () => {
       fetchCatererData();
     }
   }, [id]);
+  setCatererId(id)
 
   if (!catererData) {
-    return <div>Loading...</div>;
+    return <Spinner/>;
   }
 
   const catererName = catererData.name;

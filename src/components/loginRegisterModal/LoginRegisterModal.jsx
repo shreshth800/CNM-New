@@ -347,7 +347,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./LoginRegisterModal.module.css";
 
-const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
+const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -394,14 +394,15 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
         },
         body: JSON.stringify(loginData),
       });
-
+      console.log(response)
       if (!response.ok) {
         alert("Login Failed");
         throw new Error("Login failed");
       }
 
       const result = await response.json();
-      setFirstName(result.user.firstName);
+      setIsLoggedName(result.user.firstName)
+      setFirstName(result.user.firstName)
       localStorage.setItem("token", result.token);
       localStorage.setItem("refreshToken", result.refreshToken);
       localStorage.setItem("user", JSON.stringify(result.user));
@@ -549,9 +550,10 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
             <div className={styles.formGroup}>
               <label>Confirm Password</label>
               <input
-                type="text"
+                type="password"
                 placeholder="Confirm Password"
                 required
+                value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
