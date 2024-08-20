@@ -348,8 +348,8 @@ import React, { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
 import styles from "./LoginRegisterModal.module.css";
-import Modal from "../Modal/Modal";
 
+const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
 const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -376,6 +376,11 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
+  };
+  const handleOverlayClick = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
   };
   const handleOverlayClick = (event) => {
     if (event.target === event.currentTarget) {
@@ -443,7 +448,7 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
     const registerData = {
       email,
       password,
-      confirmPassword,
+      // confirmPassword,
       phone,
       firstName,
       lastName,
@@ -466,10 +471,11 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
         throw new Error("Registration failed");
       }
 
-      const result = await response.json();
+      // const result = await response.json();
 
-      console.log("Registration successful:", result);
+      // console.log("Registration successful:", result);
       alert("Registration successful");
+      setisLogin(true);
       onClose();
     } catch (error) {
       console.error("Error:", error);
@@ -478,6 +484,11 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
 
   //console.log(user);
   return (
+    <div className={styles.modalOverlay} onClick={handleOverlayClick}>
+      <div className={styles.modalContent}>
+        <button className={styles.closeButton} onClick={onClose}>
+          &times;
+        </button>
     <div className={styles.modalOverlay} onClick={handleOverlayClick}>
       <div className={styles.modalContent}>
         <button className={styles.closeButton} onClick={onClose}>
@@ -620,6 +631,8 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
             </button>
           </form>
         )}
+      </div>
+    </div>
       </div>
     </div>
   );

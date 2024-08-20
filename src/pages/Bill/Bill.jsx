@@ -125,77 +125,44 @@
 
 // Bill.jsx
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./Bill.module.css";
-import emailjs from "@emailjs/browser";
+import { CatererContext } from "../../App";
+import axios from "axios";
 
 const Bill = () => {
   const [cartData, setCartData] = useState([]);
   const [dishDetails, setDishDetails] = useState(null);
-  const [dishQuantity, setDishQuantity] = useState("");
+  const [dishQuantity, setDishQuantity] = useState(""); // Start with an empty string
   const [totalPrice, setTotalPrice] = useState(0);
-  const [couponCode, setCouponCode] = useState("");
-  const [discount, setDiscount] = useState(0);
-
-  const sendEmail = (finalBill) => {
-    const templateParams = {
-      finalBill: JSON.stringify(finalBill, null, 2),
-    };
-
-    emailjs
-      .send(
-        "service_6we88bu",
-        "template_mbg8ctx",
-        templateParams,
-        "IaQUXsw6xhiEuTVdD"
-      )
-      .then((response) => {
-        console.log("Email sent successfully!", response.status, response.text);
-      })
-      .catch((err) => {
-        console.error("Failed to send email. Error: ", err);
-      });
-  };
-
-  const finalBill = () => {
-    const dishes = cartData.map((dish) => dish.name);
-    const nameOfDish = dishDetails.name;
-
-    const finalBill = {
-      name: nameOfDish,
-      dishes: dishes,
-      dishQuantity: dishQuantity,
-      totalPrice: totalPrice,
-      couponCode: couponCode,
-      discount: discount,
-    };
-
-    return finalBill;
-  };
+  const [couponCode, setCouponCode] = useState(""); // State for coupon code
+  const [discount, setDiscount] = useState(0); // State for discount
+  const { catererId } = useContext(CatererContext);
 
   useEffect(() => {
+    // Retrieve cartData and dishDetails from local storage
     const cart = JSON.parse(localStorage.getItem("cartData"));
+    const storedDishDetails = JSON.parse(localStorage.getItem("dishDetails"));
+
     if (cart) {
       setCartData(cart);
     }
-
-    // Retrieve dishDetails from local storage
-    const storedDishDetails = JSON.parse(localStorage.getItem("dishDetails"));
     if (storedDishDetails) {
       setDishDetails(storedDishDetails);
-      setTotalPrice(storedDishDetails.price); // Set initial total price
     }
   }, []);
 
   useEffect(() => {
+    // Calculate prices whenever dishQuantity, dishDetails, cartData, or discount changes
     if (dishDetails && cartData.length > 0) {
       const addOnPrice = cartData.reduce(
         (sum, item) => sum + item.price * item.addon,
         0
       );
       const total = dishDetails.price + addOnPrice;
-      const finalQuantity = dishQuantity === "" ? 1 : dishQuantity;
+      const finalQuantity =
+        dishQuantity === "" ? 1 : parseInt(dishQuantity, 10);
       const discountedTotal = total * finalQuantity * (1 - discount);
       setTotalPrice(discountedTotal);
     }
@@ -207,13 +174,13 @@ const Bill = () => {
       value === "" ||
       (Number(value) > 0 && Number.isInteger(Number(value)))
     ) {
-      setDishQuantity(value);
+      setDishQuantity(value); // Allow empty or valid numbers only
     }
   };
 
   const handleQuantityBlur = () => {
     if (dishQuantity === "" || dishQuantity === "0") {
-      setDishQuantity(1);
+      setDishQuantity(1); // Set to 1 if the field is left empty or contains 0
     }
   };
 
@@ -222,11 +189,43 @@ const Bill = () => {
   };
 
   const handleCouponBlur = () => {
+    // Assume "caterer@10" is the valid coupon code for a 10% discount
     if (couponCode === "caterer@10") {
-      setDiscount(0.1);
+      setDiscount(0.1); // 10% discount
     } else if (couponCode !== "") {
-      setDiscount(0);
+      setDiscount(0); // Invalid coupon, no discount
       alert("Invalid coupon code");
+    }
+  };
+
+  const handleOrder = async () => {
+    try {
+      const dish = await JSON.parse(localStorage.getItem("dishDetails"));
+      const user = await JSON.parse(localStorage.getItem("user"));
+      const cartItems = cartData.map((item) => ({
+        item: item.name,
+        quantity: item.quantity,
+        menuItem: item.dishes,
+      }));
+
+      const myorder = {
+        catererId,
+        dishId: dish?.id || "",
+        userId: user?.id || "",
+        items: cartItems,
+        totalAmount: Number(totalPrice),
+        dishQuantity: dishQuantity || 1,
+        paymentStatus: "Accepted",
+        orderDate: new Date().toISOString(),
+        deliveryDate: "2022-01-01T00:00:00.000Z",
+        status: {
+          id: 0,
+          name: "abhishek",
+        },
+      };
+      await axios.post("http://3.6.41.54/api/orders", myorder);
+    } catch (error) {
+      console.error("Order submission failed:", error);
     }
   };
 
@@ -257,7 +256,7 @@ const Bill = () => {
                 value={dishQuantity}
                 onChange={handleQuantityChange}
                 onBlur={handleQuantityBlur}
-                min={1}
+                min={1} // Prevent entering values less than 1
               />
             </div>
             <div className={styles.addAnItem}>
@@ -275,11 +274,13 @@ const Bill = () => {
             <div className={styles.totalPrice}>
               <h3>
                 Final Per Dish Price:{" "}
-                {dishDetails?.price +
-                  cartData.reduce(
-                    (sum, item) => sum + item.price * item.addon,
-                    0
-                  ) || 0}
+                {dishDetails
+                  ? dishDetails.price +
+                    cartData.reduce(
+                      (sum, item) => sum + item.price * item.addon,
+                      0
+                    )
+                  : 0}
               </h3>
             </div>
             <div className={styles.totalPrice}>
@@ -314,10 +315,7 @@ const Bill = () => {
                 Apply
               </button>
             </div>
-            {/* <button onClick={handleOrderPlace} className={styles.placeOrder}>
-              Place Order
-            </button> */}
-            <button onClick={sendEmail} className={styles.placeOrder}>
+            <button className={styles.placeOrder} onClick={handleOrder}>
               Place Order
             </button>
           </div>

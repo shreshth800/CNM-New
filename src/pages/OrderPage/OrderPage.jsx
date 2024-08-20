@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom"; // Import useParams
 import styles from "./OrderPage.module.css";
 import OrderPageDishes from "../../components/OrderPageDishes/OrderPageDishes";
 import Card from "../../components/Card/Card";
@@ -9,9 +9,13 @@ import Reviews from "../../components/Reviews/Reviews";
 import CatererSummary from "../../components/CatererSummary/CatererSummary";
 import Map from "../../components/Map/Map";
 import CatererDetails from "../../components/OrderPageCatererDetails/CatererDetails";
+import { CatererContext } from "../../App";
 
 const OrderPage = () => {
+  const { setCatererId } = useContext(CatererContext);
   const { id } = useParams();
+  setCatererId(id);
+
   const [catererData, setCatererData] = useState(null);
 
   useEffect(() => {

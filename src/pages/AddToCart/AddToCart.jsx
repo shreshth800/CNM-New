@@ -117,7 +117,6 @@ const AddToCart = () => {
       .find((section) => section.name === selectedCategory)
       ?.items.map((item) => item.items)
       .flat() || [];
-
   return (
     <div className={styles.addtocartContainer}>
       <div className={styles.addtocart}>
@@ -125,6 +124,9 @@ const AddToCart = () => {
           categories={categories}
           selectedCategory={selectedCategory}
           onCategorySelect={handleCategorySelect}
+          storageObject={storageObject}
+          setStorageObject={setStorageObject}
+          initialState={initialState}
         />
         <DishSelection
           dishes={filteredDishes}

@@ -1,0 +1,117 @@
+.myOrderContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5rem;
+    width: 100%;
+  }
+  
+  .orderCard {
+    width:60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border: 0.0625rem solid #ccc;
+    border-radius: 0.625rem;
+    margin-bottom: 1.25rem;
+    transition: box-shadow 0.3s ease;
+    background-color: #fff;
+  }
+  
+  .orderCard:hover {
+    transform: translateY(-5px);
+  }
+
+  .orderDetails{
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .orderUpper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .orderUpperLeft{
+    padding: 0.2rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .orderTitle {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .orderCard p {
+    font-size: 0.9em;
+    color: #666;
+    padding: 0.01rem;
+  }
+  
+  .orderCard ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .orderCard li {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  img{
+    align-self:center;
+    width: 6.25rem;
+    height: 7rem;
+    object-fit:contain;
+    margin-right: 0.5rem; 
+  }
+
+  .orderFooter{
+    margin-top:1rem;
+    display:flex;
+    justify-content:space-between;
+    
+  }
+
+  .orderFooter b{
+    color: #d34627;
+    align-self:center;
+  }
+
+
+
+  .viewButton {
+    background-color: #ff7a45;
+    color: white;
+    border: none;
+    padding: 0.9rem 1.8rem;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+  }
+  
+  .viewButton:hover {
+    background-color: #ff5a2f;
+  } 
+
+ .paymentStatus p{
+  color: #ff7a45;
+ }
+
+
+ p {
+  color: #666;
+ }
+
+ .modalUpper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+ }

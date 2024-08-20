@@ -1,0 +1,30 @@
+.menutable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .menutable th, .menutable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .menutable th {
+    background-color: #f4f4f4;
+  }
+  
+  .menutable tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .menutable tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+  .botn{
+    background-color:#0d6efd;
+    border:none;
+    color:white;
+    padding:12px 17px;
+    border-radius:10px;
+    margin-top:10px;
+  }
