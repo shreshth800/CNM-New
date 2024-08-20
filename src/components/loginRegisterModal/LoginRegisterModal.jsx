@@ -347,11 +347,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./LoginRegisterModal.module.css";
 
-const LoginRegisterModal = ({ isOpen, onClose }) => {
+const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("USER");
@@ -373,7 +372,6 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
-
   const handleOverlayClick = (event) => {
     if (event.target === event.currentTarget) {
       onClose();
@@ -396,17 +394,18 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
         },
         body: JSON.stringify(loginData),
       });
-
+      console.log(response)
       if (!response.ok) {
         alert("Login Failed");
         throw new Error("Login failed");
       }
 
       const result = await response.json();
-
-      sessionStorage.setItem("token", result.token);
-      sessionStorage.setItem("refreshToken", result.refreshToken);
-      sessionStorage.setItem("user", JSON.stringify(result.user));
+      setIsLoggedName(result.user.firstName)
+      setFirstName(result.user.firstName)
+      localStorage.setItem("token", result.token);
+      localStorage.setItem("refreshToken", result.refreshToken);
+      localStorage.setItem("user", JSON.stringify(result.user));
 
       console.log("Login successful:", result);
       alert("Login successful");
@@ -422,7 +421,7 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
     const registerData = {
       email,
       password,
-      confirmPassword,
+      // confirmPassword,
       phone,
       firstName,
       lastName,
@@ -445,10 +444,11 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
         throw new Error("Registration failed");
       }
 
-      const result = await response.json();
+      // const result = await response.json();
 
-      console.log("Registration successful:", result);
+      // console.log("Registration successful:", result);
       alert("Registration successful");
+      setisLogin(true);
       onClose();
     } catch (error) {
       console.error("Error:", error);
@@ -550,9 +550,10 @@ const LoginRegisterModal = ({ isOpen, onClose }) => {
             <div className={styles.formGroup}>
               <label>Confirm Password</label>
               <input
-                type="text"
+                type="password"
                 placeholder="Confirm Password"
                 required
+                value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>

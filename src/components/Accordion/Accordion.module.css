@@ -1,0 +1,137 @@
+.billContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.accordionContainer {
+  width: 100%;
+}
+
+.mainBill {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  width: 100%;
+  gap: 1rem;
+}
+
+.mainHeading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+}
+
+.billRight,
+.billLeft {
+  width: 50%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  height: 100%;
+  padding: 10px;
+}
+
+.detailAccordion {
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.accordionHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordionContent p {
+  margin: 0;
+  margin-top: 10px;
+}
+
+.accordionIcon {
+  cursor: pointer;
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.flip {
+  transform: rotate(180deg);
+}
+
+.hidden {
+  display: none;
+}
+
+.deliveryDateInput,
+.dishQuantityInput,
+.placeOrder {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.placeOrder {
+  background-color: var(--buttonColor);
+  color: white;
+  font-weight: bold;
+}
+
+.couponCode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.couponCodeInput {
+  flex: 1;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.couponButton {
+  background-color: var(--buttonColor);
+  color: white;
+  font-weight: bold;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .mainBill {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .billRight,
+  .billLeft {
+    width: 100%;
+  }
+
+  .billContainer {
+    padding: 10px 5px;
+  }
+}

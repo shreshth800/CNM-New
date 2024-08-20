@@ -1,18 +1,22 @@
-import React, { Suspense } from 'react'
+import React, { createContext, Suspense, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import Spinner from "./components/Spinner/Spinner";
 const CatererSearch=React.lazy(()=>import("./pages/CatererSearch/CatererSearch"));
 const OrderPage=React.lazy(()=>import("./pages/OrderPage/OrderPage"));
 const HomePage = React.lazy(() => import('./pages/HomePage/HomePage'));
 const AddToCart = React.lazy(() => import('./pages/AddToCart/AddToCart'));
 const Bill = React.lazy(() => import('./pages/Bill/Bill'));
+const MyOrder = React.lazy(()=> import('./pages/MyOrders/MyOrder'))
 const AppLayout = React.lazy(() => import('./components/AppLayout'));
 
+export const CatererContext=createContext()
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
-        <Suspense fallback={<div>Loading App Layout...</div>}>
+        <Suspense fallback={<Spinner/>}>
           <AppLayout />
         </Suspense>
       ),
@@ -20,50 +24,68 @@ function App() {
         {
           index: true,
           element: (
-            <Suspense fallback={<div>Loading Home Page...</div>}>
+            <Suspense fallback={<Spinner/>}>
               <HomePage />
             </Suspense>
           ),
         },
         {
-          path: "/caterer-search",
+          path: "/caterer",
           element: (
-            <Suspense fallback={<div>Loading Caterer Search...</div>}>
+            <Suspense fallback={<Spinner/>}>
               <CatererSearch />
             </Suspense>
           ),
         },
         {
-          path: "/order/:id",
+          path: "/caterer/:id",
           element: (
-            <Suspense fallback={<div>Loading Order Page...</div>}>
-              <OrderPage />
-            </Suspense>
+                <Suspense fallback={<Spinner/>}>
+                <OrderPage />
+              </Suspense>
+            
           ),
         },
         {
-          path: "/add-to-cart",
+          path: "/add-to-cart/:dishId",
           element: (
-            <Suspense fallback={<div>Loading Add to Cart...</div>}>
-              <AddToCart />
-            </Suspense>
+            <ProtectedRoute>
+              <Suspense fallback={<Spinner/>}>
+                <AddToCart />
+              </Suspense>
+            </ProtectedRoute>
           ),
         },
         {
           path: "/bill",
           element: (
-            <Suspense fallback={<div>Loading Bill...</div>}>
-              <Bill />
+            <ProtectedRoute>
+              <Suspense fallback={<Spinner/>}>
+                <Bill />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/my-orders",
+          element: (
+            <Suspense fallback={<Spinner/>}>
+              <MyOrder />
             </Suspense>
           ),
         },
       ],
     },
   ]);
-
+const [catererId,setCatererId]=useState('')
   return (
     <>
+    <CatererContext.Provider value={{
+      catererId,
+      setCatererId
+    }}>
       <RouterProvider router={router} />
+    </CatererContext.Provider>
     </>
   );
 }

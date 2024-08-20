@@ -50,7 +50,10 @@
 
 .navLogin,
 .navContact,
-.findCaterers {
+.findCaterers,
+.navProfile,
+.signout,
+.booking{
   cursor: pointer;
 }
 
@@ -78,6 +81,18 @@
 .hamburger {
   display: none;
   cursor: pointer;
+}
+.booking::before {
+  content: "\f518";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-right: 8px;
+}
+.navProfile::before{
+  content:'\f2bd';
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-right: 8px;
 }
 
 .dropdown {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // Import useParams
 import styles from "./OrderPage.module.css";
 import OrderPageDishes from "../../components/OrderPageDishes/OrderPageDishes";
@@ -9,17 +9,19 @@ import Reviews from "../../components/Reviews/Reviews";
 import CatererSummary from "../../components/CatererSummary/CatererSummary";
 import Map from "../../components/Map/Map";
 import CatererDetails from "../../components/OrderPageCatererDetails/CatererDetails";
+import {  CatererContext, } from "../../App";
+import Spinner from "../../components/Spinner/Spinner";
 
 const OrderPage = () => {
-  const { id } = useParams(); // Get the catererId from the URL
+  const {setCatererId}=useContext(CatererContext)
+  const { id } = useParams();
+
   const [catererData, setCatererData] = useState(null);
 
   useEffect(() => {
     const fetchCatererData = async () => {
       try {
-        const response = await fetch(
-          `http://3.6.41.54/api/caterer/${id}` // Use the id from the URL
-        );
+        const response = await fetch(`http://3.6.41.54/api/caterer/${id}`);
         const data = await response.json();
         setCatererData(data);
       } catch (error) {
@@ -30,10 +32,11 @@ const OrderPage = () => {
     if (id) {
       fetchCatererData();
     }
-  }, [id]); // Re-fetch data when id changes
+  }, [id]);
+  setCatererId(id)
 
   if (!catererData) {
-    return <div>Loading...</div>;
+    return <Spinner/>;
   }
 
   const catererName = catererData.name;

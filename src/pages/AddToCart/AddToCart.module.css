@@ -1,27 +1,28 @@
-.addtocartcontainer{
-display: flex;
-flex-direction: column;
-padding: 1rem;
-height: 60%;
-justify-content: space-between;
+.addtocartcontainer {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  justify-content: space-between;
+}
+
+.accordionContainer {
+  width: 40%;
 }
 
 .addtocart {
-    display: flex;
-    padding: 1rem;
-    height: 68vh; 
-  }
-  
-  .previewOrderButton {
-    text-align: right;
-    padding: 1rem;
-  }
+  display: flex;
+  padding: 1rem;
+}
 
-  .previewOrderButton button{
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
+.previewOrderButton {
+  text-align: right;
+  padding: 1rem;
+}
+
+.previewOrderButton button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
