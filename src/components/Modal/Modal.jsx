@@ -1,20 +1,43 @@
-import React from 'react'
-import styles from './Modal.module.css'
+import React, { useEffect } from "react";
+import ReactDOM from "react-dom";
+import Styles from "./Modal.module.css";
 
-export default function Modal({children,onClose}) {
-    const handleOverlayClick = (event) => {
-        if (event.target === event.currentTarget) {
-          onClose();
-        }
-      };
-  return (
-    <div className={styles.modalOverlay} onClick={handleOverlayClick}>
-        <div className={styles.modalContent}>
-        <button className={styles.closeButton} onClick={onClose}>
+const Modal = ({ isOpen, onClose, children }) => {
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  const handleClickOutside = (e) => {
+    if (e.target.className === "modaloverlay") {
+      onClose();
+    }
+  };
+
+  return ReactDOM.createPortal(
+    <div className={Styles.modaloverlay} onClick={handleClickOutside}>
+      <div className={Styles.modalcontent}>
+        <button className={Styles.modalclose} onClick={onClose}>
           &times;
         </button>
-            {children}
-        </div>
-        </div>
-  )
-}
+        {children}
+      </div>
+    </div>,
+    document.body
+  );
+};
+
+export default Modal;

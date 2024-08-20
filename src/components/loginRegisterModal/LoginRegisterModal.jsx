@@ -345,10 +345,12 @@
 // export default LoginRegisterModal;
 
 import React, { useState, useEffect } from "react";
+import useAuth from "../../hooks/useAuth";
+import axios from "../../api/axios";
 import styles from "./LoginRegisterModal.module.css";
 import Modal from "../Modal/Modal";
 
-const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
+const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -356,6 +358,8 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("USER");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const { user, setUser } = useAuth();
 
   useEffect(() => {
     if (isOpen) {
@@ -373,7 +377,11 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
-
+  const handleOverlayClick = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  };
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -384,28 +392,46 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
     };
 
     try {
-      const response = await fetch("http://3.6.41.54/api/auth/email/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      });
+      // const response = await fetch("http://3.6.41.54/api/auth/email/login", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(loginData),
+      // });
 
-      if (!response.ok) {
-        alert("Login Failed");
-        throw new Error("Login failed");
-      }
+      // if (!response.ok) {
+      //   alert("Login Failed");
+      //   throw new Error("Login failed");
+      // }
 
-      const result = await response.json();
-      setFirstName(result.user.firstName)
-      sessionStorage.setItem("token", result.token);
-      sessionStorage.setItem("refreshToken", result.refreshToken);
-      sessionStorage.setItem("user", JSON.stringify(result.user));
+      // const result = await response.json();
 
-      console.log("Login successful:", result);
-      alert("Login successful");
-      onClose();
+      // setFirstName(result.user.firstName)
+      // localStorage.setItem("token", result.token);
+      // localStorage.setItem("refreshToken", result.refreshToken);
+      // localStorage.setItem("user", JSON.stringify(result.user));
+
+      // console.log("Login successful:", result);
+      // alert("Login successful");
+      // onClose();
+
+      const response = await axios.post(
+        "/auth/email/login",
+        JSON.stringify(loginData),
+        {
+          headers: { "Content-Type": "application/json" },
+          // withCredentials: true,
+        }
+      );
+
+      setFirstName(response.data.user.firstName);
+      setUser({ user: response.data.user, token: response.data.token });
+      console.log(response);
+      // localStorage.setItem("token", result.token);
+      // console.log("Login successful:", response.data.user);
+      //localStorage.setItem("refreshToken", result.refreshToken); // Later we need to implement refresh token through useContext as well
+      // localStorage.setItem("user", JSON.stringify(result.user));
     } catch (error) {
       console.error("Error:", error);
     }
@@ -424,7 +450,7 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
       role: role === "USER" ? "2" : "3",
     };
 
-    console.log(registerData);
+    //console.log(registerData);
 
     try {
       const response = await fetch("http://3.6.41.54/api/auth/email/register", {
@@ -450,8 +476,13 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
     }
   };
 
+  //console.log(user);
   return (
-      <Modal onClose={onClose}>
+    <div className={styles.modalOverlay} onClick={handleOverlayClick}>
+      <div className={styles.modalContent}>
+        <button className={styles.closeButton} onClick={onClose}>
+          &times;
+        </button>
         <h2>{isLogin ? "Login" : "Register"}</h2>
         <div className={styles.tabButtons}>
           <button
@@ -589,7 +620,8 @@ const LoginRegisterModal = ({firstName,setFirstName, isOpen, onClose }) => {
             </button>
           </form>
         )}
-      </Modal>
+      </div>
+    </div>
   );
 };
 

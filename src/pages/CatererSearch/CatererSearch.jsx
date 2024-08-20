@@ -48,7 +48,7 @@
 
 // export default CatererSearch;
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useNavigate } from "react-router-dom";
 import styles from "./CatererSearch.module.css";
 import menuImage from "../../assets/caterer/menu1.jpeg";
@@ -62,14 +62,16 @@ const CatererSearch = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
+  const axiosPrivate = useAxiosPrivate();
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCaterers = async () => {
       try {
-        const response = await axios.get("http://3.6.41.54/api/caterer");
+        const response = await axiosPrivate.get("/caterer");
         if (Array.isArray(response.data.data)) {
-          console.log(response.data.data); // Log the data here
+          console.log(response.data.data);
           setCaterers(response.data.data);
           setFilteredCaterers(response.data.data);
         } else {
@@ -83,7 +85,7 @@ const CatererSearch = () => {
   }, []);
 
   const handleDetailClick = (id) => {
-    navigate(`/order/${id}`); // Navigate to OrderPage with the caterer ID as a parameter
+    navigate(`/caterer/${id}`);
   };
 
   const handleFilterAndSort = () => {
@@ -121,7 +123,10 @@ const CatererSearch = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentCaterers = filteredCaterers.slice(indexOfFirstItem, indexOfLastItem);
+  const currentCaterers = filteredCaterers.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -183,7 +188,9 @@ const CatererSearch = () => {
             </div>
           </div>
           <div className={styles.resultsCount}>
-            Showing {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, filteredCaterers.length)} of {filteredCaterers.length} results
+            Showing {indexOfFirstItem + 1} -{" "}
+            {Math.min(indexOfLastItem, filteredCaterers.length)} of{" "}
+            {filteredCaterers.length} results
           </div>
         </div>
         <div className={styles.catererList}>
@@ -206,7 +213,10 @@ const CatererSearch = () => {
                         </div>
                       </div>
                       <div className={styles.catererUpperRight}>
-                        <button className={styles.detailsButton} onClick={() => handleDetailClick(caterer.id)}>
+                        <button
+                          className={styles.detailsButton}
+                          onClick={() => handleDetailClick(caterer.id)}
+                        >
                           Details
                         </button>
                       </div>
@@ -229,7 +239,9 @@ const CatererSearch = () => {
         </div>
         <div className={styles.pagination}>
           <button
-            className={`${styles.pageButton} ${styles.arrowButton} ${currentPage === 1 ? styles.disabled : ''}`}
+            className={`${styles.pageButton} ${styles.arrowButton} ${
+              currentPage === 1 ? styles.disabled : ""
+            }`}
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
@@ -238,14 +250,18 @@ const CatererSearch = () => {
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i + 1}
-              className={`${styles.pageButton} ${currentPage === i + 1 ? styles.active : ''}`}
+              className={`${styles.pageButton} ${
+                currentPage === i + 1 ? styles.active : ""
+              }`}
               onClick={() => handlePageChange(i + 1)}
             >
               {i + 1}
             </button>
           ))}
           <button
-            className={`${styles.pageButton} ${styles.arrowButton} ${currentPage === totalPages ? styles.disabled : ''}`}
+            className={`${styles.pageButton} ${styles.arrowButton} ${
+              currentPage === totalPages ? styles.disabled : ""
+            }`}
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
@@ -258,5 +274,3 @@ const CatererSearch = () => {
 };
 
 export default CatererSearch;
-
-

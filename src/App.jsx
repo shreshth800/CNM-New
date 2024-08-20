@@ -9,6 +9,7 @@ const AddToCart = React.lazy(() => import("./pages/AddToCart/AddToCart"));
 const Bill = React.lazy(() => import("./pages/Bill/Bill"));
 const AppLayout = React.lazy(() => import("./components/AppLayout"));
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import AuthProvider from "./context/AuthProvider";
 const CatererSearch = React.lazy(() =>
   import("./pages/CatererSearch/CatererSearch")
 );
@@ -79,7 +80,9 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </>
   );
 }

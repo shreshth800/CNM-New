@@ -100,6 +100,19 @@ const Header = () => {
 
     document.addEventListener("click", handleClick);
 
+    const handleStorageChange = (event) => {
+      if (event.key === "firstName") {
+        if (event.newValue) {
+          setFirstName(event.newValue);
+        } else {
+          setFirstName("");
+          navigate("/");
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
     return () => {
       document.removeEventListener("click", handleClick);
     };
@@ -109,9 +122,10 @@ const Header = () => {
   const closeModal = () => setIsModalOpen(false);
 
   const handleSignout = () => {
-    sessionStorage.removeItem("refreshToken");
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("firstName");
     setFirstName("");
     navigate("/");
   };
@@ -181,12 +195,19 @@ const Header = () => {
             </li>
           )}
           {firstName && <li className={styles.navProfile}>{firstName}</li>}
-          {firstName && <li className={styles.signout}>SignOut</li>}
+          {firstName && (
+            <li className={styles.signout} onClick={handleSignout}>
+              SignOut
+            </li>
+          )}
         </ul>
       </nav>
       <LoginRegisterModal
         firstName={firstName}
-        setFirstName={setFirstName}
+        setFirstName={(name) => {
+          setFirstName(name);
+          localStorage.setItem("firstName", name);
+        }}
         isOpen={isModalOpen}
         onClose={closeModal}
       />
