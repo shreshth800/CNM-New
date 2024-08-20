@@ -162,7 +162,7 @@ const Bill = () => {
     if (dishDetails && cartData.length > 0) {
       const addOnPrice = cartData.reduce((sum, item) => sum + item.price * item.addon, 0);
       const total = dishDetails.price + addOnPrice;
-      const finalQuantity = dishQuantity === "" ? 1 : dishQuantity;
+      const finalQuantity = dishQuantity === "" ? 1 : parseInt(dishQuantity, 10);
       const discountedTotal = total * finalQuantity * (1 - discount);
       setTotalPrice(discountedTotal);
     }
@@ -253,7 +253,7 @@ const Bill = () => {
                 type="number"
                 value={dishQuantity}
                 onChange={handleQuantityChange}
-                onBlur={handleQuantityBlur} // Ensure a valid value after leaving the input
+                onBlur={handleQuantityBlur}
                 min={1} // Prevent entering values less than 1
               />
             </div>
@@ -264,13 +264,13 @@ const Bill = () => {
               <h3>Add On Item Price: {cartData.reduce((sum, item) => sum + item.price * item.addon, 0)}</h3>
             </div>
             <div className={styles.totalPrice}>
-              <h3>Final Per Dish Price: {dishDetails?.price + cartData.reduce((sum, item) => sum + item.price * item.addon, 0) || 0}</h3>
+              <h3>Final Per Dish Price: {dishDetails ? dishDetails.price + cartData.reduce((sum, item) => sum + item.price * item.addon, 0) : 0}</h3>
             </div>
             <div className={styles.totalPrice}>
               <h3>Final Price: {dishDetails ? (dishDetails.price + cartData.reduce((sum, item) => sum + item.price * item.addon, 0)) * (dishQuantity || 1) : 0}</h3>
             </div>
             <div className={styles.totalPrice}>
-              <h3>Total: {totalPrice.toFixed(2)}</h3> {/* Display the total price with discount */}
+              <h3>Total: {totalPrice.toFixed(2)}</h3>
             </div>
             <div className={styles.couponCode}>
               <input
@@ -279,7 +279,7 @@ const Bill = () => {
                 placeholder="Coupon Code"
                 value={couponCode}
                 onChange={handleCouponChange}
-                onBlur={handleCouponBlur} // Validate the coupon on blur
+                onBlur={handleCouponBlur}
               />
               <button className={styles.couponButton} onClick={handleCouponBlur}>
                 Apply

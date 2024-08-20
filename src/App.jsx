@@ -77,7 +77,7 @@ function App() {
       ],
     },
   ]);
-  const [catererId,setCatererId]=useState('')
+const [catererId,setCatererId]=useState('')
   return (
     <>
     <CatererContext.Provider value={{
@@ -85,7 +85,7 @@ function App() {
       setCatererId
     }}>
       <RouterProvider router={router} />
-      </CatererContext.Provider>
+    </CatererContext.Provider>
     </>
   );
 }

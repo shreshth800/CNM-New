@@ -378,7 +378,6 @@ const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onC
     }
   };
 
-
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
 
@@ -422,6 +421,7 @@ const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onC
     const registerData = {
       email,
       password,
+      // confirmPassword,
       phone,
       firstName,
       lastName,
@@ -444,10 +444,11 @@ const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onC
         throw new Error("Registration failed");
       }
 
-      const result = await response.json();
+      // const result = await response.json();
 
-      console.log("Registration successful:", result);
+      // console.log("Registration successful:", result);
       alert("Registration successful");
+      setisLogin(true);
       onClose();
     } catch (error) {
       console.error("Error:", error);
@@ -456,10 +457,10 @@ const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onC
 
   return (
     <div className={styles.modalOverlay} onClick={handleOverlayClick}>
-    <div className={styles.modalContent}>
-    <button className={styles.closeButton} onClick={onClose}>
-      &times;
-    </button>
+      <div className={styles.modalContent}>
+        <button className={styles.closeButton} onClick={onClose}>
+          &times;
+        </button>
         <h2>{isLogin ? "Login" : "Register"}</h2>
         <div className={styles.tabButtons}>
           <button
@@ -599,7 +600,7 @@ const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onC
           </form>
         )}
       </div>
-      </div>
+    </div>
   );
 };
 

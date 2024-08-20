@@ -13,8 +13,8 @@ import {  CatererContext, } from "../../App";
 import Spinner from "../../components/Spinner/Spinner";
 
 const OrderPage = () => {
-  const { id } = useParams();
   const {setCatererId}=useContext(CatererContext)
+  const { id } = useParams();
 
   const [catererData, setCatererData] = useState(null);
 
