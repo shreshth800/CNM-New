@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
+  const [isLoggedName,setIsLoggedName]=useState('')
   const navigate = useNavigate();
 
   // Retrieve firstName from localStorage when the component mounts
@@ -94,14 +95,14 @@ const Header = () => {
                 >
                   Find Caterers
                 </li>
-                {firstName && <li className={styles.booking}>Bookings</li>}
+                {isLoggedName && <li className={styles.booking}>Bookings</li>}
                 <li className={styles.navContact}>+91 123456789</li>
-                {!firstName && (
+                {!isLoggedName && (
                   <li className={styles.navLogin} onClick={openModal}>
                     Login/Register
                   </li>
                 )}
-                {firstName && (
+                {isLoggedName && (
                   <li className={styles.navProfile}>{firstName}</li>
                 )}
                 {firstName && (
@@ -120,15 +121,15 @@ const Header = () => {
           >
             Find Caterers
           </li>
-          {firstName && <li className={styles.booking} onClick={()=> navigate("/my-orders")}>Bookings</li>}
+          {isLoggedName && <li className={styles.booking} onClick={()=> navigate("/my-orders")}>Bookings</li>}
           <li className={styles.navContact}>+91 123456789</li>
-          {!firstName && (
+          {!isLoggedName && (
             <li className={styles.navLogin} onClick={openModal}>
               Login/Register
             </li>
           )}
-          {firstName && <li className={styles.navProfile}>{firstName}</li>}
-          {firstName && <li className={styles.signout} onClick={handleSignout}>SignOut</li>}
+          {isLoggedName && <li className={styles.navProfile}>{firstName}</li>}
+          {isLoggedName && <li className={styles.signout} onClick={handleSignout}>SignOut</li>}
         </ul>
       </nav>
       <LoginRegisterModal
@@ -137,6 +138,7 @@ const Header = () => {
           setFirstName(name);
           localStorage.setItem("firstName", name); // Store firstName in localStorage
         }}
+        setIsLoggedName={setIsLoggedName}
         isOpen={isModalOpen}
         onClose={closeModal}
       />

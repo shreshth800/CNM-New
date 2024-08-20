@@ -141,6 +141,7 @@ const Bill = () => {
   const [couponCode, setCouponCode] = useState(""); // State for coupon code
   const [discount, setDiscount] = useState(0); // State for discount
   const { catererId } = useContext(CatererContext);
+  const [deliveryDate,setDeliveryDate]=useState('')
   const navigate=useNavigate()
 
   useEffect(() => {
@@ -213,7 +214,7 @@ const Bill = () => {
         dishQuantity: Number(dishQuantity)||1,
         paymentStatus: "Accepted",
         orderDate: new Date().toISOString(),
-        deliveryDate: "2022-01-01T00:00:00.000Z",
+        deliveryDate: deliveryDate,
         status: {
           id: 0
         }
@@ -243,7 +244,7 @@ const Bill = () => {
             <h3>Order Summary:</h3>
             <div className={styles.deliveryDate}>
               <h3>Delivery Date</h3>
-              <input className={styles.deliveryDateInput} type="date" />
+              <input value={deliveryDate} onChange={(e)=>setDeliveryDate(e.target.value)} className={styles.deliveryDateInput} type="date" />
             </div>
             <div className={styles.dishQuantity}>
               <h3>Dish Quantity:</h3>
