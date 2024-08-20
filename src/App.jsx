@@ -1,8 +1,8 @@
 import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-const CatererSearch = React.lazy(() =>
-  import("./pages/CatererSearch/CatererSearch")
-);
+// const CatererSearch = React.lazy(() =>
+//   import("./pages/CatererSearch/CatererSearch")
+// );
 const OrderPage = React.lazy(() => import("./pages/OrderPage/OrderPage"));
 const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
 const AddToCart = React.lazy(() => import("./pages/AddToCart/AddToCart"));
@@ -13,12 +13,12 @@ import AuthProvider from "./context/AuthProvider";
 const CatererSearch = React.lazy(() =>
   import("./pages/CatererSearch/CatererSearch")
 );
-const OrderPage = React.lazy(() => import("./pages/OrderPage/OrderPage"));
-const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
-const AddToCart = React.lazy(() => import("./pages/AddToCart/AddToCart"));
-const Bill = React.lazy(() => import("./pages/Bill/Bill"));
-const MyOrder = React.lazy(() => import("./pages/MyOrders/MyOrder"));
-const AppLayout = React.lazy(() => import("./components/AppLayout"));
+// const OrderPage = React.lazy(() => import("./pages/OrderPage/OrderPage"));
+// const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
+// const AddToCart = React.lazy(() => import("./pages/AddToCart/AddToCart"));
+// const Bill = React.lazy(() => import("./pages/Bill/Bill"));
+// const MyOrder = React.lazy(() => import("./pages/MyOrders/MyOrder"));
+// const AppLayout = React.lazy(() => import("./components/AppLayout"));
 
 function App() {
   const router = createBrowserRouter([
