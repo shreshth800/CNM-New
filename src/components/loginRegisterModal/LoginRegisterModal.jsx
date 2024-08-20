@@ -358,7 +358,8 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
   const [role, setRole] = useState("USER");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { user, setUser } = useAuth();
+  const { setUser } = useAuth();
+  console.log(useAuth());
 
   useEffect(() => {
     if (isOpen) {
@@ -391,45 +392,45 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
     };
 
     try {
-      // const response = await fetch("http://3.6.41.54/api/auth/email/login", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(loginData),
-      // });
+      const response = await fetch("http://3.6.41.54/api/auth/email/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
 
-      // if (!response.ok) {
-      //   alert("Login Failed");
-      //   throw new Error("Login failed");
-      // }
+      if (!response.ok) {
+        alert("Login Failed");
+        throw new Error("Login failed");
+      }
 
-      // const result = await response.json();
+      const result = await response.json();
 
-      // setFirstName(result.user.firstName)
-      // localStorage.setItem("token", result.token);
-      // localStorage.setItem("refreshToken", result.refreshToken);
-      // localStorage.setItem("user", JSON.stringify(result.user));
+      setFirstName(result.user.firstName);
+      localStorage.setItem("token", result.token);
+      localStorage.setItem("refreshToken", result.refreshToken);
+      localStorage.setItem("user", JSON.stringify(result.user));
 
-      // console.log("Login successful:", result);
-      // alert("Login successful");
-      // onClose();
+      console.log("Login successful:", result);
+      alert("Login successful");
+      onClose();
 
-      const response = await axios.post(
-        "/auth/email/login",
-        JSON.stringify(loginData),
-        {
-          headers: { "Content-Type": "application/json" },
-          // withCredentials: true,
-        }
-      );
+      // const response = await axios.post(
+      //   "/auth/email/login",
+      //   JSON.stringify(loginData),
+      //   {
+      //     headers: { "Content-Type": "application/json" },
+      //     // withCredentials: true,
+      //   }
+      // );
 
-      setFirstName(response.data.user.firstName);
-      setUser({ user: response.data.user, token: response.data.token });
-      console.log(response);
+      // setFirstName(response.data.user.firstName);
+      // // setUser({ user: response.data.user, token: response.data.token });
+      // console.log(response);
       // localStorage.setItem("token", result.token);
       // console.log("Login successful:", response.data.user);
-      //localStorage.setItem("refreshToken", result.refreshToken); // Later we need to implement refresh token through useContext as well
+      // localStorage.setItem("refreshToken", result.refreshToken); // Later we need to implement refresh token through useContext as well
       // localStorage.setItem("user", JSON.stringify(result.user));
     } catch (error) {
       console.error("Error:", error);
@@ -469,7 +470,7 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
 
       // console.log("Registration successful:", result);
       alert("Registration successful");
-      setisLogin(true);
+      setIsLogin(true);
       onClose();
     } catch (error) {
       console.error("Error:", error);
