@@ -366,6 +366,7 @@ const LoginRegisterModal = ({
 
   const { setUser } = useAuth();
   console.log(useAuth());
+  console.log(useAuth());
 
   useEffect(() => {
     if (isOpen) {

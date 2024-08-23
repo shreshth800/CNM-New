@@ -91,7 +91,6 @@ const Header = () => {
                 <li
                   className={styles.findCaterers}
                   onClick={() => navigate("caterer")}
-                  onClick={() => navigate("caterer")}
                 >
                   Find Caterers
                 </li>
