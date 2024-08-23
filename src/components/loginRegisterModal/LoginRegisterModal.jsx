@@ -349,7 +349,13 @@ import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
 import styles from "./LoginRegisterModal.module.css";
 
-const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
+const LoginRegisterModal = ({
+  setIsLoggedName,
+  firstName,
+  setFirstName,
+  isOpen,
+  onClose,
+}) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -399,14 +405,14 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
         },
         body: JSON.stringify(loginData),
       });
-
+      console.log(response);
       if (!response.ok) {
         alert("Login Failed");
         throw new Error("Login failed");
       }
 
       const result = await response.json();
-
+      setIsLoggedName(result.user.firstName);
       setFirstName(result.user.firstName);
       localStorage.setItem("token", result.token);
       localStorage.setItem("refreshToken", result.refreshToken);
@@ -484,154 +490,144 @@ const LoginRegisterModal = ({ firstName, setFirstName, isOpen, onClose }) => {
         <button className={styles.closeButton} onClick={onClose}>
           &times;
         </button>
-        <div className={styles.modalOverlay} onClick={handleOverlayClick}>
-          <div className={styles.modalContent}>
-            <button className={styles.closeButton} onClick={onClose}>
-              &times;
-            </button>
-            <h2>{isLogin ? "Login" : "Register"}</h2>
-            <div className={styles.tabButtons}>
-              <button
-                className={`${styles.tabButton} ${
-                  isLogin ? styles.active : ""
-                }`}
-                onClick={() => setIsLogin(true)}
-              >
-                Login
-              </button>
-              <button
-                className={`${styles.tabButton} ${
-                  !isLogin ? styles.active : ""
-                }`}
-                onClick={() => setIsLogin(false)}
-              >
-                Register
-              </button>
-            </div>
-            {isLogin ? (
-              <form onSubmit={handleLoginSubmit}>
-                <div className={styles.formGroup}>
-                  <label>Email address</label>
-                  <input
-                    type="email"
-                    placeholder="Enter email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Password</label>
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <button type="submit" className={styles.submitButton}>
-                  Login
-                </button>
-              </form>
-            ) : (
-              <form
-                className={styles.registrationForm}
-                onSubmit={handleRegisterSubmit}
-              >
-                <div className={styles.formGroup}>
-                  <label>First Name</label>
-                  <input
-                    type="text"
-                    placeholder="Enter First Name"
-                    required
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Last Name</label>
-                  <input
-                    type="text"
-                    placeholder="Enter Last Name"
-                    required
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Email address</label>
-                  <input
-                    type="email"
-                    placeholder="Enter email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Password</label>
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Confirm Password</label>
-                  <input
-                    type="text"
-                    placeholder="Confirm Password"
-                    required
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Phone</label>
-                  <input
-                    type="text"
-                    placeholder="Enter Phone Number"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Role</label>
-                  <div className={styles.radioButton}>
-                    <div>
-                      <input
-                        type="radio"
-                        id="roleUser"
-                        name="role"
-                        value="USER"
-                        checked={role === "USER"}
-                        onChange={handleRoleChange}
-                      />
-                      <label htmlFor="roleUser">User</label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="roleCaterer"
-                        name="role"
-                        value="CATERER"
-                        checked={role === "CATERER"}
-                        onChange={handleRoleChange}
-                      />
-                      <label htmlFor="roleCaterer">Caterer</label>
-                    </div>
-                  </div>
-                </div>
-                <button type="submit" className={styles.submitButton}>
-                  Register
-                </button>
-              </form>
-            )}
-          </div>
+        <h2>{isLogin ? "Login" : "Register"}</h2>
+        <div className={styles.tabButtons}>
+          <button
+            className={`${styles.tabButton} ${isLogin ? styles.active : ""}`}
+            onClick={() => setIsLogin(true)}
+          >
+            Login
+          </button>
+          <button
+            className={`${styles.tabButton} ${!isLogin ? styles.active : ""}`}
+            onClick={() => setIsLogin(false)}
+          >
+            Register
+          </button>
         </div>
+        {isLogin ? (
+          <form onSubmit={handleLoginSubmit}>
+            <div className={styles.formGroup}>
+              <label>Email address</label>
+              <input
+                type="email"
+                placeholder="Enter email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="Password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button type="submit" className={styles.submitButton}>
+              Login
+            </button>
+          </form>
+        ) : (
+          <form
+            className={styles.registrationForm}
+            onSubmit={handleRegisterSubmit}
+          >
+            <div className={styles.formGroup}>
+              <label>First Name</label>
+              <input
+                type="text"
+                placeholder="Enter First Name"
+                required
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Last Name</label>
+              <input
+                type="text"
+                placeholder="Enter Last Name"
+                required
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Email address</label>
+              <input
+                type="email"
+                placeholder="Enter email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="Password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Confirm Password</label>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Phone</label>
+              <input
+                type="text"
+                placeholder="Enter Phone Number"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Role</label>
+              <div className={styles.radioButton}>
+                <div>
+                  <input
+                    type="radio"
+                    id="roleUser"
+                    name="role"
+                    value="USER"
+                    checked={role === "USER"}
+                    onChange={handleRoleChange}
+                  />
+                  <label htmlFor="roleUser">User</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="roleCaterer"
+                    name="role"
+                    value="CATERER"
+                    checked={role === "CATERER"}
+                    onChange={handleRoleChange}
+                  />
+                  <label htmlFor="roleCaterer">Caterer</label>
+                </div>
+              </div>
+            </div>
+            <button type="submit" className={styles.submitButton}>
+              Register
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

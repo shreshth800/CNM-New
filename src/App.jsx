@@ -1,6 +1,8 @@
 import React, { createContext, Suspense, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import Spinner from "./components/Spinner/Spinner";
+import CreateMenu from "./pages/CreateMenu/CreateMenu";
 const CatererSearch = React.lazy(() =>
   import("./pages/CatererSearch/CatererSearch")
 );
@@ -17,7 +19,7 @@ function App() {
     {
       path: "/",
       element: (
-        <Suspense fallback={<div>Loading App Layout...</div>}>
+        <Suspense fallback={<Spinner />}>
           <AppLayout />
         </Suspense>
       ),
@@ -25,7 +27,7 @@ function App() {
         {
           index: true,
           element: (
-            <Suspense fallback={<div>Loading Home Page...</div>}>
+            <Suspense fallback={<Spinner />}>
               <HomePage />
             </Suspense>
           ),
@@ -33,7 +35,7 @@ function App() {
         {
           path: "/caterer",
           element: (
-            <Suspense fallback={<div>Loading Caterer Search...</div>}>
+            <Suspense fallback={<Spinner />}>
               <CatererSearch />
             </Suspense>
           ),
@@ -41,16 +43,16 @@ function App() {
         {
           path: "/caterer/:id",
           element: (
-            <Suspense fallback={<div>Loading Order Page...</div>}>
+            <Suspense fallback={<Spinner />}>
               <OrderPage />
             </Suspense>
           ),
         },
         {
-          path: "/order/:id",
+          path: "/add-to-cart/:dishId",
           element: (
             <ProtectedRoute>
-              <Suspense fallback={<div>Loading Add to Cart...</div>}>
+              <Suspense fallback={<Spinner />}>
                 <AddToCart />
               </Suspense>
             </ProtectedRoute>
@@ -60,7 +62,7 @@ function App() {
           path: "/bill",
           element: (
             <ProtectedRoute>
-              <Suspense fallback={<div>Loading Bill...</div>}>
+              <Suspense fallback={<Spinner />}>
                 <Bill />
               </Suspense>
             </ProtectedRoute>
@@ -69,8 +71,16 @@ function App() {
         {
           path: "/my-orders",
           element: (
-            <Suspense fallback={<div>Loading My Orders...</div>}>
+            <Suspense fallback={<Spinner />}>
               <MyOrder />
+            </Suspense>
+          ),
+        },
+        {
+          path: "create-menu",
+          element: (
+            <Suspense fallback={<Spinner />}>
+              <CreateMenu />
             </Suspense>
           ),
         },

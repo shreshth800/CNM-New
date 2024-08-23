@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import SideBar from "../../components/SideBar/SideBar";
 import DishSelection from "../../components/DishSelection/DishSelection";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./AddToCart.module.css";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { CatererContext } from "../../App";
 
 const AddToCart = () => {
   const [categories, setCategories] = useState([]);
@@ -13,6 +13,8 @@ const AddToCart = () => {
   const [allDishes, setAllDishes] = useState([]);
   const [storageObject, setStorageObject] = useState([]);
   const [initialState, setInitialState] = useState();
+  const { catererId } = useContext(CatererContext);
+  const { dishId } = useParams();
 
   const navigate = useNavigate();
 
@@ -23,6 +25,7 @@ const AddToCart = () => {
       try {
         const menuResponse = await fetch("http://3.6.41.54//api/menus/");
         const menuData = await menuResponse.json();
+        console.log(menuData);
 
         const categoryNames = menuData.data.map((section) => section.name);
         setAllDishes(menuData.data);
@@ -33,13 +36,10 @@ const AddToCart = () => {
         }));
 
         const dishResponse = await fetch(
-          `http://3.6.41.54/api/caterer/666095d61be89c4a23318324`
+          `http://3.6.41.54/api/caterer/${catererId}`
         );
         const dishData = await dishResponse.json();
-
-        const specificDish = dishData.dishes.find(
-          (dish) => dish.id === `${id}`
-        );
+        const specificDish = dishData.dishes.find((dish) => dish.id === dishId);
 
         if (specificDish) {
           const availableCategories = specificDish.items.map(

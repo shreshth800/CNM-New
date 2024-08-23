@@ -4,10 +4,10 @@ import Header from "./Header/Header";
 
 export default function AppLayout(){
     return(
-        <>
+        <main>
         <Header />
         <Outlet/>
       <Footer />
-      </>
+      </main>
     )
  }
