@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
-  const [isLoggedName,setIsLoggedName]=useState('')
+  const [isLoggedName, setIsLoggedName] = useState("");
   const navigate = useNavigate();
 
   // Retrieve firstName from localStorage when the component mounts
@@ -121,15 +121,33 @@ const Header = () => {
           >
             Find Caterers
           </li>
-          {isLoggedName && <li className={styles.booking} onClick={()=> navigate("/my-orders")}>Bookings</li>}
+          {isLoggedName && (
+            <li
+              className={styles.booking}
+              onClick={() => navigate("/my-orders")}
+            >
+              Bookings
+            </li>
+          )}
           <li className={styles.navContact}>+91 123456789</li>
           {!isLoggedName && (
             <li className={styles.navLogin} onClick={openModal}>
               Login/Register
             </li>
           )}
-          {isLoggedName && <li className={styles.navProfile}>{firstName}</li>}
-          {isLoggedName && <li className={styles.signout} onClick={handleSignout}>SignOut</li>}
+          {isLoggedName && (
+            <li
+              onClick={() => navigate("/create-menu")}
+              className={styles.navProfile}
+            >
+              {firstName}
+            </li>
+          )}
+          {isLoggedName && (
+            <li className={styles.signout} onClick={handleSignout}>
+              SignOut
+            </li>
+          )}
         </ul>
       </nav>
       <LoginRegisterModal

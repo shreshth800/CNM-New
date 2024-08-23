@@ -28,7 +28,7 @@
 //             id: 1
 //         }
 //       });
-    
+
 //       const handleChange = (e) => {
 //         const { name, value } = e.target;
 //         if(name=='maximumServingCapacity' || name=='maxPrice'|| name=='minPrice' || name=='mobileNo'){
@@ -43,7 +43,7 @@
 //       const handleChangePin=(e)=>{
 //         setServiceLocat(serviceLocat=>{return({...serviceLocat,PinCode:e.target.value})})
 //       }
-    
+
 //       const handleSubmit =async (e) => {
 //         e.preventDefault();
 //         console.log(formData.cuisinesOffered,formData.cateringType)
@@ -53,9 +53,9 @@
 //         const response=await axios.post('http://3.6.41.54/api/caterer',{...formData})
 //         const result=await response.json()
 //         console.log(result)
-        
+
 //       };
-    
+
 //       return (
 //         <form className={styles.catererForm} onSubmit={handleSubmit}>
 //           <div className={styles.formGroup}>
@@ -80,7 +80,7 @@
 //               required
 //             />
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="address">Address</label>
 //             <input
@@ -92,7 +92,7 @@
 //               required
 //             />
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="mobileNo">Mobile Number</label>
 //             <input
@@ -104,7 +104,7 @@
 //               required
 //             />
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="extraInformation">Extra Information</label>
 //             <textarea
@@ -114,7 +114,7 @@
 //               onChange={handleChange}
 //             />
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="specialistIn">Specialist In</label>
 //             <input
@@ -125,7 +125,7 @@
 //               onChange={handleChange}
 //             />
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="cuisinesOffered">Cuisines Offered</label>
 //             <input
@@ -137,7 +137,7 @@
 //               onChange={handleChange}
 //             />
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="inServiceFrom">In Service From</label>
 //             <input
@@ -148,7 +148,7 @@
 //               onChange={handleChange}
 //             />
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="cateringType">Catering Type</label>
 //             <input
@@ -160,7 +160,7 @@
 //               onChange={handleChange}
 //             />
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="maximumServingCapacity">Maximum Serving Capacity</label>
 //             <input
@@ -171,7 +171,7 @@
 //               onChange={handleChange}
 //             />
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="googleLocation">Google Location</label>
 //             <input
@@ -182,7 +182,7 @@
 //               onChange={handleChange}
 //             />
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="serviceLocation">Service Location</label>
 //             <div className={styles.location}>
@@ -206,7 +206,7 @@
 //             />
 //             </div>
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="maxPrice">Maximum Price</label>
 //             <input
@@ -217,7 +217,7 @@
 //               onChange={handleChange}
 //             />
 //           </div>
-    
+
 //           <div className={styles.formGroup}>
 //             <label htmlFor="minPrice">Minimum Price</label>
 //             <input
@@ -228,57 +228,90 @@
 //               onChange={handleChange}
 //             />
 //           </div>
-    
+
 //           <button type="submit" className={styles.submitButton}>
 //             Submit
 //           </button>
 //         </form>
 //       );
 //     };
-    
 
-import React, { useState } from 'react';
-import styles from './Personal.module.css';
-import axios from 'axios';
+import React, { useState } from "react";
+import styles from "./Personal.module.css";
+import axios from "axios";
 
 export default function Personal() {
-  const [serviceLocat, setServiceLocat] = useState({
-    location: '',
-    PinCode: ''
-  });
+  // const [serviceLocat, setServiceLocat] = useState({
+  //   location: '',
+  //   PinCode: 0 // chagned from string to a number
+  // });
+
+  const [serviceLocat, setServiceLocat] = useState([
+    {
+      location: "",
+      PinCode: 0,
+    },
+  ]); // Changed the type of serviceLocat to an array of objects
 
   const [formData, setFormData] = useState({
-    name: '',
-    gstNo: '',
-    address: '',
-    mobileNo: '',
-    extraInformation: '',
+    name: "",
+    gstNo: "",
+    address: "",
+    mobileNo: 0, // changed from string to number
+    extraInformation: "",
     review: [],
-    specialistIn: '',
-    cuisinesOffered: '',
-    inServiceFrom: '',
+    specialistIn: "",
+    cuisinesOffered: [], // changed from string to array of strings
+    inServiceFrom: "",
     dishes: [],
-    cateringType: '',
-    maximumServingCapacity: '',
-    googleLocation: '45.422999999999999',
+    cateringType: [], //changed from string to array of strings
+    maximumServingCapacity: 0,
+    googleLocation: "45.422999999999999",
     serviceLocation: serviceLocat,
-    maxPrice: '',
-    minPrice: '',
-    eventTypes: [],
-    availability: '',
-    images: '',
+    maxPrice: 0, // changed from string to number
+    minPrice: 0, // changed from string to number
+    // eventTypes: [],
+    // availability: '',
+    // images: '',
     status: {
-      id: 1
-    }
+      id: 1,
+    },
   });
+
+  // {
+  //  "review": ["Review of the restaurant."],
+  //   "extraInformation": "Extra Information about the restaurant.",
+  //   "specialistIn": "Specialist in.",
+  //   "cuisinesOffered": ["Dish1", "Dish2", "Dish3"],
+  //   "inServiceFrom": "2022-09-22T14:30:00.000Z",
+  //   "cateringType": ["veg","nonVeg","jain"],
+  //   "maximumServingCapacity": 10000,
+  //   "maxPrice": 200,
+  //   "minPrice": 500,
+  //   "googleLocation": "45.422999999999999",
+  //   "serviceLocation": [
+  //     {
+  //       "location": "Thane",
+  //       "PinCode": 400601
+  //     }
+  //   ],
+  //   "name": "Shreshth Caterer",
+  //   "gstNo": "GST111100001A",
+  //   "address": "ABC,Mumbai,India",
+  //   "mobileNo": 1234567890,
+  //   "dishes": [],
+  //   "status": {
+  //     "id": 1
+  //   }
+  // }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (
-      name === 'maximumServingCapacity' ||
-      name === 'maxPrice' ||
-      name === 'minPrice' ||
-      name === 'mobileNo'
+      name === "maximumServingCapacity" ||
+      name === "maxPrice" ||
+      name === "minPrice" ||
+      name === "mobileNo"
     ) {
       setFormData({ ...formData, [name]: Number(value) });
       return;
@@ -296,17 +329,17 @@ export default function Personal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    formData.cuisinesOffered = formData.cuisinesOffered.split(',');
-    formData.cateringType = formData.cateringType.split(',');
-    console.log('Form Data:', formData);
-    
+    //formData.cuisinesOffered = formData.cuisinesOffered.split(",");
+    //formData.cateringType = formData.cateringType.split(",");
+    //console.log("Form Data:", formData);
+
     try {
-      const response = await axios.post('http://3.6.41.54/api/caterer', {
-        ...formData
+      const response = await axios.post("http://3.6.41.54/api/caterer", {
+        ...formData,
       });
       console.log(response.data);
     } catch (error) {
-      console.error('Error submitting form', error);
+      console.error("Error submitting form", error);
     }
   };
 
@@ -416,7 +449,7 @@ export default function Personal() {
         />
       </div>
 
-      <div className={styles.formGroup}>
+      {/* <div className={styles.formGroup}>
         <label htmlFor="eventTypes">Event Types</label>
         <input
           type="text"
@@ -426,9 +459,9 @@ export default function Personal() {
           value={formData.eventTypes}
           onChange={handleChange}
         />
-      </div>
+      </div> */}
 
-      <div className={styles.formGroup}>
+      {/* <div className={styles.formGroup}>
         <label htmlFor="availability">Availability</label>
         <input
           type="text"
@@ -438,7 +471,7 @@ export default function Personal() {
           value={formData.availability}
           onChange={handleChange}
         />
-      </div>
+      </div> */}
 
       <div className={styles.formGroup}>
         <label htmlFor="maximumServingCapacity">Maximum Serving Capacity</label>
@@ -506,7 +539,7 @@ export default function Personal() {
         />
       </div>
 
-      <div className={styles.formGroup}>
+      {/* <div className={styles.formGroup}>
         <label htmlFor="images">Images</label>
         <input
           type="file"
@@ -515,7 +548,7 @@ export default function Personal() {
           multiple
           onChange={handleChange}
         />
-      </div>
+      </div> */}
 
       <button type="submit" className={styles.submitButton}>
         Submit
