@@ -356,6 +356,8 @@ const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onC
   const [role, setRole] = useState("USER");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const { setUser } = useAuth();
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
