@@ -10,7 +10,6 @@ const Header = () => {
   const [isLoggedName, setIsLoggedName] = useState("");
   const navigate = useNavigate();
 
-  // Retrieve firstName from localStorage when the component mounts
   useEffect(() => {
     const storedFirstName = localStorage.getItem("firstName");
     if (storedFirstName) {

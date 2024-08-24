@@ -329,9 +329,9 @@ export default function Personal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //formData.cuisinesOffered = formData.cuisinesOffered.split(",");
-    //formData.cateringType = formData.cateringType.split(",");
-    //console.log("Form Data:", formData);
+    formData.cuisinesOffered = formData.cuisinesOffered.split(",");
+    formData.cateringType = formData.cateringType.split(",");
+    console.log("Form Data:", formData);
 
     try {
       const response = await axios.post("http://3.6.41.54/api/caterer", {
