@@ -93,7 +93,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './MenuCreation.module.css';
 
-export default function MenuCreation({ catererId }) {
+export default function MenuCreation({ catererId='66c99247e0d9f79ac822fcf2'}) {
     const [menuName, setMenuName] = useState('');  // Menu Category like "Starter"
     const [menuData, setMenuData] = useState({
         veg: [''],
@@ -129,7 +129,7 @@ export default function MenuCreation({ catererId }) {
                     items: menuData.veg,
                 },
                 {
-                    menuType: 'non-veg',
+                    menuType: 'nonVeg',
                     items: menuData.nonVeg,
                 },
                 {
@@ -143,6 +143,7 @@ export default function MenuCreation({ catererId }) {
         };
 
         try {
+            console.log(payload)
             const response = await axios.post('http://3.6.41.54/Menus', payload);
             console.log('Menu Created:', response.data);
         } catch (error) {
