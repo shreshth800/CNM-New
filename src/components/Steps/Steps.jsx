@@ -29,7 +29,7 @@ export default function Steps({currentStep}) {
         <div className={styles.stepCircle}>{currentStep === 3 ? '3' : '3'}</div>
         <div className={styles.stepLabel}>
           <strong>Final step</strong>
-          <p>Add Custom Pricing</p>
+          <p>Create your Dish</p>
         </div>
         </div>
       

@@ -345,9 +345,17 @@
 // export default LoginRegisterModal;
 
 import React, { useState, useEffect } from "react";
+import useAuth from "../../hooks/useAuth";
+import axios from "../../api/axios";
 import styles from "./LoginRegisterModal.module.css";
 
-const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onClose }) => {
+const LoginRegisterModal = ({
+  setIsLoggedName,
+  firstName,
+  setFirstName,
+  isOpen,
+  onClose,
+}) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -396,15 +404,15 @@ const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onC
         },
         body: JSON.stringify(loginData),
       });
-      console.log(response)
+      console.log(response);
       if (!response.ok) {
         alert("Login Failed");
         throw new Error("Login failed");
       }
 
       const result = await response.json();
-      setIsLoggedName(result.user.firstName)
-      setFirstName(result.user.firstName)
+      setIsLoggedName(result.user.firstName);
+      setFirstName(result.user.firstName);
       localStorage.setItem("token", result.token);
       localStorage.setItem("refreshToken", result.refreshToken);
       localStorage.setItem("user", JSON.stringify(result.user));
@@ -412,6 +420,23 @@ const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onC
       console.log("Login successful:", result);
       alert("Login successful");
       onClose();
+
+      // const response = await axios.post(
+      //   "/auth/email/login",
+      //   JSON.stringify(loginData),
+      //   {
+      //     headers: { "Content-Type": "application/json" },
+      //     // withCredentials: true,
+      //   }
+      // );
+
+      // setFirstName(response.data.user.firstName);
+      // // setUser({ user: response.data.user, token: response.data.token });
+      // console.log(response);
+      // localStorage.setItem("token", result.token);
+      // console.log("Login successful:", response.data.user);
+      // localStorage.setItem("refreshToken", result.refreshToken); // Later we need to implement refresh token through useContext as well
+      // localStorage.setItem("user", JSON.stringify(result.user));
     } catch (error) {
       console.error("Error:", error);
     }
@@ -430,7 +455,7 @@ const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onC
       role: role === "USER" ? "2" : "3",
     };
 
-    console.log(registerData);
+    //console.log(registerData);
 
     try {
       const response = await fetch("http://3.6.41.54/api/auth/email/register", {
@@ -450,13 +475,14 @@ const LoginRegisterModal = ({setIsLoggedName,firstName,setFirstName, isOpen, onC
 
       // console.log("Registration successful:", result);
       alert("Registration successful");
-      setisLogin(true);
+      setIsLogin(true);
       onClose();
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  //console.log(user);
   return (
     <div className={styles.modalOverlay} onClick={handleOverlayClick}>
       <div className={styles.modalContent}>

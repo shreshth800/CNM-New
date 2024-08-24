@@ -12,18 +12,20 @@ const AddToCart = () => {
   const [selectedDishes, setSelectedDishes] = useState([]);
   const [allDishes, setAllDishes] = useState([]);
   const [storageObject, setStorageObject] = useState([]);
-  const [initialState,setInitialState]=useState()
-  const {catererId}=useContext(CatererContext)
-  const {dishId}=useParams()
+  const [initialState, setInitialState] = useState();
+  const { catererId } = useContext(CatererContext);
+  const { dishId } = useParams();
 
   const navigate = useNavigate();
+
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
         const menuResponse = await fetch("http://3.6.41.54//api/menus/");
         const menuData = await menuResponse.json();
-        console.log(menuData)
+        console.log(menuData);
 
         const categoryNames = menuData.data.map((section) => section.name);
         setAllDishes(menuData.data);
@@ -37,20 +39,18 @@ const AddToCart = () => {
           `http://3.6.41.54/api/caterer/${catererId}`
         );
         const dishData = await dishResponse.json();
-        const specificDish = dishData.dishes.find(
-          (dish) => dish.id === dishId
-        );
+        const specificDish = dishData.dishes.find((dish) => dish.id === dishId);
 
         if (specificDish) {
           const availableCategories = specificDish.items.map(
             (item) => item.item
           );
           const finalStorageObject = specificDish.items.map((item) => {
-            const newItem = { ...item,addon:0, name: item.item, dishes: [] };
+            const newItem = { ...item, addon: 0, name: item.item, dishes: [] };
             delete newItem.item;
             return newItem;
           });
-          setInitialState(finalStorageObject)
+          setInitialState(finalStorageObject);
           setStorageObject(finalStorageObject);
 
           setCategories(availableCategories);
@@ -81,11 +81,9 @@ const AddToCart = () => {
             isSelected &&
             categoryData.dishes.length < categoryData.quantity
           ) {
-            // Add dish if under the limit
             const updatedDishes = [...categoryData.dishes, dish];
             return { ...categoryData, dishes: updatedDishes };
           } else if (!isSelected) {
-            // Remove dish if unselected
             const updatedDishes = categoryData.dishes.filter((d) => d !== dish);
             return { ...categoryData, dishes: updatedDishes };
           }
@@ -94,15 +92,14 @@ const AddToCart = () => {
       });
     });
   };
-  function handlePreview(){
-    const totalQuantity=storageObject.map(item=>{
-      return item.quantity===item.dishes.length?true:false
-    })
-    if(totalQuantity.includes(false)){
-      alert('select the proper number of items')
-    }
-    else{
-      navigate('/bill')
+  function handlePreview() {
+    const totalQuantity = storageObject.map((item) => {
+      return item.quantity === item.dishes.length ? true : false;
+    });
+    if (totalQuantity.includes(false)) {
+      alert("select the proper number of items");
+    } else {
+      navigate("/bill");
     }
   }
 
@@ -145,7 +142,7 @@ const AddToCart = () => {
       <div className={styles.previewOrderButton}>
         <button
           onClick={() => {
-            handlePreview()
+            handlePreview();
           }}
         >
           Preview Order

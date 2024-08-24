@@ -125,11 +125,10 @@
 
 // Bill.jsx
 
-
 import React, { useContext, useEffect, useState } from "react";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./Bill.module.css";
-import { CatererContext} from "../../App";
+import { CatererContext } from "../../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -141,8 +140,8 @@ const Bill = () => {
   const [couponCode, setCouponCode] = useState(""); // State for coupon code
   const [discount, setDiscount] = useState(0); // State for discount
   const { catererId } = useContext(CatererContext);
-  const [deliveryDate,setDeliveryDate]=useState('')
-  const navigate=useNavigate()
+  const [deliveryDate, setDeliveryDate] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Retrieve cartData and dishDetails from local storage
@@ -160,9 +159,13 @@ const Bill = () => {
   useEffect(() => {
     // Calculate prices whenever dishQuantity, dishDetails, cartData, or discount changes
     if (dishDetails && cartData.length > 0) {
-      const addOnPrice = cartData.reduce((sum, item) => sum + item.price * item.addon, 0);
+      const addOnPrice = cartData.reduce(
+        (sum, item) => sum + item.price * item.addon,
+        0
+      );
       const total = dishDetails.price + addOnPrice;
-      const finalQuantity = dishQuantity === "" ? 1 : parseInt(dishQuantity, 10);
+      const finalQuantity =
+        dishQuantity === "" ? 1 : parseInt(dishQuantity, 10);
       const discountedTotal = total * finalQuantity * (1 - discount);
       setTotalPrice(discountedTotal);
     }
@@ -170,7 +173,10 @@ const Bill = () => {
 
   const handleQuantityChange = (e) => {
     const value = e.target.value;
-    if (value === "" || (Number(value) > 0 && Number.isInteger(Number(value)))) {
+    if (
+      value === "" ||
+      (Number(value) > 0 && Number.isInteger(Number(value)))
+    ) {
       setDishQuantity(value); // Allow empty or valid numbers only
     }
   };
@@ -197,9 +203,9 @@ const Bill = () => {
 
   const handleOrder = async () => {
     try {
-      const dish =await JSON.parse(localStorage.getItem("dishDetails"));
-      const user =await JSON.parse(localStorage.getItem("user"));
-      const cartItems = cartData.map(item => ({
+      const dish = await JSON.parse(localStorage.getItem("dishDetails"));
+      const user = await JSON.parse(localStorage.getItem("user"));
+      const cartItems = cartData.map((item) => ({
         item: item.name,
         quantity: item.quantity,
         menuItem: item.dishes,
@@ -211,17 +217,17 @@ const Bill = () => {
         userId: user?.id || "",
         items: cartItems,
         totalAmount: Number(totalPrice),
-        dishQuantity: Number(dishQuantity)||1,
+        dishQuantity: Number(dishQuantity) || 1,
         paymentStatus: "Accepted",
         orderDate: new Date().toISOString(),
         deliveryDate: deliveryDate,
         status: {
-          id: 0
-        }
+          id: 0,
+        },
       };
-      console.log(myorder)
-      await axios.post('http://3.6.41.54/api/orders', myorder);
-      navigate('/my-orders')
+      console.log(myorder);
+      await axios.post("http://3.6.41.54/api/orders", myorder);
+      navigate("/my-orders");
     } catch (error) {
       console.error("Order submission failed:", error);
     }
@@ -237,14 +243,19 @@ const Bill = () => {
           <div className={styles.leftHeading}>
             <h3>Dish Details:</h3>
           </div>
-          <Accordion data={cartData} /> {/* Pass cartData to Accordion */}
+          <Accordion data={cartData} />
         </div>
         <div className={styles.billRight}>
           <div className={styles.rightHeading}>
             <h3>Order Summary:</h3>
             <div className={styles.deliveryDate}>
               <h3>Delivery Date</h3>
-              <input value={deliveryDate} onChange={(e)=>setDeliveryDate(e.target.value)} className={styles.deliveryDateInput} type="date" />
+              <input
+                value={deliveryDate}
+                onChange={(e) => setDeliveryDate(e.target.value)}
+                className={styles.deliveryDateInput}
+                type="date"
+              />
             </div>
             <div className={styles.dishQuantity}>
               <h3>Dish Quantity:</h3>
@@ -261,13 +272,38 @@ const Bill = () => {
               <h3>Dish Price: {dishDetails?.price || 0}</h3>
             </div>
             <div className={styles.totalPrice}>
-              <h3>Add On Item Price: {cartData.reduce((sum, item) => sum + item.price * item.addon, 0)}</h3>
+              <h3>
+                Add On Item Price:{" "}
+                {cartData.reduce(
+                  (sum, item) => sum + item.price * item.addon,
+                  0
+                )}
+              </h3>
             </div>
             <div className={styles.totalPrice}>
-              <h3>Final Per Dish Price: {dishDetails ? dishDetails.price + cartData.reduce((sum, item) => sum + item.price * item.addon, 0) : 0}</h3>
+              <h3>
+                Final Per Dish Price:{" "}
+                {dishDetails
+                  ? dishDetails.price +
+                    cartData.reduce(
+                      (sum, item) => sum + item.price * item.addon,
+                      0
+                    )
+                  : 0}
+              </h3>
             </div>
             <div className={styles.totalPrice}>
-              <h3>Final Price: {dishDetails ? (dishDetails.price + cartData.reduce((sum, item) => sum + item.price * item.addon, 0)) * (dishQuantity || 1) : 0}</h3>
+              <h3>
+                Final Price:{" "}
+                {dishDetails
+                  ? (dishDetails.price +
+                      cartData.reduce(
+                        (sum, item) => sum + item.price * item.addon,
+                        0
+                      )) *
+                    (dishQuantity || 1)
+                  : 0}
+              </h3>
             </div>
             <div className={styles.totalPrice}>
               <h3>Total: {totalPrice.toFixed(2)}</h3>
@@ -281,11 +317,16 @@ const Bill = () => {
                 onChange={handleCouponChange}
                 onBlur={handleCouponBlur}
               />
-              <button className={styles.couponButton} onClick={handleCouponBlur}>
+              <button
+                className={styles.couponButton}
+                onClick={handleCouponBlur}
+              >
                 Apply
               </button>
             </div>
-            <button className={styles.placeOrder} onClick={handleOrder}>Place Order</button>
+            <button className={styles.placeOrder} onClick={handleOrder}>
+              Place Order
+            </button>
           </div>
         </div>
       </div>

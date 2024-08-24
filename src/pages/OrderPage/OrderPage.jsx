@@ -9,7 +9,7 @@ import Reviews from "../../components/Reviews/Reviews";
 import CatererSummary from "../../components/CatererSummary/CatererSummary";
 import Map from "../../components/Map/Map";
 import CatererDetails from "../../components/OrderPageCatererDetails/CatererDetails";
-import {  CatererContext, } from "../../App";
+import { CatererContext } from "../../App";
 import Spinner from "../../components/Spinner/Spinner";
 
 const OrderPage = () => {
@@ -38,7 +38,7 @@ const OrderPage = () => {
   }
 
   if (!catererData) {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
   const catererName = catererData.name;

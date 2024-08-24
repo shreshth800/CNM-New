@@ -86,8 +86,17 @@ export default function CreateMenu() {
 
   return (
     <div>
-        <Steps currentStep={currentStep}/>
-        <Personal/>
+      <Steps currentStep={currentStep} />
+      {renderStepContent()}
+
+      <div className={Styles.navigationButtons}>
+        <button onClick={prevStep} disabled={currentStep === 1}>
+          Previous
+        </button>
+        <button onClick={nextStep} disabled={currentStep === 3}>
+          Next
+        </button>
+      </div>
     </div>
-  )
+  );
 }

@@ -7,10 +7,9 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
-  const [isLoggedName,setIsLoggedName]=useState('')
+  const [isLoggedName, setIsLoggedName] = useState("");
   const navigate = useNavigate();
 
-  // Retrieve firstName from localStorage when the component mounts
   useEffect(() => {
     const storedFirstName = localStorage.getItem("firstName");
     if (storedFirstName) {
@@ -39,13 +38,12 @@ const Header = () => {
 
     document.addEventListener("click", handleClick);
 
-    // Listen for changes in localStorage (e.g., login or logout in another tab)
     const handleStorageChange = (event) => {
       if (event.key === "firstName") {
         if (event.newValue) {
-          setFirstName(event.newValue); // User has logged in
+          setFirstName(event.newValue);
         } else {
-          setFirstName(""); // User has logged out
+          setFirstName("");
           navigate("/");
         }
       }
@@ -66,7 +64,7 @@ const Header = () => {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    localStorage.removeItem("firstName"); // Clear firstName from localStorage
+    localStorage.removeItem("firstName");
     setFirstName("");
     navigate("/");
   };
@@ -121,22 +119,40 @@ const Header = () => {
           >
             Find Caterers
           </li>
-          {isLoggedName && <li className={styles.booking} onClick={()=> navigate("/my-orders")}>Bookings</li>}
+          {isLoggedName && (
+            <li
+              className={styles.booking}
+              onClick={() => navigate("/my-orders")}
+            >
+              Bookings
+            </li>
+          )}
           <li className={styles.navContact}>+91 123456789</li>
           {!isLoggedName && (
             <li className={styles.navLogin} onClick={openModal}>
               Login/Register
             </li>
           )}
-          {isLoggedName && <li className={styles.navProfile}>{firstName}</li>}
-          {isLoggedName && <li className={styles.signout} onClick={handleSignout}>SignOut</li>}
+          {isLoggedName && (
+            <li
+              onClick={() => navigate("/create-menu")}
+              className={styles.navProfile}
+            >
+              {firstName}
+            </li>
+          )}
+          {isLoggedName && (
+            <li className={styles.signout} onClick={handleSignout}>
+              SignOut
+            </li>
+          )}
         </ul>
       </nav>
       <LoginRegisterModal
         firstName={firstName}
         setFirstName={(name) => {
           setFirstName(name);
-          localStorage.setItem("firstName", name); // Store firstName in localStorage
+          localStorage.setItem("firstName", name);
         }}
         setIsLoggedName={setIsLoggedName}
         isOpen={isModalOpen}

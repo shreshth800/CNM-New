@@ -26,3 +26,15 @@
   border: none;
   cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+  .addtocart {
+    flex-direction: column;
+  }
+  .accordionContainer {
+    width: 100%;
+  }
+  .sidebar {
+    width: 100%;
+  }
+}
