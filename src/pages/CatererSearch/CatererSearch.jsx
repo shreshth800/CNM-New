@@ -21,6 +21,7 @@ const CatererSearch = () => {
     const fetchCaterers = async () => {
       try {
         const response = await axiosPrivate.get("/caterer");
+        console.log(response)
         if (Array.isArray(response.data.data)) {
           console.log(response.data.data);
           setCaterers(response.data.data);

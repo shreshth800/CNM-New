@@ -104,7 +104,7 @@ export default function MenuCreation() {
     });  // Store dishes for each menuType
 
     if(!catererId){
-        setCatererId(localStorage.getItem('catererData'))
+        setCatererId(JSON.parse(localStorage.getItem('catererData')))
     }
 
     const handleAddItem = (menuType) => {
@@ -128,7 +128,7 @@ export default function MenuCreation() {
 
         const payload = {
             name: menuName,
-            catererId: catererId,
+            catererId: JSON.parse(catererId),
             items: [
                 {
                     menuType: 'veg',
