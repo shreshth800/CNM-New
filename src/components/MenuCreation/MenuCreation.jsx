@@ -95,17 +95,14 @@ import styles from './MenuCreation.module.css';
 import { CatererContext } from '../../App';
 
 export default function MenuCreation() {
-    const {catererId,setCatererId}=useContext(CatererContext)
+    const {catererId}=useContext(CatererContext)
     const [menuName, setMenuName] = useState('');  // Menu Category like "Starter"
     const [menuData, setMenuData] = useState({
         veg: [''],
         nonVeg: [''],
         jain: [''],
-    });  // Store dishes for each menuType
-
-    if(!catererId){
-        setCatererId(localStorage.getItem('catererData'))
-    }
+    }); 
+    
 
     const handleAddItem = (menuType) => {
         setMenuData({
@@ -125,7 +122,6 @@ export default function MenuCreation() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const payload = {
             name: menuName,
             catererId:catererId,
@@ -150,7 +146,7 @@ export default function MenuCreation() {
 
         try {
             console.log(payload)
-            const response = await axios.post('http://3.6.41.54/api/Menus', payload);
+            const response = await axios.post('http://3.6.41.54/api/menus', payload);
             console.log('Menu Created:', response.data);
         } catch (error) {
             console.error('Error creating menu:', error);

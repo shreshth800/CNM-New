@@ -236,7 +236,7 @@
 //       );
 //     };
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./Personal.module.css";
 import axios from "axios";
 import { CatererContext } from "../../App";
@@ -321,6 +321,11 @@ export default function Personal() {
     }
     setFormData({ ...formData, [name]: value });
   };
+  useEffect(()=>{
+  const storage=localStorage.getItem('catererData')
+  if(catererId==='' && storage){
+    setCatererId(JSON.parse(localStorage.getItem('catererData')))
+  }},[])
 
   const handleChangeLoc = (e) => {
     setServiceLocat({ ...serviceLocat, location: e.target.value });

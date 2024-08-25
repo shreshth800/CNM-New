@@ -5,13 +5,10 @@ import { CatererContext } from '../../App'
 const category=['VEG','NON-VEG','JAIN']
 
 export default function CreateDish() {
-  const { catererId, setCatererId } = useContext(CatererContext);
+  const { catererId} = useContext(CatererContext);
   const [packages, setPackages] = useState([{ name: '', price: 0, dishType: '', items: [{ id: '', item: '', price: 0, quantity: '' }] }]);
   const [catererDish, setCatererDish] = useState([]);
 
-  if (!catererId) {
-    setCatererId(JSON.parse(localStorage.getItem('catererData')));
-  }
 
   useEffect(() => {
     async function getMenu() {
@@ -65,11 +62,15 @@ export default function CreateDish() {
     e.preventDefault();
   
     try {
-
       const response = await axios.get(`http://3.6.41.54/api/caterer/${catererId}`);
-      const caterer = response.data;
-  
-      const updatedPackage = packages.map(pkg => ({ ...pkg, catererId }));
+      const caterersdish = response.data;
+      let caterer;
+      if(caterersdish.dishes){
+        caterer={...caterersdish,dishes:caterersdish.dishes.map(dish=>{return({...dish,_id:dish.id})})}
+      }
+
+      
+      const updatedPackage = packages.map(pkg => ({ ...pkg,catererId:catererId}));
       console.log(updatedPackage);
   
 
@@ -90,7 +91,7 @@ export default function CreateDish() {
         newCaterer={dishes:[...results]}
       }
       console.log(newCaterer)
-      
+
       const updateCaterer=await axios.patch(`http://3.6.41.54/api/caterer/${catererId}`,newCaterer)
       console.log(updateCaterer)
   
