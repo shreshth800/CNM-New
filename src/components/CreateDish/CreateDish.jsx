@@ -71,7 +71,6 @@ export default function CreateDish() {
 
       
       const updatedPackage = packages.map(pkg => ({ ...pkg,catererId:catererId}));
-      console.log(updatedPackage);
   
 
       const results = await Promise.all(
@@ -81,11 +80,8 @@ export default function CreateDish() {
           return { ...dishD, _id: dishD.id };
         })
       );
-
-      console.log(results); 
-
       let newCaterer
-      if(caterer.dishes){
+      if(caterer?.dishes){
         newCaterer={dishes:[...caterer.dishes,...results]}
       }else{
         newCaterer={dishes:[...results]}

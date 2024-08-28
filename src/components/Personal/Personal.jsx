@@ -321,11 +321,12 @@ export default function Personal() {
     }
     setFormData({ ...formData, [name]: value });
   };
-  useEffect(()=>{
-  const storage=localStorage.getItem('catererData')
-  if(catererId==='' && storage){
-    setCatererId(JSON.parse(localStorage.getItem('catererData')))
-  }},[])
+  useEffect(() => {
+    const storage = localStorage.getItem('catererData');
+    if (catererId === '' && storage) {
+      setCatererId(JSON.parse(storage));
+    }
+  }, [catererId]);
 
   const handleChangeLoc = (e) => {
     setServiceLocat({ ...serviceLocat, location: e.target.value });
@@ -346,9 +347,7 @@ export default function Personal() {
         ...formData,
       });
       console.log(response.data);
-      if(!catererId){
-        setCatererId(response.data.id)
-      }
+      setCatererId(response.data.id)
       localStorage.setItem('catererData',JSON.stringify(response.data.id))
     } catch (error) {
       console.error("Error submitting form", error);
