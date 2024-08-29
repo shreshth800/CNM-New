@@ -1,24 +1,42 @@
-// import React, { useContext, useEffect, useState } from 'react'
-// import styles from './CreateDish.module.css'
-// import axios from 'axios'
-// import { CatererContext } from '../../App'
-// const category=['VEG','NON-VEG','JAIN']
+// import React, { useContext, useEffect, useState } from 'react';
+// import styles from './CreateDish.module.css';
+// import axios from 'axios';
+// import { CatererContext } from '../../App';
 
 // export default function CreateDish() {
-//   const { catererId} = useContext(CatererContext);
+//   const { catererId } = useContext(CatererContext);
 //   const [packages, setPackages] = useState([{ name: '', price: 0, dishType: '', items: [{ id: '', item: '', price: 0, quantity: '' }] }]);
 //   const [catererDish, setCatererDish] = useState([]);
+//   const [categoryType, setCategoryType] = useState([]); // To store fetched catering types
 
+//   // Fetch the menu data based on catererId
 //   useEffect(() => {
 //     async function getMenu() {
-//       const response = await fetch('http://3.6.41.54/api/Menus?limit=100000');
-//       const data = await response.json();
-//       const catererData = data.data.filter(dish => dish.catererId === catererId);
-//       setCatererDish(catererData);
+//       try {
+//         const response = await fetch('http://3.6.41.54/api/Menus?limit=100000');
+//         const data = await response.json();
+//         const catererData = data.data.filter(dish => dish.catererId === catererId);
+//         setCatererDish(catererData);
+//       } catch (error) {
+//         console.error('Error fetching menu data:', error);
+//       }
 //     }
 //     getMenu();
 //   }, [catererId]);
 
+//   // Fetch the catering types based on catererId
+//   useEffect(() => {
+//     async function fetchCateringTypes() {
+//       try {
+//         const response = await axios.get(`http://3.6.41.54/api/caterer/${catererId}`);
+//         const cateringData = response.data;
+//         setCategoryType(cateringData.cateringType || []);
+//       } catch (error) {
+//         console.error('Error fetching catering types:', error);
+//       }
+//     }
+//     fetchCateringTypes();
+//   }, [catererId]);
 
 //   const handlePackageChange = (index, event) => {
 //     const updatedPackages = [...packages];
@@ -94,7 +112,6 @@
 //       console.error('Error submitting form:', error);
 //     }
 //   }
-  
 
 //   return (
 //     <>
@@ -128,7 +145,7 @@
 //                 onChange={(event) => handlePackageChange(pkgIndex, event)}
 //               >
 //                 <option value="" disabled>Select type</option>
-//                 {category.map((category, index) => (
+//                 {categoryType.map((category, index) => (
 //                   <option key={index} value={category}>
 //                     {category}
 //                   </option>
@@ -193,6 +210,7 @@
 //   );
 // }
 
+
 import React, { useContext, useEffect, useState } from 'react';
 import styles from './CreateDish.module.css';
 import axios from 'axios';
@@ -204,7 +222,7 @@ export default function CreateDish() {
   const [catererDish, setCatererDish] = useState([]);
   const [categoryType, setCategoryType] = useState([]); // To store fetched catering types
 
-  // Fetch the menu data based on catererId
+  // Fetch  menu data based on catererId
   useEffect(() => {
     async function getMenu() {
       try {
@@ -219,7 +237,7 @@ export default function CreateDish() {
     getMenu();
   }, [catererId]);
 
-  // Fetch the catering types based on catererId
+  // Fetch catering types based on catererId
   useEffect(() => {
     async function fetchCateringTypes() {
       try {
@@ -281,10 +299,8 @@ export default function CreateDish() {
         caterer={...caterersdish,dishes:caterersdish.dishes.map(dish=>{return({...dish,_id:dish.id})})}
       }
 
-      
-      const updatedPackage = packages.map(pkg => ({ ...pkg,catererId:catererId}));
+      const updatedPackage = packages.map(pkg => ({ ...pkg, catererId }));
   
-
       const results = await Promise.all(
         updatedPackage.map(async pkg => {
           const dishes = await axios.post(`http://3.6.41.54/api/dishes`, pkg);
@@ -292,19 +308,21 @@ export default function CreateDish() {
           return { ...dishD, _id: dishD.id };
         })
       );
-      let newCaterer
+      let newCaterer;
       if(caterer?.dishes){
-        newCaterer={dishes:[...caterer.dishes,...results]}
-      }else{
-        newCaterer={dishes:[...results]}
+        newCaterer={dishes:[...caterer.dishes,...results]};
+      } else {
+        newCaterer={dishes:[...results]};
       }
-      console.log(newCaterer)
 
-      const updateCaterer=await axios.patch(`http://3.6.41.54/api/caterer/${catererId}`,newCaterer)
-      console.log(updateCaterer)
+      await axios.patch(`http://3.6.41.54/api/caterer/${catererId}`, newCaterer);
+
+      // Show alert box on successful submission
+      alert('Packages submitted successfully!');
   
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('There was an error submitting the packages. Please try again.');
     }
   }
 
