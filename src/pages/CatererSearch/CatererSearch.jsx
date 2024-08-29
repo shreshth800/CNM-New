@@ -37,7 +37,7 @@ const CatererSearch = () => {
   }, []);
 
   const handleDetailClick = (id) => {
-    navigate(`/caterer/${id}`); // Navigate to OrderPage with the caterer ID as a parameter
+    navigate(`/caterer/${id}`);
   };
 
   const handleFilterAndSort = () => {

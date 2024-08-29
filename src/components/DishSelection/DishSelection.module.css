@@ -5,6 +5,12 @@
 
 .dishItem {
   margin: 10px 0;
+  display: -webkit-box;
+  gap: 10px;
+  /* display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; */
 }
 
 @media screen and (max-width: 768px) {
