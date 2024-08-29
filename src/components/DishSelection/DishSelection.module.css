@@ -5,6 +5,8 @@
 
 .dishItem {
   margin: 10px 0;
+  display: -webkit-box;
+  gap: 10px;
 }
 
 @media screen and (max-width: 768px) {

@@ -53,3 +53,15 @@
 .menuTypeGroup button:hover{
     background-color: #ccc;
 }
+
+.addMenuButton{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    margin-top: 10px;
+    color: white;
+    font-weight: bold;
+    width: 25%;
+}
