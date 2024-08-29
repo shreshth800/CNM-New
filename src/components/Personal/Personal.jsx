@@ -331,7 +331,6 @@
 //   );
 // }
 
-
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./Personal.module.css";
 import axios from "axios";
@@ -358,7 +357,7 @@ export default function Personal() {
     specialistIn: "",
     cuisinesOffered: [],
     inServiceFrom: "",
-    cateringType: [], // This will now hold selected catering types
+    cateringType: [],
     maximumServingCapacity: 0,
     googleLocation: "45.422999999999999",
     serviceLocation: serviceLocat,
@@ -400,9 +399,7 @@ export default function Personal() {
     } else {
       setFormData((prevState) => ({
         ...prevState,
-        cateringType: prevState.cateringType.filter(
-          (type) => type !== value
-        ),
+        cateringType: prevState.cateringType.filter((type) => type !== value),
       }));
     }
   };
@@ -435,7 +432,6 @@ export default function Personal() {
 
   return (
     <form className={styles.catererForm} onSubmit={handleSubmit}>
-      {/* Existing form fields */}
       <div className={styles.formGroup}>
         <label htmlFor="gstNo">GST Number</label>
         <input
@@ -528,33 +524,24 @@ export default function Personal() {
         />
       </div>
 
-      {/* Catering Type Checkboxes */}
       <div className={styles.formGroup}>
         <label>Catering Type</label>
-        <label>
-          <input
-            type="checkbox"
-            value="veg"
-            onChange={handleCheckboxChange}
-          />{" "}
-          Veg
-        </label>
-        <label>
+        <div className={styles.checkboxGroup}>
+          <input type="checkbox" value="veg" onChange={handleCheckboxChange} />{" "}
+          <label>Veg</label>
+        </div>
+        <div className={styles.checkboxGroup}>
           <input
             type="checkbox"
             value="nonVeg"
             onChange={handleCheckboxChange}
           />{" "}
-          Non-Veg
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="jain"
-            onChange={handleCheckboxChange}
-          />{" "}
-          Jain
-        </label>
+          <label htmlFor="">Non Veg</label>
+        </div>
+        <div className={styles.checkboxGroup}>
+          <input type="checkbox" value="jain" onChange={handleCheckboxChange} />{" "}
+          <label htmlFor="">Jain</label>
+        </div>
       </div>
 
       <div className={styles.formGroup}>
