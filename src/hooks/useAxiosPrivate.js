@@ -1,18 +1,15 @@
 import { axiosPrivate } from "../api/axios";
 import { useEffect } from "react";
 import useAuth from "../hooks/useAuth";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthProvider";
-
 const useAxiosPrivate = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
-          console.log(user?.token);
+          // console.log(user?.token);
           config.headers["Authorization"] = `Bearer ${user?.token}`;
         }
         return config;

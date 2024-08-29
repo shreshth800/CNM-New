@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Spinner from "./components/Spinner/Spinner";
 import CreateMenu from "./pages/CreateMenu/CreateMenu";
+import AuthProvider from "./context/AuthProvider";
 const CatererSearch = React.lazy(() =>
   import("./pages/CatererSearch/CatererSearch")
 );
@@ -14,6 +15,7 @@ const MyOrder = React.lazy(() => import("./pages/MyOrders/MyOrder"));
 const AppLayout = React.lazy(() => import("./components/AppLayout"));
 
 export const CatererContext = createContext();
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -90,14 +92,16 @@ function App() {
   const [catererId, setCatererId] = useState("");
   return (
     <>
-      <CatererContext.Provider
-        value={{
-          catererId,
-          setCatererId,
-        }}
-      >
-        <RouterProvider router={router} />
-      </CatererContext.Provider>
+      <AuthProvider>
+        <CatererContext.Provider
+          value={{
+            catererId,
+            setCatererId,
+          }}
+        >
+          <RouterProvider router={router} />
+        </CatererContext.Provider>
+      </AuthProvider>
     </>
   );
 }

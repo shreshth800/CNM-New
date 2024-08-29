@@ -24,15 +24,20 @@ function LeftArrow() {
 }
 
 const HowItWorks = () => {
-  const [width,setWidth]=useState(window.innerWidth)
-  const resizeWidth=()=>{
-    setWidth(window.innerWidth)
-  }
-  useEffect(function(){
-    window.addEventListener('rezise',resizeWidth)
-    return()=>{window.removeEventListener('rezise',resizeWidth)}
-  },[width])
-  console.log(width)
+  const [width, setWidth] = useState(window.innerWidth);
+  const resizeWidth = () => {
+    setWidth(window.innerWidth);
+  };
+  useEffect(
+    function () {
+      window.addEventListener("rezise", resizeWidth);
+      return () => {
+        window.removeEventListener("rezise", resizeWidth);
+      };
+    },
+    [width]
+  );
+  // console.log(width)
   const steps = [
     { id: 1, title: "Search", icon: searchIcon },
     { id: 2, title: "Discover", icon: discoverIcon },
@@ -56,11 +61,11 @@ const HowItWorks = () => {
               <img src={step.icon} alt={`${step.title} icon`} />
               <div className={styles.stepNumber}>{step.id}</div>
             </div>
-            {width>1330 && (index < steps.length - 1 && (
+            {width > 1330 && index < steps.length - 1 && (
               <div className={styles.connector}>
                 {index % 2 === 0 ? <RightArrow /> : <LeftArrow />}
               </div>
-            ))}
+            )}
             <h3>{step.title}</h3>
           </div>
         ))}

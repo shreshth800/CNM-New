@@ -431,12 +431,12 @@ const LoginRegisterModal = ({
       // );
 
       // setFirstName(response.data.user.firstName);
-      // // setUser({ user: response.data.user, token: response.data.token });
-      // console.log(response);
-      // localStorage.setItem("token", result.token);
+      // setUser({ user: response.data.user, token: response.data.token });
+      // // console.log(response);
+      // localStorage.setItem("token", response.token);
       // console.log("Login successful:", response.data.user);
-      // localStorage.setItem("refreshToken", result.refreshToken); // Later we need to implement refresh token through useContext as well
-      // localStorage.setItem("user", JSON.stringify(result.user));
+      // localStorage.setItem("refreshToken", response.refreshToken); // Later we need to implement refresh token through useContext as well
+      // localStorage.setItem("user", JSON.stringify(response.user));
     } catch (error) {
       console.error("Error:", error);
     }
