@@ -129,22 +129,22 @@ import React, { useContext, useEffect, useState } from "react";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./Bill.module.css";
 import { CatererContext } from "../../App";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const Bill = () => {
+  const axiosPrivate = useAxiosPrivate();
   const [cartData, setCartData] = useState([]);
   const [dishDetails, setDishDetails] = useState(null);
-  const [dishQuantity, setDishQuantity] = useState(""); // Start with an empty string
+  const [dishQuantity, setDishQuantity] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
-  const [couponCode, setCouponCode] = useState(""); // State for coupon code
-  const [discount, setDiscount] = useState(0); // State for discount
+  const [couponCode, setCouponCode] = useState("");
+  const [discount, setDiscount] = useState(0);
   const { catererId } = useContext(CatererContext);
   const [deliveryDate, setDeliveryDate] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Retrieve cartData and dishDetails from local storage
     const cart = JSON.parse(localStorage.getItem("cartData"));
     const storedDishDetails = JSON.parse(localStorage.getItem("dishDetails"));
 
@@ -157,7 +157,6 @@ const Bill = () => {
   }, []);
 
   useEffect(() => {
-    // Calculate prices whenever dishQuantity, dishDetails, cartData, or discount changes
     if (dishDetails && cartData.length > 0) {
       const addOnPrice = cartData.reduce(
         (sum, item) => sum + item.price * item.addon,
@@ -177,13 +176,13 @@ const Bill = () => {
       value === "" ||
       (Number(value) > 0 && Number.isInteger(Number(value)))
     ) {
-      setDishQuantity(value); // Allow empty or valid numbers only
+      setDishQuantity(value);
     }
   };
 
   const handleQuantityBlur = () => {
     if (dishQuantity === "" || dishQuantity === "0") {
-      setDishQuantity(1); // Set to 1 if the field is left empty or contains 0
+      setDishQuantity(1);
     }
   };
 
@@ -192,19 +191,18 @@ const Bill = () => {
   };
 
   const handleCouponBlur = () => {
-    // Assume "caterer@10" is the valid coupon code for a 10% discount
     if (couponCode === "caterer@10") {
-      setDiscount(0.1); // 10% discount
+      setDiscount(0.1);
     } else if (couponCode !== "") {
-      setDiscount(0); // Invalid coupon, no discount
+      setDiscount(0);
       alert("Invalid coupon code");
     }
   };
 
   const handleOrder = async () => {
     try {
-      const dish = await JSON.parse(localStorage.getItem("dishDetails"));
-      const user = await JSON.parse(localStorage.getItem("user"));
+      const dish = JSON.parse(localStorage.getItem("dishDetails"));
+      const user = JSON.parse(localStorage.getItem("user"));
       const cartItems = cartData.map((item) => ({
         item: item.name,
         quantity: item.quantity,
@@ -226,7 +224,12 @@ const Bill = () => {
         },
       };
       console.log(myorder);
-      await axios.post("http://3.6.41.54/api/orders", myorder);
+
+      const response = await axiosPrivate.post(
+        "http://3.6.41.54/api/orders",
+        myorder
+      );
+      // console.log(response);
       navigate("/my-orders");
     } catch (error) {
       console.error("Order submission failed:", error);
@@ -265,7 +268,7 @@ const Bill = () => {
                 value={dishQuantity}
                 onChange={handleQuantityChange}
                 onBlur={handleQuantityBlur}
-                min={1} // Prevent entering values less than 1
+                min={1}
               />
             </div>
             <div className={styles.addAnItem}>

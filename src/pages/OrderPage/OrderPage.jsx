@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Import useParams
+import { useParams } from "react-router-dom";
 import styles from "./OrderPage.module.css";
 import OrderPageDishes from "../../components/OrderPageDishes/OrderPageDishes";
 import Card from "../../components/Card/Card";
@@ -11,19 +11,33 @@ import Map from "../../components/Map/Map";
 import CatererDetails from "../../components/OrderPageCatererDetails/CatererDetails";
 import { CatererContext } from "../../App";
 import Spinner from "../../components/Spinner/Spinner";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const OrderPage = () => {
-  const { setCatererId,catererId } = useContext(CatererContext);
+  const axiosPrivate = useAxiosPrivate();
+  const { setCatererId, catererId } = useContext(CatererContext);
   const { id } = useParams();
 
   const [catererData, setCatererData] = useState(null);
 
   useEffect(() => {
     const fetchCatererData = async () => {
+      // try {
+      //   const response = await fetch(`http://3.6.41.54/api/caterer/${id}`);
+      //   const data = await response.json();
+      //   setCatererData(data);
+      // } catch (error) {
+      //   console.error("Error fetching caterer data:", error);
+      // }
       try {
-        const response = await fetch(`http://3.6.41.54/api/caterer/${id}`);
-        const data = await response.json();
-        setCatererData(data);
+        const response = await axiosPrivate.get(
+          `http://3.6.41.54/api/caterer/${id}`
+        );
+        if (response.data) {
+          setCatererData(response.data);
+        } else {
+          console.error("API response is empty or not as expected:", response);
+        }
       } catch (error) {
         console.error("Error fetching caterer data:", error);
       }
@@ -33,7 +47,7 @@ const OrderPage = () => {
       fetchCatererData();
     }
   }, [id]);
-  if(!catererId){
+  if (!catererId) {
     setCatererId(id);
   }
 

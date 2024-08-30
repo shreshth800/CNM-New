@@ -25,7 +25,7 @@ const AddToCart = () => {
       try {
         const menuResponse = await fetch("http://3.6.41.54//api/menus/");
         const menuData = await menuResponse.json();
-        console.log(menuData);
+        // console.log(menuData);
 
         const categoryNames = menuData.data.map((section) => section.name);
         setAllDishes(menuData.data);
@@ -39,7 +39,9 @@ const AddToCart = () => {
           `http://3.6.41.54/api/caterer/${catererId}`
         );
         const dishData = await dishResponse.json();
+        console.log(dishData);
         const specificDish = dishData.dishes.find((dish) => dish.id === dishId);
+        console.log(specificDish);
 
         if (specificDish) {
           const availableCategories = specificDish.items.map(

@@ -21,9 +21,9 @@ const CatererSearch = () => {
     const fetchCaterers = async () => {
       try {
         const response = await axiosPrivate.get("/caterer");
-        console.log(response)
+        // console.log(response)
         if (Array.isArray(response.data.data)) {
-          console.log(response.data.data);
+          // console.log(response.data.data);
           setCaterers(response.data.data);
           setFilteredCaterers(response.data.data);
         } else {
@@ -37,7 +37,7 @@ const CatererSearch = () => {
   }, []);
 
   const handleDetailClick = (id) => {
-    navigate(`/caterer/${id}`); // Navigate to OrderPage with the caterer ID as a parameter
+    navigate(`/caterer/${id}`);
   };
 
   const handleFilterAndSort = () => {
