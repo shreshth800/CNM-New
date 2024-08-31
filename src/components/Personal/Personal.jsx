@@ -429,6 +429,49 @@ export default function Personal() {
       console.error("Error submitting form", error);
     }
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const catererid=JSON.parse(localStorage.getItem('catererData'))
+        const response = await axios.get(`http://3.6.41.54/api/caterer/${catererid}`);
+        const {
+          name,
+          gstNo,
+          address,
+          mobileNo,
+          extraInformation,
+          maxPrice,
+          minPrice,
+          cateringType,
+          inServiceFrom,
+          cuisinesOffered,
+          specialistIn,
+          dishes
+        } = response.data;
+  
+        setFormData(prev => ({
+          ...prev,
+          name,
+          gstNo,
+          address,
+          mobileNo,
+          extraInformation,
+          maxPrice,
+          minPrice,
+          cateringType,
+          inServiceFrom,
+          cuisinesOffered,
+          specialistIn,
+          dishes
+        }));
+      } catch (error) {
+        console.error("Error fetching caterer data:", error);
+      }
+    };
+  
+    fetchData();
+  }, [catererId]);
+  
 
   return (
     <form className={styles.catererForm} onSubmit={handleSubmit}>
