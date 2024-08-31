@@ -1,21 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./Header.module.css";
 import CNMLogo from "../../assets/CNMLogo-NoBG.png";
 import LoginRegisterModal from "../loginRegisterModal/LoginRegisterModal";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { CatererContext } from "../../App";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
-  const [isLoggedName, setIsLoggedName] = useState("");
+  const [isLoggedName, setIsLoggedName] = useState(false);
+  const {isCaterer,setIsCaterer}=useContext(CatererContext)
   const navigate = useNavigate();
   const { setUser } = useAuth();
+  useEffect(()=>{
+    const user=JSON.parse(localStorage.getItem('user'))
+    if(user){
+      if(user.role.id==3){
+      setIsCaterer(true)
+      }
+    }
+  },[])
 
   useEffect(() => {
     const storedFirstName = localStorage.getItem("firstName");
     if (storedFirstName) {
       setFirstName(storedFirstName);
+      setIsLoggedName(true); 
     }
 
     const handleClick = (e) => {
@@ -44,8 +55,10 @@ const Header = () => {
       if (event.key === "firstName") {
         if (event.newValue) {
           setFirstName(event.newValue);
+          setIsLoggedName(true);
         } else {
           setFirstName("");
+          setIsLoggedName(false);
           navigate("/");
         }
       }
@@ -57,7 +70,7 @@ const Header = () => {
       document.removeEventListener("click", handleClick);
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, [navigate]);
+  }, [navigate,setIsCaterer]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -67,8 +80,10 @@ const Header = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("firstName");
+    setIsCaterer(false)
     setUser({});
     setFirstName("");
+    setIsLoggedName(false);  // Reset isLoggedName on signout
     navigate("/");
   };
 
@@ -90,12 +105,12 @@ const Header = () => {
             </button>
             <div className={styles.dropdownMenu}>
               <ul className={styles.navLinks}>
-                <li
+                {!isCaterer && <li
                   className={styles.findCaterers}
                   onClick={() => navigate("caterer")}
                 >
                   Find Caterers
-                </li>
+                </li>}
                 {isLoggedName && <li className={styles.booking}>Bookings</li>}
                 <li className={styles.navContact}>+91 123456789</li>
                 {!isLoggedName && (
@@ -106,7 +121,7 @@ const Header = () => {
                 {isLoggedName && (
                   <li className={styles.navProfile}>{firstName}</li>
                 )}
-                {firstName && (
+                {isLoggedName && (
                   <li onClick={handleSignout} className={styles.signout}>
                     SignOut
                   </li>
@@ -116,12 +131,12 @@ const Header = () => {
           </div>
         </div>
         <ul className={`${styles.navLinks} ${styles.rowUl}`}>
-          <li
+          {!isCaterer && <li
             className={styles.findCaterers}
             onClick={() => navigate("caterer")}
           >
             Find Caterers
-          </li>
+          </li>}
           {isLoggedName && (
             <li
               className={styles.booking}
@@ -155,6 +170,7 @@ const Header = () => {
         firstName={firstName}
         setFirstName={(name) => {
           setFirstName(name);
+          setIsLoggedName(true);
           localStorage.setItem("firstName", name);
         }}
         setIsLoggedName={setIsLoggedName}
