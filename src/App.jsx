@@ -4,6 +4,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Spinner from "./components/Spinner/Spinner";
 import CreateMenu from "./pages/CreateMenu/CreateMenu";
 import AuthProvider from "./context/AuthProvider";
+import CatererDashboard from "./pages/CatererDashboard/CatererDashboard";
 const CatererSearch = React.lazy(() =>
   import("./pages/CatererSearch/CatererSearch")
 );
@@ -41,6 +42,10 @@ function App() {
               <CatererSearch />
             </Suspense>
           ),
+        },
+        {
+          path: "/catererDashboard",
+          element: <CatererDashboard />,
         },
         {
           path: "/caterer/:id",

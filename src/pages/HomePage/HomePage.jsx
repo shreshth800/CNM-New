@@ -4,9 +4,19 @@ import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
 import Ourspeciality from "../../components/Ourspeciality/Ourspeciality";
 import Gallery from "../../components/Gallery/Gallery";
 import useAuth from "../../hooks/useAuth";
+import CatererDashboard from "../CatererDashboard/CatererDashboard";
+
 const HomePage = () => {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
+
+  if (user.user) {
+    if (user.user.role && user.user.role.id === "3") {
+      return <CatererDashboard />;
+    }
+  }
+
   console.log(user);
+
   return (
     <>
       <AboutUsSection />

@@ -3,12 +3,14 @@ import styles from "./Header.module.css";
 import CNMLogo from "../../assets/CNMLogo-NoBG.png";
 import LoginRegisterModal from "../loginRegisterModal/LoginRegisterModal";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [isLoggedName, setIsLoggedName] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   useEffect(() => {
     const storedFirstName = localStorage.getItem("firstName");
@@ -65,6 +67,7 @@ const Header = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("firstName");
+    setUser({});
     setFirstName("");
     navigate("/");
   };

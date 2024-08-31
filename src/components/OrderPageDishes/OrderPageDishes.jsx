@@ -28,8 +28,14 @@ const OrderPageDishes = ({ dishes }) => {
                 alt="dish image"
               />
             </div>
-            <span className={dish.isVeg ? styles.veg : styles.nonVeg}>
-              {dish.isVeg ? "Veg" : "Non-Veg"}
+            <span
+              className={
+                dish.dishType.toLowerCase() === "veg"
+                  ? styles.veg
+                  : styles.nonVeg
+              }
+            >
+              {dish.dishType.toLowerCase() === "veg" ? "Veg" : "Non-Veg"}
             </span>
             <h3>{dish.price}</h3>
             <p>{dish.name}</p>

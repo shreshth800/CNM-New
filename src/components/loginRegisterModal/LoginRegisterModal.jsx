@@ -416,6 +416,7 @@ const LoginRegisterModal = ({
       localStorage.setItem("token", result.token);
       localStorage.setItem("refreshToken", result.refreshToken);
       localStorage.setItem("user", JSON.stringify(result.user));
+      setUser({ user: result.user, token: result.token });
 
       console.log("Login successful:", result);
       alert("Login successful");

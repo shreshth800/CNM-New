@@ -25,7 +25,7 @@ const AddToCart = () => {
       try {
         const menuResponse = await fetch("http://3.6.41.54//api/menus/");
         const menuData = await menuResponse.json();
-        // console.log(menuData);
+        console.log(menuData);
 
         const categoryNames = menuData.data.map((section) => section.name);
         setAllDishes(menuData.data);
