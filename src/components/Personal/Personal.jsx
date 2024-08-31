@@ -423,6 +423,11 @@ export default function Personal() {
       });
       console.log(response.data);
       setCatererId(response.data.id);
+      const userObj = JSON.parse(localStorage.getItem("user"))
+      const userId= userObj.id;
+
+      const catererIdSet = await axios.patch(`http://3.6.41.54/api/users/${userId}`,{"catererId":response.data.id});
+      console.log(catererIdSet);
       localStorage.setItem("catererData", JSON.stringify(response.data.id));
       alert("Caterer registered successfully!");
     } catch (error) {
