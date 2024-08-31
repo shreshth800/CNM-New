@@ -337,7 +337,11 @@ import axios from "axios";
 import { CatererContext } from "../../App";
 
 export default function Personal() {
-  const { catererId, setCatererId } = useContext(CatererContext);
+  const {catererId,setCatererId}=useContext(CatererContext)
+  // const [serviceLocat, setServiceLocat] = useState({
+  //   location: '',
+  //   PinCode: 0 // chagned from string to a number
+  // });
 
   const [serviceLocat, setServiceLocat] = useState([
     {
@@ -353,7 +357,7 @@ export default function Personal() {
     mobileNo: 0,
     extraInformation: "",
     review: [],
-    dishes: [],
+    dishes:[],
     specialistIn: "",
     cuisinesOffered: [],
     inServiceFrom: "",
@@ -425,6 +429,10 @@ export default function Personal() {
       setCatererId(response.data.id);
       localStorage.setItem("catererData", JSON.stringify(response.data.id));
       alert("Caterer registered successfully!");
+      if(!catererId){
+        setCatererId(response.data.id)
+      }
+      localStorage.setItem('catererData',JSON.stringify(response.data.id))
     } catch (error) {
       console.error("Error submitting form", error);
     }

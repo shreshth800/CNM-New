@@ -365,9 +365,8 @@ const LoginRegisterModal = ({
   const [confirmPassword, setConfirmPassword] = useState(""); // State for confirm password input (registration)
   const {setIsCaterer}=useContext(CatererContext)
 
-  const { setUser } = useAuth(); // Custom hook to manage authentication state
+  const { setUser } = useAuth();
 
-  // Handle body scroll based on modal open state
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
