@@ -14,6 +14,7 @@ const AddToCart = React.lazy(() => import("./pages/AddToCart/AddToCart"));
 const Bill = React.lazy(() => import("./pages/Bill/Bill"));
 const MyOrder = React.lazy(() => import("./pages/MyOrders/MyOrder"));
 const AppLayout = React.lazy(() => import("./components/AppLayout"));
+// const AddToCart2 = React.lazy(() => import("./pages/AddToCart2/AddToCart2"));
 
 export const CatererContext = createContext();
 
@@ -65,6 +66,14 @@ function App() {
             </ProtectedRoute>
           ),
         },
+        // {
+        //   path: "/add-to-cart2/:dishId",
+        //   element: (
+        //     <Suspense fallback={<Spinner />}>
+        //       <AddToCart2 />
+        //     </Suspense>
+        //   ),
+        // },
         {
           path: "/bill",
           element: (
