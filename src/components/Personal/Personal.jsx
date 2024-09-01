@@ -394,6 +394,11 @@ export default function Personal() {
       setCatererId(JSON.parse(storage));
     }
   }, [catererId]);
+  const user=JSON.parse(localStorage.getItem('user'))
+  if(user){
+    const catererId=user.catererId
+    setCatererId(catererId)
+  }
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
