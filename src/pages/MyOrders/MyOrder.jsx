@@ -142,7 +142,7 @@ const MyOrder = () => {
 
   return (
     <div className={styles.myOrderContainer}>
-      {orders.map((order) => (
+      {orders?.map((order) => (
         <div key={order.id} className={styles.orderCard}>
           <div className={styles.orderDetails}>
             <div className={styles.orderUpper}>

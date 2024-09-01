@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './MenuCreation.module.css';
 import { CatererContext } from '../../App';
+import { toastMessage } from '../../../utility';
 
 export default function MenuCreation() {
     const { catererId } = useContext(CatererContext);
@@ -96,13 +97,13 @@ export default function MenuCreation() {
             const allMenusCreated = results.every(status => status);
     
             if (allMenusCreated) {
-                alert('All menus created successfully!');
+                toastMessage('All menus created successfully!');
             } else {
-                alert('Some menus failed to create. Please try again.');
+                toastMessage('Some menus failed to create. Please try again.');
             }
         } catch (error) {
             console.error('Error creating menu:', error);
-            alert('Error creating menu. Please try again.');
+            toastMessage('Error creating menu. Please try again.');
         }
     };
     

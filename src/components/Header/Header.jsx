@@ -5,6 +5,7 @@ import LoginRegisterModal from "../loginRegisterModal/LoginRegisterModal";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { CatererContext } from "../../App";
+import { toastMessage } from "../../../utility";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -83,8 +84,9 @@ const Header = () => {
     setIsCaterer(false)
     setUser({});
     setFirstName("");
-    setIsLoggedName(false);  // Reset isLoggedName on signout
+    setIsLoggedName(false); 
     navigate("/");
+    toastMessage('Signed Out!')
   };
 
   return (
