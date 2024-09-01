@@ -344,10 +344,10 @@
 
 // export default LoginRegisterModal;
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import useAuth from "../../hooks/useAuth";
-import axios from "../../api/axios";
 import styles from "./LoginRegisterModal.module.css";
+import { CatererContext } from "../../App";
 
 const LoginRegisterModal = ({
   setIsLoggedName,
@@ -356,13 +356,14 @@ const LoginRegisterModal = ({
   isOpen,
   onClose,
 }) => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("USER");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLogin, setIsLogin] = useState(true); // State to toggle between login and register
+  const [email, setEmail] = useState(""); // State for email input
+  const [password, setPassword] = useState(""); // State for password input
+  const [lastName, setLastName] = useState(""); // State for last name input (registration)
+  const [phone, setPhone] = useState(""); // State for phone input (registration)
+  const [role, setRole] = useState("USER"); // State to select between User or Caterer role
+  const [confirmPassword, setConfirmPassword] = useState(""); // State for confirm password input (registration)
+  const {setIsCaterer}=useContext(CatererContext)
 
   const { setUser } = useAuth();
 
@@ -377,17 +378,21 @@ const LoginRegisterModal = ({
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  if (!isOpen) return null; // If modal is not open, return null to prevent rendering
 
+  // Handle role change between User and Caterer
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
+
+  // Handle click outside of modal content to close modal
   const handleOverlayClick = (event) => {
     if (event.target === event.currentTarget) {
       onClose();
     }
   };
 
+  // Handle login form submission
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
 
@@ -404,59 +409,45 @@ const LoginRegisterModal = ({
         },
         body: JSON.stringify(loginData),
       });
-      console.log(response);
+
       if (!response.ok) {
         alert("Login Failed");
         throw new Error("Login failed");
       }
 
       const result = await response.json();
-      setIsLoggedName(result.user.firstName);
+      setIsLoggedName(true); // Set the logged-in user's first name
       setFirstName(result.user.firstName);
-      localStorage.setItem("token", result.token);
+      localStorage.setItem("token", result.token); // Store tokens and user data in localStorage
       localStorage.setItem("refreshToken", result.refreshToken);
       localStorage.setItem("user", JSON.stringify(result.user));
-      setUser({ user: result.user, token: result.token });
+      setUser({ user: result.user, token: result.token }); // Set user state
 
-      console.log("Login successful:", result);
       alert("Login successful");
-      onClose();
-
-      // const response = await axios.post(
-      //   "/auth/email/login",
-      //   JSON.stringify(loginData),
-      //   {
-      //     headers: { "Content-Type": "application/json" },
-      //     // withCredentials: true,
-      //   }
-      // );
-
-      // setFirstName(response.data.user.firstName);
-      // setUser({ user: response.data.user, token: response.data.token });
-      // // console.log(response);
-      // localStorage.setItem("token", response.token);
-      // console.log("Login successful:", response.data.user);
-      // localStorage.setItem("refreshToken", response.refreshToken); // Later we need to implement refresh token through useContext as well
-      // localStorage.setItem("user", JSON.stringify(response.user));
+      setIsCaterer(true)
+      onClose(); // Close the modal
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  // Handle registration form submission
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
 
     const registerData = {
       email,
       password,
-      // confirmPassword,
       phone,
       firstName,
       lastName,
-      role: role === "USER" ? "2" : "3",
+      role: role === "USER" ? "2" : "3", // Set role based on selection
     };
-
-    //console.log(registerData);
 
     try {
       const response = await fetch("http://3.6.41.54/api/auth/email/register", {
@@ -472,18 +463,14 @@ const LoginRegisterModal = ({
         throw new Error("Registration failed");
       }
 
-      // const result = await response.json();
-
-      // console.log("Registration successful:", result);
       alert("Registration successful");
-      setIsLogin(true);
+      setIsLogin(true); // Switch to login mode after successful registration
       onClose();
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  //console.log(user);
   return (
     <div className={styles.modalOverlay} onClick={handleOverlayClick}>
       <div className={styles.modalContent}>
@@ -634,3 +621,4 @@ const LoginRegisterModal = ({
 };
 
 export default LoginRegisterModal;
+

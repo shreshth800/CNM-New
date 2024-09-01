@@ -104,6 +104,7 @@ function App() {
     },
   ]);
   const [catererId, setCatererId] = useState("");
+  const [isCaterer,setIsCaterer]=useState(false)
   return (
     <>
       <AuthProvider>
@@ -111,6 +112,8 @@ function App() {
           value={{
             catererId,
             setCatererId,
+            isCaterer,
+            setIsCaterer
           }}
         >
           <RouterProvider router={router} />
