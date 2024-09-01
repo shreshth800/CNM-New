@@ -1,0 +1,40 @@
+.addtocartcontainer {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  justify-content: space-between;
+}
+
+.accordionContainer {
+  width: 40%;
+}
+
+.addtocart {
+  display: flex;
+  padding: 1rem;
+}
+
+.previewOrderButton {
+  text-align: right;
+  padding: 1rem;
+}
+
+.previewOrderButton button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .addtocart {
+    flex-direction: column;
+  }
+  .accordionContainer {
+    width: 100%;
+  }
+  .sidebar {
+    width: 100%;
+  }
+}
