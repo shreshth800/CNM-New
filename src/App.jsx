@@ -1,4 +1,5 @@
 import React, { createContext, Suspense, useState } from "react";
+import './App.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Spinner from "./components/Spinner/Spinner";
