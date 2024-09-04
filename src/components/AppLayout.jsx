@@ -3,10 +3,11 @@ import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 import { ToastContainer } from "react-toastify";
 
+
 export default function AppLayout(){
     return(
         <main>
-          <ToastContainer/>
+        <ToastContainer/>
         <Header />
         <Outlet/>
       <Footer />

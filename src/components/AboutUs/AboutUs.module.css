@@ -1,0 +1,125 @@
+.aboutSection {
+    padding: 60px 0; /* Add padding around the section */
+    background-color: #f9f9f9; /* Light background color */
+  }
+  
+  .container {
+    max-width: 1200px; /* Max width for the container */
+    margin: 0 auto; /* Center the container */
+    padding: 0 15px; /* Padding for container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mxAuto {
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+  }
+  
+  .headingContainer {
+    text-align: center; /* Center-align heading */
+    margin-bottom: 30px; /* Space below heading */
+  }
+  
+  .box {
+    display: flex; /* Flexbox layout for image and details */
+    align-items: center; /* Center vertically */
+    margin-top: 20px; /* Space above box */
+    flex-direction:column;
+    background-color:#f9f9f9;
+  }
+  
+  .imgBox {
+    flex: 1; /* Allow image box to grow */
+    padding: 10px; /* Padding inside image box */
+  }
+  
+  .boxImg {
+    width: 100%; /* Full width of the box */
+    border-radius: 10px; /* Rounded corners */
+  }
+  
+  .detailBox {
+    flex: 1; /* Allow detail box to grow */
+    padding: 20px; /* Padding inside detail box */
+  }
+  
+  .detailBox p {
+    margin-bottom: 15px; /* Space below paragraph */
+  }
+  
+  .detailBox a {
+    font-size: 1.5rem; /* Font size for arrow link */
+    color: #333; /* Dark color for the arrow */
+  }
+  
+  .aboutSection .box {
+    text-align: center;
+  }
+  
+  .aboutSection img {
+    margin-top: 45px;
+    max-width: 100%;
+  }
+  
+  .aboutSection .detailBox p {
+    margin-top: 15px;
+  }
+  
+  .aboutSection .detailBox a {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    background-color: #4855fe;
+    border-radius: 100%;
+    font-size: 12px;
+    color: #ffffff;
+    transition: all 0.3s;
+  }
+  
+  .aboutSection .detailBox a:hover {
+    background-color: #ffe537;
+    color: #000000;
+  }
+  
+  .headingContainer h2 {
+    font-size: 2.5rem;
+    position: relative;
+    font-weight: bold;
+    margin-bottom: 0;
+    padding-bottom: 7px;
+    font-family: "Bodoni SVTYTwo SC ITC TT Book", sans-serif; /* Ensure the font is applied */
+  }
+  
+  .headingContainer h2::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75px;
+    height: 5px;
+    background-color: #ff5a00;
+  }
+  
+  .col_md_11 {
+    flex: 0 0 91.666667%;
+    max-width: 91.666667%;
+  }
+  
+  .col_lg_10 {
+    flex: 0 0 83.333333%;
+    max-width: 83.333333%;
+  }
+  
+  .col_md_7 {
+    flex: 0 0 58.333333%;
+    max-width: 58.333333%;
+  }
+  
+  .layout_padding {
+    padding: 90px 0; /* Additional padding for layout */
+  }
+  
