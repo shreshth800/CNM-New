@@ -10,6 +10,7 @@ const CatererSearch = React.lazy(() =>
   import("./pages/CatererSearch/CatererSearch")
 );
 const OrderPage = React.lazy(() => import("./pages/OrderPage/OrderPage"));
+import NewFrontend from '../src/components/NewFrontend'
 const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
 const AddToCart = React.lazy(() => import("./pages/AddToCart/AddToCart"));
 const Bill = React.lazy(() => import("./pages/Bill/Bill"));
@@ -42,6 +43,14 @@ function App() {
           element: (
             <Suspense fallback={<Spinner />}>
               <CatererSearch />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/dev",
+          element: (
+            <Suspense fallback={<Spinner />}>
+              <NewFrontend/>
             </Suspense>
           ),
         },
