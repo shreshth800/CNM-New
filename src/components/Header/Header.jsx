@@ -155,7 +155,6 @@ const Header = () => {
           )}
           {isLoggedName && (
             <li
-              onClick={() => navigate("/create-menu")}
               className={styles.navProfile}
             >
               {firstName}
