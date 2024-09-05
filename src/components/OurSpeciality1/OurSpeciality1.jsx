@@ -1,7 +1,7 @@
 import Specialcuisines from "../Specialcuisines/Specialcuisines";
 import Styles from "./OurSpeciality1.module.css";
 
-export default function Ourspeciality() {
+export default function Ourspeciality1() {
   const ourSpecialty = [
     {
       imageUrl:

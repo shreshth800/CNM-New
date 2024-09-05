@@ -108,7 +108,7 @@
   transform: translate(0, -10px);
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   pointer-events: none;
-  background-color: #696969;
+  background-color: black;
   border-radius: 1rem;
 }
 

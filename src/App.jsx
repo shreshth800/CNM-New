@@ -1,5 +1,5 @@
 import React, { createContext, Suspense, useState } from "react";
-import './App.css'
+import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Spinner from "./components/Spinner/Spinner";
@@ -10,7 +10,7 @@ const CatererSearch = React.lazy(() =>
   import("./pages/CatererSearch/CatererSearch")
 );
 const OrderPage = React.lazy(() => import("./pages/OrderPage/OrderPage"));
-import NewFrontend from '../src/components/NewFrontend'
+import NewFrontend from "../src/components/NewFrontend";
 const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
 const AddToCart = React.lazy(() => import("./pages/AddToCart/AddToCart"));
 const Bill = React.lazy(() => import("./pages/Bill/Bill"));
@@ -46,14 +46,14 @@ function App() {
             </Suspense>
           ),
         },
-        {
-          path: "/dev",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <NewFrontend/>
-            </Suspense>
-          ),
-        },
+        // {
+        //   path: "/dev",
+        //   element: (
+        //     <Suspense fallback={<Spinner />}>
+        //       <NewFrontend/>
+        //     </Suspense>
+        //   ),
+        // },
         {
           path: "/catererDashboard",
           element: <CatererDashboard />,
@@ -114,7 +114,7 @@ function App() {
     },
   ]);
   const [catererId, setCatererId] = useState("");
-  const [isCaterer,setIsCaterer]=useState(false)
+  const [isCaterer, setIsCaterer] = useState(false);
   return (
     <>
       <AuthProvider>
@@ -123,7 +123,7 @@ function App() {
             catererId,
             setCatererId,
             isCaterer,
-            setIsCaterer
+            setIsCaterer,
           }}
         >
           <RouterProvider router={router} />

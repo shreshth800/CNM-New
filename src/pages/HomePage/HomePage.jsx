@@ -3,6 +3,7 @@ import HowItWorks from "../../components/HowItWorks/HowItWorks";
 import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
 import Ourspeciality from "../../components/Ourspeciality/Ourspeciality";
 import Gallery from "../../components/Gallery/Gallery";
+import Ourspeciality1 from "../../components/OurSpeciality1/OurSpeciality1";
 import useAuth from "../../hooks/useAuth";
 import CatererDashboard from "../CatererDashboard/CatererDashboard";
 import AboutUsNew from "../../components/AboutUsNew/AboutUsNew";
@@ -22,6 +23,7 @@ const HomePage = () => {
   return (
     <>
       <AboutUsSection />
+      <Ourspeciality1 />
       <AboutUsNew />
       {/* <Ourspeciality />
       <Gallery />
