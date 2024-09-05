@@ -1,14 +1,19 @@
-import Styles from './Specialcuisines.module.css'
+import { useNavigate } from 'react-router-dom';
+import Styles from './Specialcuisines.module.css';
 
-export default function Specialcuisines({imageUrl,name}){
-    return (
-        <div className={Styles.container}>
-            {/* <div className={Styles.whiteBorder}> */}
-            <img className={Styles.image} src={imageUrl} alt='dish'/>
-            {/* </div> */}
-            <h4 className={Styles.name}>
-                {name}
-            </h4>
-        </div>
-    )
+export default function Specialcuisines({ imageUrl, name }) {
+  const navigate = useNavigate(); 
+
+  const handleClick = () => {
+    navigate('/caterer'); 
+  };
+
+  return (
+    <div className={Styles.container}>
+      <img className={Styles.image} src={imageUrl} onClick={handleClick} alt='dish' />
+      <h4 className={Styles.name}>
+        {name}
+      </h4>
+    </div>
+  );
 }
