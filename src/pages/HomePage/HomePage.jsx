@@ -6,6 +6,7 @@ import Gallery from "../../components/Gallery/Gallery";
 import useAuth from "../../hooks/useAuth";
 import CatererDashboard from "../CatererDashboard/CatererDashboard";
 import AboutUsNew from "../../components/AboutUsNew/AboutUsNew";
+import Footer1 from "../../components/Footer1/Footer1";
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -16,7 +17,7 @@ const HomePage = () => {
     }
   }
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <>
@@ -25,6 +26,7 @@ const HomePage = () => {
       {/* <Ourspeciality />
       <Gallery />
       <HowItWorks /> */}
+      <Footer1 />
     </>
   );
 };
