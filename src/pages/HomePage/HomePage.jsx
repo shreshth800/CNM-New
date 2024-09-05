@@ -5,6 +5,7 @@ import Ourspeciality from "../../components/Ourspeciality/Ourspeciality";
 import Gallery from "../../components/Gallery/Gallery";
 import useAuth from "../../hooks/useAuth";
 import CatererDashboard from "../CatererDashboard/CatererDashboard";
+import AboutUsNew from "../../components/AboutUsNew/AboutUsNew";
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -20,6 +21,7 @@ const HomePage = () => {
   return (
     <>
       <AboutUsSection />
+      <AboutUsNew />
       {/* <Ourspeciality />
       <Gallery />
       <HowItWorks /> */}
