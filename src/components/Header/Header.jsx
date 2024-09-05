@@ -10,23 +10,23 @@ const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [isLoggedName, setIsLoggedName] = useState(false);
-  const {isCaterer,setIsCaterer}=useContext(CatererContext)
+  const { isCaterer, setIsCaterer } = useContext(CatererContext);
   const navigate = useNavigate();
   const { setUser } = useAuth();
-  useEffect(()=>{
-    const user=JSON.parse(localStorage.getItem('user'))
-    if(user){
-      if(user.role.id==3){
-      setIsCaterer(true)
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      if (user.role.id == 3) {
+        setIsCaterer(true);
       }
     }
-  },[])
+  }, []);
 
   useEffect(() => {
     const storedFirstName = localStorage.getItem("firstName");
     if (storedFirstName) {
       setFirstName(storedFirstName);
-      setIsLoggedName(true); 
+      setIsLoggedName(true);
     }
 
     const handleClick = (e) => {
@@ -70,7 +70,7 @@ const Header = () => {
       document.removeEventListener("click", handleClick);
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, [navigate,setIsCaterer]);
+  }, [navigate, setIsCaterer]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -80,10 +80,10 @@ const Header = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("firstName");
-    setIsCaterer(false)
+    setIsCaterer(false);
     setUser({});
     setFirstName("");
-    setIsLoggedName(false);  // Reset isLoggedName on signout
+    setIsLoggedName(false); // Reset isLoggedName on signout
     navigate("/");
   };
 
@@ -91,9 +91,9 @@ const Header = () => {
     <>
       <nav className={styles.navbar}>
         <div className={styles.logo}>
-          <div className={styles.imgContainer}>
+          {/* <div className={styles.imgContainer}>
             <img className={styles.logoImg} src={CNMLogo} alt="CNM" />
-          </div>
+          </div> */}
           <h1 className={styles.logoText} onClick={() => navigate("/")}>
             CATERERSNEARME
           </h1>
@@ -105,12 +105,14 @@ const Header = () => {
             </button>
             <div className={styles.dropdownMenu}>
               <ul className={styles.navLinks}>
-                {!isCaterer && <li
-                  className={styles.findCaterers}
-                  onClick={() => navigate("caterer")}
-                >
-                  Find Caterers
-                </li>}
+                {!isCaterer && (
+                  <li
+                    className={styles.findCaterers}
+                    onClick={() => navigate("caterer")}
+                  >
+                    Find Caterers
+                  </li>
+                )}
                 {isLoggedName && <li className={styles.booking}>Bookings</li>}
                 <li className={styles.navContact}>+91 123456789</li>
                 {!isLoggedName && (
@@ -131,21 +133,23 @@ const Header = () => {
           </div>
         </div>
         <ul className={`${styles.navLinks} ${styles.rowUl}`}>
-          {!isCaterer && <li
-            className={styles.findCaterers}
-            onClick={() => navigate("caterer")}
-          >
-            Find Caterers
-          </li>}
-          {isLoggedName && (
+          {/* {!isCaterer && (
+            <li
+              className={styles.findCaterers}
+              onClick={() => navigate("caterer")}
+            >
+              Find Caterers
+            </li>
+          )} */}
+          {/* {isLoggedName && (
             <li
               className={styles.booking}
               onClick={() => navigate("/my-orders")}
             >
               Bookings
             </li>
-          )}
-          <li className={styles.navContact}>+91 123456789</li>
+          )} */}
+          {/* <li className={styles.navContact}>+91 123456789</li> */}
           {!isLoggedName && (
             <li className={styles.navLogin} onClick={openModal}>
               Login/Register
