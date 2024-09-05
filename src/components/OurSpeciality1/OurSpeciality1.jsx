@@ -1,82 +1,62 @@
-// import React from 'react';
-// import styles from './OurSpeciality1.module.css';
+import Specialcuisines from "../Specialcuisines/Specialcuisines";
+import Styles from "./OurSpeciality1.module.css";
 
-// const Ourspeciality1 = () => {
-//   const recipes = [
-//         {
-//           title: "Breakfast",
-//           imageUrl:
-//             "https://themewagon.github.io/delfood/images/r1.jpg",
-//         },
-//         {
-//           title: "Lunch",
-//           imageUrl:
-//             "https://themewagon.github.io/delfood/images/r2.jpg",
-//         },
-//         {
-//           title: "Dinner",
-//           imageUrl:
-//             "https://themewagon.github.io/delfood/images/r3.jpg",
-//         },
-//       ];
+export default function Ourspeciality() {
+  const ourSpecialty = [
+    {
+      imageUrl:
+        "https://caterernearme.netlify.app/assets/images/experts/expert1.png",
+      name: "North Indian",
+    },
+    {
+      imageUrl:
+        "https://caterernearme.netlify.app/assets/images/experts/expert2.png",
+      name: "South Indian",
+    },
+    {
+      imageUrl:
+        "https://caterernearme.netlify.app/assets/images/experts/expert3.png",
+      name: "Maharashtrian",
+    },
+    {
+      imageUrl:
+        "https://caterernearme.netlify.app/assets/images/experts/expert4.png",
+      name: "Chinese",
+    },
+    {
+      imageUrl:
+        "https://caterernearme.netlify.app/assets/images/experts/expert5.png",
+      name: "Gujrati",
+    },
+    {
+      imageUrl:
+        "https://caterernearme.netlify.app/assets/images/experts/expert6.png",
+      name: "Italian",
+    },
+    {
+      imageUrl:
+        "https://caterernearme.netlify.app/assets/images/experts/expert7.png",
+      name: "Mexican",
+    },
+    {
+      imageUrl:
+        "https://caterernearme.netlify.app/assets/images/experts/expert8.png",
+      name: "Lebanese",
+    },
+  ];
 
-//   return (
-//     <div className={styles.container}>
-//       <h2 className={styles.title}>Our Best Popular Recipes</h2>
-//       <div className={styles.recipesContainer}>
-//         {recipes.map((recipe, index) => (
-//           <div key={index} className={styles.recipeCard}>
-//             <img src={recipe.imageUrl} alt={recipe.title} className={styles.recipeImage} />
-//             <div className={styles.recipeFooter}>
-//               <h3 className={styles.recipeTitle}>{recipe.title}</h3>
-//               <div className={styles.arrow}>
-//                 <span className={`fas fa-arrow-right ${styles.arrowIcon}`}></span> {/* Font Awesome arrow icon */}
-//               </div>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//       <button className={styles.orderButton}>Order Now</button>
-//     </div>
-//   );
-// };
-
-// export default Ourspeciality1;
-
-
-import styles from './OurSpeciality1.module.css';
-
-const OurSpeciality1 = () => {
   return (
-    <section className={styles.specialitySection}>
-      <div className={styles.container}>
-        <h2>Our Best Popular Recipes</h2>
-        <div className={styles.recipesContainer}>
-          <div className={styles.recipeCard}>
-            <img src="https://themewagon.github.io/delfood/images/r1.jpg" alt="Breakfast" className={styles.recipeImage} />
-            <div className={styles.recipeTitle}>
-              <h3>Breakfast</h3>
-              <a href="" className={styles.arrowButton}><i className="fa fa-arrow-right" aria-hidden="true"></i></a>
-            </div>
-          </div>
-          <div className={styles.recipeCard}>
-            <img src="https://themewagon.github.io/delfood/images/r2.jpg" alt="Lunch" className={styles.recipeImage} />
-            <div className={styles.recipeTitle}>
-              <h3>Lunch</h3>
-              <a href="" className={styles.arrowButton}><i className="fa fa-arrow-right" aria-hidden="true"></i></a>
-            </div>
-          </div>
-          <div className={styles.recipeCard}>
-            <img src="https://themewagon.github.io/delfood/images/r3.jpg" alt="Dinner" className={styles.recipeImage} />
-            <div className={styles.recipeTitle}>
-              <h3>Dinner</h3>
-              <a href="" className={styles.arrowButton}><i className="fa fa-arrow-right" aria-hidden="true"></i></a>
-            </div>
-          </div>
-        </div>
+    <main className={Styles.container}>
+      <h2>Our Specialty Cuisines</h2>
+      <div className={Styles.dishContainer}>
+        {ourSpecialty.map((dish, index) => (
+          <Specialcuisines
+            key={index}
+            imageUrl={dish.imageUrl}
+            name={dish.name}
+          />
+        ))}
       </div>
-    </section>
+    </main>
   );
-};
-
-export default OurSpeciality1;
+}

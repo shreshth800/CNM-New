@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 import Footer1 from "./Footer/Footer";
+import OurSpeciality1 from "./OurSpeciality1/OurSpeciality1";
 import Header from "./Header/Header";
 import { ToastContainer } from "react-toastify";
-import NewFrontend from "./NewFrontend";
 
 
 export default function AppLayout(){
@@ -10,8 +10,9 @@ export default function AppLayout(){
         <main>
         <ToastContainer/>
         <Header />
-        <Outlet/>
-      <NewFrontend />
+        <Outlet />
+        <OurSpeciality1 />
+      {/* <NewFrontend /> */}
       </main>
     )
  }

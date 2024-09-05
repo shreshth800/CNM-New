@@ -7,7 +7,6 @@ import OurSpeciality1 from "./OurSpeciality1/OurSpeciality1";
 export default function NewFrontend() {
   return (
     <>
-      <OurSpeciality1 />
       <AboutUs />
       <LatestNews />
       <Footer1 />
