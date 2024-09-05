@@ -7,13 +7,8 @@ const AboutUsSection = () => {
     <div className={styles.aboutUsSection}>
       <div className={styles.aboutUsLeft}>
         <h1>One Stop Solution For All Your Catering Needs</h1>
-        <p>Find the Caterer</p>
-        <input
-          className={styles.locationInput}
-          type="text"
-          name="location"
-          id="location"
-        />
+        <p>Get Started</p>
+        <button className={styles.aboutUsBtn}>Find Caterer</button>
       </div>
       <div className={styles.aboutUsRight}>
         <div className={styles.aboutUsImageContainer}>

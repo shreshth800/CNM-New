@@ -20,9 +20,9 @@ const HomePage = () => {
   return (
     <>
       <AboutUsSection />
-      <Ourspeciality />
+      {/* <Ourspeciality />
       <Gallery />
-      <HowItWorks />
+      <HowItWorks /> */}
     </>
   );
 };

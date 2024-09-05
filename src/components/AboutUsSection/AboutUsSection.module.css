@@ -11,6 +11,17 @@
 }
 .aboutUsLeft {
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.aboutUsBtn {
+  padding: 0.5rem;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
 }
 .aboutUsLeft h1,
 .aboutUsLeft p {
@@ -19,8 +30,6 @@
 
 .aboutUsImageContainer {
   width: auto;
-  border-radius: 500px 500px 0 0;
-  overflow: hidden;
 }
 
 .aboutUsImage {
@@ -45,6 +54,7 @@
   }
   .aboutUsRight {
     width: 100%;
+    padding: 0;
   }
   .locationInput {
     width: 100%;
