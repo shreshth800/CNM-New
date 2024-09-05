@@ -215,6 +215,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import styles from './CreateDish.module.css';
 import axios from 'axios';
 import { CatererContext } from '../../App';
+import { toastMessage } from '../../../utility';
 
 export default function CreateDish() {
   const { catererId } = useContext(CatererContext);
@@ -318,11 +319,11 @@ export default function CreateDish() {
       await axios.patch(`http://3.6.41.54/api/caterer/${catererId}`, newCaterer);
 
       // Show alert box on successful submission
-      alert('Packages submitted successfully!');
+      toastMessage('Packages submitted successfully!');
   
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('There was an error submitting the packages. Please try again.');
+      toastMessage('There was an error submitting the packages. Please try again.');
     }
   }
 

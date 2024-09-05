@@ -335,6 +335,8 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./Personal.module.css";
 import axios from "axios";
 import { CatererContext } from "../../App";
+import { toastMessage } from "../../../utility";
+import { formatDate } from "../../../utility";
 
 export default function Personal() {
   const {catererId,setCatererId}=useContext(CatererContext)
@@ -392,6 +394,11 @@ export default function Personal() {
       setCatererId(JSON.parse(storage));
     }
   }, [catererId]);
+  const user=JSON.parse(localStorage.getItem('user'))
+  if(user){
+    const catererId=user.catererId
+    setCatererId(catererId)
+  }
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
@@ -418,21 +425,36 @@ export default function Personal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    formData.cuisinesOffered = formData.cuisinesOffered.split(",");
+    formData.cuisinesOffered = formData?.cuisinesOffered?.split(",");
     console.log("Form Data:", formData);
 
     try {
+      const user=JSON.parse(localStorage.getItem('user'))
+      const catererid=user.catererId
+      if(!catererid){
       const response = await axios.post("http://3.6.41.54/api/caterer", {
         ...formData,
       });
       console.log(response.data);
       setCatererId(response.data.id);
+      const userObj = JSON.parse(localStorage.getItem("user"))
+      const userId= userObj.id;
+
+      const catererIdSet = await axios.patch(`http://3.6.41.54/api/users/${userId}`,{"catererId":response.data.id});
+      console.log(catererIdSet);
       localStorage.setItem("catererData", JSON.stringify(response.data.id));
-      alert("Caterer registered successfully!");
+      toastMessage("Caterer registered successfully!");
       if(!catererId){
         setCatererId(response.data.id)
       }
       localStorage.setItem('catererData',JSON.stringify(response.data.id))
+    }else{
+      const response = await axios.patch(`http://3.6.41.54/api/caterer/${catererid}`, {
+        ...formData,
+      });
+      console.log(response)
+      toastMessage('updated')
+    }
     } catch (error) {
       console.error("Error submitting form", error);
     }
@@ -440,9 +462,11 @@ export default function Personal() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const catererid=JSON.parse(localStorage.getItem('catererData'))
+        const user=JSON.parse(localStorage.getItem('user'))
+        const catererid=user.catererId
+        if(catererid){
         const response = await axios.get(`http://3.6.41.54/api/caterer/${catererid}`);
-        const {
+        let {
           name,
           gstNo,
           address,
@@ -451,11 +475,13 @@ export default function Personal() {
           maxPrice,
           minPrice,
           cateringType,
+          maximumServingCapacity,
           inServiceFrom,
           cuisinesOffered,
           specialistIn,
           dishes
         } = response.data;
+        inServiceFrom=formatDate(inServiceFrom)
   
         setFormData(prev => ({
           ...prev,
@@ -468,10 +494,12 @@ export default function Personal() {
           minPrice,
           cateringType,
           inServiceFrom,
+          maximumServingCapacity,
           cuisinesOffered,
           specialistIn,
           dishes
         }));
+      }
       } catch (error) {
         console.error("Error fetching caterer data:", error);
       }

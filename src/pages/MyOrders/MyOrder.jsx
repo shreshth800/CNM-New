@@ -110,12 +110,13 @@ const MyOrder = () => {
   useEffect(() => {
 
     const userData = JSON.parse(localStorage.getItem("user"))
+    let neededId;
+    if(userData.role.id==3){
+      neededId = userData.catererId;
+    }
+    else neededId = userData.id;
 
-    const userId = userData?.id;
-
-  //fetch(`http://3.6.41.54/api/orders?filters=[{"catererId":"${catererId}"}]`)
-
-    fetch(`http://3.6.41.54/api/orders?filters=[{"userId":"${userId}"}]`)
+    fetch(`http://3.6.41.54/api/orders?filters=[{"${userData.role.id==3 ? "catererId" : "userId"}":"${neededId}"}]`)
       .then((response) => response.json())
       .then((data) => setOrders(data.data))
       .catch((error) => console.error("Error fetching orders:", error));
@@ -141,7 +142,7 @@ const MyOrder = () => {
 
   return (
     <div className={styles.myOrderContainer}>
-      {orders.map((order) => (
+      {orders?.map((order) => (
         <div key={order.id} className={styles.orderCard}>
           <div className={styles.orderDetails}>
             <div className={styles.orderUpper}>

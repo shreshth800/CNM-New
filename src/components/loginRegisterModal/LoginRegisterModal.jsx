@@ -348,6 +348,7 @@ import React, { useState, useEffect, useContext } from "react";
 import useAuth from "../../hooks/useAuth";
 import styles from "./LoginRegisterModal.module.css";
 import { CatererContext } from "../../App";
+import { toastMessage } from "../../../utility";
 
 const LoginRegisterModal = ({
   setIsLoggedName,
@@ -411,7 +412,7 @@ const LoginRegisterModal = ({
       });
 
       if (!response.ok) {
-        alert("Login Failed");
+        toastMessage("Login Failed");
         throw new Error("Login failed");
       }
 
@@ -423,8 +424,8 @@ const LoginRegisterModal = ({
       localStorage.setItem("user", JSON.stringify(result.user));
       setUser({ user: result.user, token: result.token }); // Set user state
 
-      alert("Login successful");
-      setIsCaterer(true)
+      toastMessage('Login Successful!')
+      setIsCaterer(result.user.role.id==3?true:false)
       onClose(); // Close the modal
     } catch (error) {
       console.error("Error:", error);
@@ -436,7 +437,7 @@ const LoginRegisterModal = ({
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toastMessage("Passwords do not match");
       return;
     }
 
@@ -459,11 +460,11 @@ const LoginRegisterModal = ({
       });
 
       if (!response.ok) {
-        alert("Registration Failed");
+        toastMessage('Registration Failed')
         throw new Error("Registration failed");
       }
 
-      alert("Registration successful");
+      toastMessage("Registration successful");
       setIsLogin(true); // Switch to login mode after successful registration
       onClose();
     } catch (error) {
