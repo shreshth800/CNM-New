@@ -1,6 +1,7 @@
 .container {
-  padding: 4.8rem;
   background-color: white;
+  width: 100%;
+  padding: 10px;
 }
 .dishContainer {
   padding-top: 1rem;
@@ -9,4 +10,5 @@
   justify-content: center;
   gap: 1rem;
   align-items: center;
+  width: 100%;
 }
