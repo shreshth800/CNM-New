@@ -1,16 +1,17 @@
 import { Outlet } from "react-router-dom";
-import Footer from "./Footer/Footer";
+import Footer1 from "./Footer/Footer";
 import Header from "./Header/Header";
 import { ToastContainer } from "react-toastify";
+import NewFrontend from "./NewFrontend";
 
 
 export default function AppLayout(){
     return(
         <main>
-        <ToastContainer/>
+        {/* <ToastContainer/> */}
         <Header />
-        <Outlet/>
-      <Footer />
+        {/* <Outlet/> */}
+      <NewFrontend />
       </main>
     )
  }
