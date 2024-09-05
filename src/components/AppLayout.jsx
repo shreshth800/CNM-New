@@ -8,9 +8,9 @@ import NewFrontend from "./NewFrontend";
 export default function AppLayout(){
     return(
         <main>
-        {/* <ToastContainer/> */}
+        <ToastContainer/>
         <Header />
-        {/* <Outlet/> */}
+        <Outlet/>
       <NewFrontend />
       </main>
     )
