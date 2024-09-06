@@ -4,9 +4,9 @@ import styles from "./CatererInfo.module.css";
 const CatererInfo = ({ info, serviceSpecialist }) => {
   return (
     <div className={styles.catererInfo}>
-      <h2>Caterer Info</h2>
+      <h3>Caterer Info</h3>
       <p>{info}</p>
-      <h2>Service Specialist</h2>
+      <h3>Service Specialist</h3>
       <p>{serviceSpecialist}</p>
     </div>
   );

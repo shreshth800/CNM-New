@@ -11,7 +11,7 @@ import Map from "../../components/Map/Map";
 import CatererDetails from "../../components/OrderPageCatererDetails/CatererDetails";
 import { CatererContext } from "../../App";
 import Spinner from "../../components/Spinner/Spinner";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate"; 
 
 const OrderPage = () => {
   const axiosPrivate = useAxiosPrivate();

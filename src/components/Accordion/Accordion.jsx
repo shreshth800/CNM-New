@@ -35,7 +35,7 @@ const Accordion = (props) => {
             }}
           >
             <div className={styles.accordionHeading}>
-              <h4>{item.name}</h4>
+              <b>{item.name}</b>
               <i
                 className={`fa-solid fa-caret-up ${
                   isSelected ? "" : styles.flip

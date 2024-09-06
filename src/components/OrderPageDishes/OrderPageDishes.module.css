@@ -9,7 +9,7 @@
   border-radius: 20px;
   overflow: hidden;
   padding: 20px;
-  max-width: 8rem;
+  max-width: 10rem;
   position: relative;
   transition: all 0.3s ease-in-out;
 }

@@ -20,7 +20,7 @@ const AboutUsNew = () => {
           could cater to your personalized expectations.
         </p>
         <button
-          onClick={() => navigate("/caterer-search")}
+          onClick={() => navigate("/caterer")}
           className={styles.aboutUsBtn}
         >
           Find Caterer
