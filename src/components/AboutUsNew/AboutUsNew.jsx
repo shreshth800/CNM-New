@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 const AboutUsNew = () => {
   const navigate = useNavigate();
   return (
-    <div className={styles.aboutUsSection}>
+    <div className={styles.container}>
+      <h1>About Caterersnearme</h1>
+      <div className={styles.aboutUsSection}>
       <div className={styles.aboutUsLeft}>
         <h1>About Us</h1>
         <p>
@@ -34,6 +36,8 @@ const AboutUsNew = () => {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 };
 

@@ -1,9 +1,13 @@
+.container h1{
+  margin-top: 6rem;
+  text-align: center;
+}
+
 .aboutUsSection {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  margin-top: 50px;
   margin-bottom: 50px;
 }
 
@@ -28,6 +32,10 @@
   border: none;
   border-radius: 0.5rem;
 }
+.aboutUsBtn:hover{
+  background-color: grey;
+}
+
 .aboutUsLeft h1,
 .aboutUsLeft p {
   color: black;

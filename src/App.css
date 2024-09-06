@@ -2,6 +2,8 @@
     font-family: "bodoni svtytwo sc itc tt book";
     src: url(../fonts/bodoni-svtytwo-sc-itc-tt-book.ttf);
   }
+
+  
   
   body {
     font-family: "Poppins", sans-serif;
@@ -11,6 +13,7 @@
     background-image: url(../images/body-bg.jpg);
     background-size: cover;
   }
+
   
   .layout_padding {
     padding: 90px 0;

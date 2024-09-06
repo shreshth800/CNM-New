@@ -115,7 +115,7 @@ const Header = () => {
                     Find Caterers
                   </li>
                 )}
-                {isLoggedName && <li className={styles.booking}>Bookings</li>}
+                {isLoggedName && <li className={styles.booking} onClick={()=>navigate("/my-orders")}>Bookings</li>}
                 <li className={styles.navContact}>+91 123456789</li>
                 {!isLoggedName && (
                   <li className={styles.navLogin} onClick={openModal}>

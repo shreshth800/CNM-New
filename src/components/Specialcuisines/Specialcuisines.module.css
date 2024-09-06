@@ -3,17 +3,26 @@
   min-width: 20rem;
   width: 20%;
   background-size: contain;
-  padding: 1.2rem;
+  padding: 2rem;
   height: 18rem;
   display: flex;
   flex-wrap: wrap;
   position: relative;
 }
+
 .image {
   display: inline-block;
   width: 90%;
-  /* border-radius: 50%; */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effect */
+  cursor: pointer;
 }
+
+/* Hover effect: Zoom and shadow */
+.image:hover {
+  transform: scale(1); /* Slight zoom effect */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+}
+
 .whiteBorder {
   display: inline-block;
   position: absolute;
@@ -25,6 +34,7 @@
   border-radius: 50%;
   border: 0.5rem solid white;
 }
+
 .name {
   margin: 0;
   display: inline-block;

@@ -6,7 +6,7 @@ const AboutUsSection = () => {
   return (
     <div className={styles.aboutUsSection}>
       <div className={styles.aboutUsLeft}>
-        <h1>One Stop Solution For All Your Catering Needs</h1>
+        <h1>ONE STOP SOLUTION FOR ALL YOUR CATERING NEEDS</h1>
         <p>Get Started</p>
         <button className={styles.aboutUsBtn}>Find Caterer</button>
       </div>

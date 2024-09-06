@@ -11,9 +11,9 @@ export default function Specialcuisines({ imageUrl, name }) {
   return (
     <div className={Styles.container}>
       <img className={Styles.image} src={imageUrl} onClick={handleClick} alt='dish' />
-      <h4 className={Styles.name}>
+      <h5 className={Styles.name}>
         {name}
-      </h4>
+      </h5>
     </div>
   );
 }
