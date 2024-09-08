@@ -8,6 +8,7 @@ import useAuth from "../../hooks/useAuth";
 import CatererDashboard from "../CatererDashboard/CatererDashboard";
 import AboutUsNew from "../../components/AboutUsNew/AboutUsNew";
 import Footer1 from "../../components/Footer1/Footer1";
+import ArtGallery from "../../components/ArtGallery/ArtGallery";
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -28,6 +29,7 @@ const HomePage = () => {
       {/* <Ourspeciality />
       <Gallery />
       <HowItWorks /> */}
+      <ArtGallery/>
       <Footer1 />
     </>
   );
