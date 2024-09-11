@@ -11,7 +11,7 @@ const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [isLoggedName, setIsLoggedName] = useState(false);
-  const { isCaterer, setIsCaterer } = useContext(CatererContext);
+  const { isCaterer, setIsCaterer,catererId,setCatererId } = useContext(CatererContext);
   const navigate = useNavigate();
   const { setUser } = useAuth();
   useEffect(() => {
@@ -72,7 +72,10 @@ const Header = () => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, [navigate, setIsCaterer]);
-
+  if(catererId==''){
+    setCatererId(JSON.parse(localStorage.getItem('catererId')))
+    console.log(JSON.parse(localStorage.getItem('catererId')))
+  }
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
