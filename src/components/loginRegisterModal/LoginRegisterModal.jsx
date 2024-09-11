@@ -417,7 +417,7 @@ const LoginRegisterModal = ({
       }
 
       const result = await response.json();
-      setIsLoggedName(true); // Set the logged-in user's first name
+      setIsLoggedName(true);
       setFirstName(result.user.firstName);
       localStorage.setItem("token", result.token); // Store tokens and user data in localStorage
       localStorage.setItem("refreshToken", result.refreshToken);
