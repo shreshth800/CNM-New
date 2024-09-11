@@ -28,6 +28,10 @@
     .gridContainer{
         grid-template-columns:1fr;
     }
+    .flexImg{
+        width:80%;
+        object-fit: cover;
+    }
     .header{
         font-size:2rem;
     }
@@ -38,6 +42,7 @@
 @media(max-width:480px){
     .gridContainer{
         grid-template-columns:1fr;
+        row-gap:1rem;
     }
     .header{
         font-size:1.6rem;
