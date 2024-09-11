@@ -13,6 +13,7 @@
 .image {
   display: inline-block;
   width: 90%;
+  height:100%;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effect */
   cursor: pointer;
 }
