@@ -47,7 +47,7 @@ const OrderPage = () => {
       fetchCatererData();
     }
   }, [id]);
-  if (!catererId) {
+  if (catererId=='') {
     setCatererId(id);
   }
 

@@ -139,6 +139,7 @@ const MyOrder = () => {
       dishes: item.menuItem.map((menu, menuIndex) => `${menu}`),
     }));
   };
+  console.log(orders)
 
   return (
     <div className={styles.myOrderContainer}>
@@ -153,7 +154,7 @@ const MyOrder = () => {
                   className={styles.catererImage}
                 />
                 <div className={styles.catererDetails}>
-                  <h2 className={styles.catererName}>{order.catererId.name}</h2>
+                  <h2 className={styles.catererName}>{order.catererId?.name}</h2>
                   <p>
                     Dish Items: {order.items.length} | Order Quantity:{" "}
                     {order.dishQuantity}
