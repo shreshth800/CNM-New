@@ -106,7 +106,7 @@ const Header = () => {
               <i className="fa-solid fa-bars"></i>
             </button>
             <div className={styles.dropdownMenu}>
-              <ul className={styles.navLinks}>
+              <ul className={styles.navLinks1}>
                 {!isCaterer && (
                   <li
                     className={styles.findCaterers}
@@ -116,7 +116,6 @@ const Header = () => {
                   </li>
                 )}
                 {isLoggedName && <li className={styles.booking} onClick={()=>navigate("/my-orders")}>Bookings</li>}
-                <li className={styles.navContact}>+91 123456789</li>
                 {!isLoggedName && (
                   <li className={styles.navLogin} onClick={openModal}>
                     Login/Register
@@ -134,23 +133,23 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <ul className={`${styles.navLinks} ${styles.rowUl}`}>
-          {/* {!isCaterer && (
+        <ul className={`${styles.navLinks2}`}>
+          {!isCaterer && (
             <li
               className={styles.findCaterers}
               onClick={() => navigate("caterer")}
             >
               Find Caterers
             </li>
-          )} */}
-          {/* {isLoggedName && (
+          )}
+          {isLoggedName && (
             <li
               className={styles.booking}
               onClick={() => navigate("/my-orders")}
             >
               Bookings
             </li>
-          )} */}
+          )}
           {/* <li className={styles.navContact}>+91 123456789</li> */}
           {!isLoggedName && (
             <li className={styles.navLogin} onClick={openModal}>
