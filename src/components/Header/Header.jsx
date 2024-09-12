@@ -11,7 +11,7 @@ const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [isLoggedName, setIsLoggedName] = useState(false);
-  const { isCaterer, setIsCaterer } = useContext(CatererContext);
+  const { isCaterer, setIsCaterer,catererId,setCatererId } = useContext(CatererContext);
   const navigate = useNavigate();
   const { setUser } = useAuth();
   useEffect(() => {
@@ -25,7 +25,7 @@ const Header = () => {
 
   useEffect(() => {
     const storedFirstName = localStorage.getItem("firstName");
-    if (storedFirstName) {
+    if (storedFirstName && isLoggedName) {
       setFirstName(storedFirstName);
       setIsLoggedName(true);
     }
@@ -72,7 +72,9 @@ const Header = () => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, [navigate, setIsCaterer]);
-
+  if(catererId==''){
+    setCatererId(JSON.parse(localStorage.getItem('catererId')))
+  }
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -168,7 +170,6 @@ const Header = () => {
         firstName={firstName}
         setFirstName={(name) => {
           setFirstName(name);
-          setIsLoggedName(true);
           localStorage.setItem("firstName", name);
         }}
         setIsLoggedName={setIsLoggedName}

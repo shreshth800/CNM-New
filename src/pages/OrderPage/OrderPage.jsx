@@ -47,9 +47,10 @@ const OrderPage = () => {
       fetchCatererData();
     }
   }, [id]);
-  if (!catererId) {
+  if (catererId=='') {
     setCatererId(id);
   }
+  localStorage.setItem('catererId',JSON.stringify(id))
 
   if (!catererData) {
     return <Spinner />;

@@ -47,7 +47,7 @@ export default function Ourspeciality1() {
 
   return (
     <main className={Styles.container}>
-      <h2 classname=''>Our Specialty Cuisines</h2>
+      <h2>Our Specialty Cuisines</h2>
       <div className={Styles.dishContainer}>
         {ourSpecialty.map((dish, index) => (
           <Specialcuisines
