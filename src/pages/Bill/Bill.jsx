@@ -210,7 +210,7 @@ const Bill = () => {
       }));
 
       const myorder = {
-        catererId,
+        catererId:JSON.parse(localStorage.getItem('catererId')),
         dishId: dish?.id || "",
         userId: user?.id || "",
         items: cartItems,
