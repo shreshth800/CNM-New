@@ -74,9 +74,9 @@ export default function CreateMenu() {
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return <Personal />;
+        return <Personal setCurrentStep={setCurrentStep}/>;
       case 2:
-        return <MenuCreation />;
+        return <MenuCreation setCurrentStep={setCurrentStep}/>;
       case 3:
         return <CreateDish/>;
       default:
