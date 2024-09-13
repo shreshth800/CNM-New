@@ -402,18 +402,29 @@ export default function Personal() {
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
+  
     if (checked) {
-      setFormData((prevState) => ({
-        ...prevState,
-        cateringType: [...prevState.cateringType, value],
-      }));
+      setFormData((prevState) => {
+        const isAlreadySelected = prevState.cateringType.includes(value);
+        if (!isAlreadySelected) {
+          
+          return {
+            ...prevState,
+            cateringType: [...prevState.cateringType, value],
+          };
+        }
+       
+        return prevState;
+      });
     } else {
+      
       setFormData((prevState) => ({
         ...prevState,
         cateringType: prevState.cateringType.filter((type) => type !== value),
       }));
     }
   };
+  
 
   const handleChangeLoc = (e) => {
     setServiceLocat({ ...serviceLocat, location: e.target.value });
@@ -425,7 +436,10 @@ export default function Personal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    formData.cuisinesOffered = formData?.cuisinesOffered?.split(",");
+    const typeofcusin=Array.isArray(formData.cuisinesOffered)
+    if(!typeofcusin){
+      formData.cuisinesOffered = formData?.cuisinesOffered?.split(",");
+    }
     console.log("Form Data:", formData);
 
     try {
@@ -441,17 +455,17 @@ export default function Personal() {
       const userId= userObj.id;
 
       const catererIdSet = await axios.patch(`http://3.6.41.54/api/users/${userId}`,{"catererId":response.data.id});
-      console.log(catererIdSet);
+      console.log(catererIdSet.data);
+      localStorage.setItem('user',JSON.stringify({...catererIdSet.data,catererId:response.data.id}))
       localStorage.setItem("catererData", JSON.stringify(response.data.id));
       toastMessage("Caterer registered successfully!");
-      if(!catererId){
-        setCatererId(response.data.id)
-      }
+      setCatererId(response.data.id)
       localStorage.setItem('catererData',JSON.stringify(response.data.id))
     }else{
       const response = await axios.patch(`http://3.6.41.54/api/caterer/${catererid}`, {
         ...formData,
       });
+      setCatererId(response.data.id);
       console.log(response)
       toastMessage('updated')
     }
@@ -606,7 +620,12 @@ export default function Personal() {
       <div className={styles.formGroup}>
         <label>Catering Type</label>
         <div className={styles.checkboxGroup}>
-          <input type="checkbox" value="veg" onChange={handleCheckboxChange} />{" "}
+          <input
+            type="checkbox"
+            value="veg"
+            onChange={handleCheckboxChange}
+            checked={formData.cateringType.includes("veg")}
+          />{" "}
           <label>Veg</label>
         </div>
         <div className={styles.checkboxGroup}>
@@ -614,14 +633,21 @@ export default function Personal() {
             type="checkbox"
             value="nonVeg"
             onChange={handleCheckboxChange}
+            checked={formData.cateringType.includes("nonVeg")}
           />{" "}
-          <label htmlFor="">Non Veg</label>
+          <label>Non Veg</label>
         </div>
         <div className={styles.checkboxGroup}>
-          <input type="checkbox" value="jain" onChange={handleCheckboxChange} />{" "}
-          <label htmlFor="">Jain</label>
+          <input
+            type="checkbox"
+            value="jain"
+            onChange={handleCheckboxChange}
+            checked={formData.cateringType.includes("jain")}
+          />{" "}
+          <label>Jain</label>
         </div>
       </div>
+
 
       <div className={styles.formGroup}>
         <label htmlFor="maximumServingCapacity">Maximum Serving Capacity</label>

@@ -17,6 +17,10 @@ const Header = () => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
+      setIsLoggedName(true)
+      if(user.firstName){
+        setFirstName(user.firstName)
+      }
       if (user.role.id == 3) {
         setIsCaterer(true);
       }
@@ -83,6 +87,10 @@ const Header = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("firstName");
+    localStorage.removeItem("dishDetails");
+    localStorage.removeItem("catererId");
+    localStorage.removeItem("catererData");
+    localStorage.removeItem("cartData");
     setIsCaterer(false);
     setUser({});
     setFirstName("");
