@@ -5,6 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import CatererDashboard from "../CatererDashboard/CatererDashboard";
 import AboutUsNew from "../../components/AboutUsNew/AboutUsNew";
 import ArtGallery from "../../components/ArtGallery/ArtGallery";
+import AdminDashboard from "../AdminDashboard/AdminDashboard";
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -15,14 +16,20 @@ const HomePage = () => {
     }
   }
 
-  // console.log(user);
+  if (user.user) {
+    if (user.user.role && user.user.role.id === "2") {
+      return <AdminDashboard />;
+    }
+  }
+
+  console.log(user);
 
   return (
     <>
       <AboutUsSection />
       <Ourspeciality1 />
       <AboutUsNew />
-      <ArtGallery/>
+      <ArtGallery />
     </>
   );
 };

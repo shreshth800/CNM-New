@@ -55,7 +55,11 @@ function App() {
         // },
         {
           path: "/catererDashboard",
-          element: <CatererDashboard />,
+          element: (
+            <Suspense fallback={<Spinner />}>
+              <CatererDashboard />
+            </Suspense>
+          ),
         },
         {
           path: "/caterer/:id",
