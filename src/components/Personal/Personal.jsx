@@ -338,7 +338,7 @@ import { CatererContext } from "../../App";
 import { toastMessage } from "../../../utility";
 import { formatDate } from "../../../utility";
 
-export default function Personal() {
+export default function Personal({setCurrentStep}) {
   const {catererId,setCatererId}=useContext(CatererContext)
   // const [serviceLocat, setServiceLocat] = useState({
   //   location: '',
@@ -461,13 +461,16 @@ export default function Personal() {
       toastMessage("Caterer registered successfully!");
       setCatererId(response.data.id)
       localStorage.setItem('catererData',JSON.stringify(response.data.id))
+      setCurrentStep(2)
     }else{
+      console.log(catererid)
       const response = await axios.patch(`http://3.6.41.54/api/caterer/${catererid}`, {
         ...formData,
       });
       setCatererId(response.data.id);
       console.log(response)
       toastMessage('updated')
+      setCurrentStep(2)
     }
     } catch (error) {
       console.error("Error submitting form", error);

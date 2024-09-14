@@ -4,7 +4,7 @@ import styles from './MenuCreation.module.css';
 import { CatererContext } from '../../App';
 import { toastMessage } from '../../../utility';
 
-export default function MenuCreation() {
+export default function MenuCreation({setCurrentStep}) {
     const { catererId } = useContext(CatererContext);
     const [menus, setMenus] = useState([
         {
@@ -98,6 +98,7 @@ export default function MenuCreation() {
     
             if (allMenusCreated) {
                 toastMessage('All menus created successfully!');
+                setCurrentStep(3)
             } else {
                 toastMessage('Some menus failed to create. Please try again.');
             }
