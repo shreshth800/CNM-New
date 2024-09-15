@@ -120,3 +120,35 @@ h2{
   flex-direction: row;
   justify-content: space-between;
  }
+
+
+ .pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pageButton {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.pageButton:disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  font-size: 16px;
+}
+
+.catererName{
+  margin-top: 0.3rem;
+  margin-bottom: 0;
+  padding: 0;
+}

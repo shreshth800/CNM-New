@@ -7,22 +7,57 @@
 // const MyOrder = () => {
 //   const [orders, setOrders] = useState([]);
 //   const [isModalOpen, setModalOpen] = useState(false);
-
+//   const [selectedOrder, setSelectedOrder] = useState(null);
+  
 //   useEffect(() => {
-//     fetch("http://3.6.41.54/api/orders")
+//     const userData = JSON.parse(localStorage.getItem("user"));
+//     let apiUrl = " ";
+//     console.log(userData.role.id)
+
+//     if (userData.role.id == 1) {
+//       // Admin (role.id === 1): Fetch all orders
+//       apiUrl = `http://3.6.41.54/api/orders`;
+//     } else if (userData.role.id == 2) {
+//       // Caterer (role.id === 2): Fetch orders for that particular caterer
+//       apiUrl = `http://3.6.41.54/api/orders?filters=[{"userId":"${userData.id}"}]`;
+//     } else if (userData.role.id == 3) {
+//       // User (role.id === 3): Fetch orders for that particular user
+//       apiUrl = `http://3.6.41.54/api/orders?filters=[{"catererId":"${userData.id}"}]`;
+//     }
+//     // Log the URL to verify it's correct
+//     console.log("API URL:", apiUrl);
+
+//     // Fetch orders from the API
+//     fetch(apiUrl)
 //       .then((response) => response.json())
-//       .then((data) => setOrders(data.data))
-//       .catch((error) => console.error("Error fetching orders:", error));
+//       .then((data) => {
+//         console.log("Fetched Orders:", data); // Log fetched data for debugging
+//         setOrders(data.data);
+//       })
+//       .catch((error) => console.error("Error fetching orders:", error.message));
 //   }, []);
 
-//   const openModal = () => setModalOpen(true);
-//   const closeModal = () => setModalOpen(false);
+//   const openModal = (order) => {
+//     setSelectedOrder(order);
+//     setModalOpen(true);
+//   };
 
-//   const cartData = JSON.parse(localStorage.getItem("cartData"));
+//   const closeModal = () => {
+//     setModalOpen(false);
+//     setSelectedOrder(null);
+//   };
+
+//   // Transform the data to fit the Accordion's expected format
+//   const formatAccordionData = (items) => {
+//     return items.map((item, index) => ({
+//       name: item.item,
+//       dishes: item.menuItem.map((menu, menuIndex) => `${menu}`),
+//     }));
+//   };
 
 //   return (
 //     <div className={styles.myOrderContainer}>
-//       {orders.map((order) => (
+//       {orders?.map((order) => (
 //         <div key={order.id} className={styles.orderCard}>
 //           <div className={styles.orderDetails}>
 //             <div className={styles.orderUpper}>
@@ -32,68 +67,76 @@
 //                   alt="Order"
 //                   className={styles.catererImage}
 //                 />
-
 //                 <div className={styles.catererDetails}>
-//                   <h2 className={styles.catererName}>{order.catererId.name}</h2>
+//                   <h2 className={styles.catererName}>{order.catererId?.name}</h2>
 //                   <p>
 //                     Dish Items: {order.items.length} | Order Quantity:{" "}
 //                     {order.dishQuantity}
 //                   </p>
-
 //                   <div className={styles.paymentStatus}>
 //                     <p>Amount: ₹{order.totalAmount}</p>
 //                     <p>Payment status: {order.paymentStatus}</p>
 //                   </div>
 //                 </div>
 //               </div>
-//               <button className={styles.viewButton} onClick={openModal}>
+//               <button
+//                 className={styles.viewButton}
+//                 onClick={() => openModal(order)}
+//               >
 //                 View
 //               </button>
-//               <Modal isOpen={isModalOpen} onClose={closeModal}>
-//                 <h2>Order Details: </h2>
-
-//                 <div className={styles.modalUpper}>
-//                   <div className={styles.OrderSummary}>
-//                     <h3>Order Summary:</h3>
-//                     <p>Order Quantity: {order.dishQuantity}</p>
-//                     <p>Amount: {order.totalAmount}</p>
-//                     <p>Payment Status: {order.paymentStatus}</p>
-//                     <p>
-//                       Delivery Date:{" "}
-//                       {new Date(order.deliveryDate).toLocaleDateString()}
-//                     </p>
-//                   </div>
-//                   <div>
-//                     <h3>Ordered By:</h3>
-//                     <p>
-//                       Order By: {order.userId.firstName} {order.userId.lastName}
-//                     </p>
-//                     <p>Contact number: {order.userId.phone}</p>
-//                   </div>
-//                 </div>
-
-//                 <Accordion data={cartData} />
-//               </Modal>
 //             </div>
-
 //             <div className={styles.orderFooter}>
 //               <b>
 //                 Delivery Date:{" "}
 //                 {new Date(order.deliveryDate).toLocaleDateString()}
 //               </b>
 //               <p>
-//                 Order By : {order.userId.firstName} {order.userId.lastName} |
-//                 Contact No: {order.userId.phone}
+//                 Order By : {order.userId?.firstName} {order.userId?.lastName} |
+//                 Contact No: {order.userId?.phone}
 //               </p>
 //             </div>
 //           </div>
 //         </div>
 //       ))}
+
+//       {selectedOrder && (
+//         <Modal isOpen={isModalOpen} onClose={closeModal}>
+//           <h2>Order Details: </h2>
+
+//           <div className={styles.modalUpper}>
+//             <div className={styles.OrderSummary}>
+//               <h3>Order Summary:</h3>
+//               <p>Order Quantity: {selectedOrder.dishQuantity}</p>
+//               <p>Amount: ₹{selectedOrder.totalAmount}</p>
+//               <p>Payment Status: {selectedOrder.paymentStatus}</p>
+//               <p>
+//                 Delivery Date:{" "}
+//                 {new Date(selectedOrder.deliveryDate).toLocaleDateString()}
+//               </p>
+//             </div>
+//             <div>
+//               <h3>Ordered By:</h3>
+//               <p>
+//                 Order By: {selectedOrder.userId.firstName}{" "}
+//                 {selectedOrder.userId.lastName}
+//               </p>
+//               <p>Contact number: {selectedOrder.userId.phone}</p>
+//             </div>
+//           </div>
+
+          
+//           <Accordion
+//             data={formatAccordionData(selectedOrder.items)}
+//           />
+//         </Modal>
+//       )}
 //     </div>
 //   );
 // };
 
 // export default MyOrder;
+
 
 
 import React, { useEffect, useState } from "react";
@@ -106,21 +149,52 @@ const MyOrder = () => {
   const [orders, setOrders] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  
+  const [page, setPage] = useState(1); // State to track current page
+  const [totalPages, setTotalPages] = useState(1); // State to track total pages
+  const limit = 10; // Number of orders per page
+
   useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    let apiUrl = "";
+    console.log(userData.role.id);
 
-    const userData = JSON.parse(localStorage.getItem("user"))
-    let neededId;
-    if(userData.role.id==3){
-      neededId = userData.catererId;
+    // Modify the URL based on user role and add pagination parameters (limit, page)
+    if (userData.role.id == 1) {
+      // Admin (role.id === 1): Fetch all orders
+      apiUrl = `http://3.6.41.54/api/orders?limit=${limit}&page=${page}`;
+    } else if (userData.role.id == 2) {
+      // Caterer (role.id === 2): Fetch orders for that particular caterer
+      apiUrl = `http://3.6.41.54/api/orders?filters=[{"userId":"${userData.id}"}]&limit=${limit}&page=${page}`;
+    } else if (userData.role.id == 3) {
+      // User (role.id === 3): Fetch orders for that particular user
+      apiUrl = `http://3.6.41.54/api/orders?filters=[{"catererId":"${userData.id}"}]&limit=${limit}&page=${page}`;
     }
-    else neededId = userData.id;
 
-    fetch(`http://3.6.41.54/api/orders?filters=[{"${userData.role.id==3 ? "catererId" : "userId"}":"${neededId}"}]`)
+    console.log("API URL:", apiUrl);
+
+    // Fetch orders from the API
+    fetch(apiUrl)
       .then((response) => response.json())
-      .then((data) => setOrders(data.data))
-      .catch((error) => console.error("Error fetching orders:", error));
-  }, []);
+      .then((data) => {
+        console.log("Fetched Orders:", data);
+        setOrders(data.data);
+        setTotalPages(data.totalPages || 1); // Assuming API returns total pages
+      })
+      .catch((error) => console.error("Error fetching orders:", error.message));
+  }, [page]); // Re-fetch when page changes
+
+  // Pagination handlers
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage((prevPage)=>prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage((prevPage)=>prevPage - 1);
+    }
+  };
 
   const openModal = (order) => {
     setSelectedOrder(order);
@@ -139,7 +213,6 @@ const MyOrder = () => {
       dishes: item.menuItem.map((menu, menuIndex) => `${menu}`),
     }));
   };
-  console.log(orders)
 
   return (
     <div className={styles.myOrderContainer}>
@@ -155,6 +228,7 @@ const MyOrder = () => {
                 />
                 <div className={styles.catererDetails}>
                   <h2 className={styles.catererName}>{order.catererId?.name}</h2>
+                  <h4 className={styles.catererName}>contact no:{order.catererId?.mobileNo}</h4>
                   <p>
                     Dish Items: {order.items.length} | Order Quantity:{" "}
                     {order.dishQuantity}
@@ -178,8 +252,8 @@ const MyOrder = () => {
                 {new Date(order.deliveryDate).toLocaleDateString()}
               </b>
               <p>
-                Order By : {order.userId.firstName} {order.userId.lastName} |
-                Contact No: {order.userId.phone}
+                Order By : {order.userId?.firstName} {order.userId?.lastName} |
+                Contact No: {order.userId?.phone}
               </p>
             </div>
           </div>
@@ -211,12 +285,20 @@ const MyOrder = () => {
             </div>
           </div>
 
-          
-          <Accordion
-            data={formatAccordionData(selectedOrder.items)}
-          />
+          <Accordion data={formatAccordionData(selectedOrder.items)} />
         </Modal>
       )}
+
+      {/* Pagination Controls */}
+      <div className={styles.pagination}>
+      <button onClick={handlePreviousPage} disabled={page == 1}>
+        Previous
+      </button>
+      <span>Page {page} of {totalPages}</span>
+      <button onClick={handleNextPage} disabled={page == totalPages}>
+        Next
+      </button>
+    </div>
     </div>
   );
 };

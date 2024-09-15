@@ -29,7 +29,7 @@ const Accordion = (props) => {
             onClick={() => toggle(index)}
             key={index}
             style={{
-              height: isSelected ? `${contentHeight + 90}px` : "85px",
+              height: isSelected ? `${contentHeight + 90}px` : "42px",
               overflow: "hidden",
               transition: "height 0.3s ease",
             }}
