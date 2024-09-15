@@ -137,7 +137,7 @@ const CatererSearch = () => {
                 <option value="jain">Jain</option>
                 <option value="kokani">Kokani</option>
                 <option value="Mexican">Mexican</option>
-                <option value="Italian">Italian</option>
+
               </select>
             </div>
           </div>
