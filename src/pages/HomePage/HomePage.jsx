@@ -10,6 +10,8 @@ import AdminDashboard from "../AdminDashboard/AdminDashboard";
 const HomePage = () => {
   const { user } = useAuth();
 
+  console.log(user);
+
   if (user.user) {
     if (user.user.role && user.user.role.id === "3") {
       return <CatererDashboard />;
@@ -17,12 +19,12 @@ const HomePage = () => {
   }
 
   if (user.user) {
-    if (user.user.role && user.user.role.id === "2") {
+    if (user.user.role && user.user.role.id === "1") {
       return <AdminDashboard />;
     }
   }
 
-  console.log(user);
+  
 
   return (
     <>
