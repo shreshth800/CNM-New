@@ -151,7 +151,7 @@ const MyOrder = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [page, setPage] = useState(1); // State to track current page
   const [totalPages, setTotalPages] = useState(1); // State to track total pages
-  const limit = 10; // Number of orders per page
+  const limit = 10000; // Number of orders per page
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
@@ -183,18 +183,18 @@ const MyOrder = () => {
       .catch((error) => console.error("Error fetching orders:", error.message));
   }, [page]); // Re-fetch when page changes
 
-  // Pagination handlers
-  const handleNextPage = () => {
-    if (page < totalPages) {
-      setPage((prevPage)=>prevPage + 1);
-    }
-  };
+  // // Pagination handlers
+  // const handleNextPage = () => {
+  //   if (page < totalPages) {
+  //     setPage((prevPage)=>prevPage + 1);
+  //   }
+  // };
 
-  const handlePreviousPage = () => {
-    if (page > 1) {
-      setPage((prevPage)=>prevPage - 1);
-    }
-  };
+  // const handlePreviousPage = () => {
+  //   if (page > 1) {
+  //     setPage((prevPage)=>prevPage - 1);
+  //   }
+  // };
 
   const openModal = (order) => {
     setSelectedOrder(order);
@@ -289,8 +289,8 @@ const MyOrder = () => {
         </Modal>
       )}
 
-      {/* Pagination Controls */}
-      <div className={styles.pagination}>
+    
+      {/* <div className={styles.pagination}>
       <button onClick={handlePreviousPage} disabled={page == 1}>
         Previous
       </button>
@@ -298,7 +298,7 @@ const MyOrder = () => {
       <button onClick={handleNextPage} disabled={page == totalPages}>
         Next
       </button>
-    </div>
+    </div> */}
     </div>
   );
 };
