@@ -360,6 +360,7 @@ export default function Personal({setCurrentStep}) {
     extraInformation: "",
     review: [],
     dishes:[],
+    dishes:[],
     specialistIn: "",
     cuisinesOffered: [],
     inServiceFrom: "",

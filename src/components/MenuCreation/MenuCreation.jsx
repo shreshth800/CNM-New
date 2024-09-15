@@ -131,7 +131,7 @@ export default function MenuCreation({ setCurrentStep }) {
                             onChange={(e) => handleMenuNameChange(menuIndex, e.target.value)}
                             required
                         />
-                        <button type="button" onClick={() => handleRemoveMenu(menuIndex)}>
+                        <button type="button" className={styles.removeMenuButton} onClick={() => handleRemoveMenu(menuIndex)}>
                             Remove Menu Category
                         </button>
                     </div>
