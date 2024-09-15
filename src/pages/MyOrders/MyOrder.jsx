@@ -10,21 +10,31 @@
 //   const [selectedOrder, setSelectedOrder] = useState(null);
   
 //   useEffect(() => {
+//     const userData = JSON.parse(localStorage.getItem("user"));
+//     let apiUrl = " ";
+//     console.log(userData.role.id)
 
-//     const userData = JSON.parse(localStorage.getItem("user"))
-//     let neededId;
-
-
-
-//    if(userData.role.id==3){
-//       neededId = userData.catererId;
+//     if (userData.role.id == 1) {
+//       // Admin (role.id === 1): Fetch all orders
+//       apiUrl = `http://3.6.41.54/api/orders`;
+//     } else if (userData.role.id == 2) {
+//       // Caterer (role.id === 2): Fetch orders for that particular caterer
+//       apiUrl = `http://3.6.41.54/api/orders?filters=[{"userId":"${userData.id}"}]`;
+//     } else if (userData.role.id == 3) {
+//       // User (role.id === 3): Fetch orders for that particular user
+//       apiUrl = `http://3.6.41.54/api/orders?filters=[{"catererId":"${userData.id}"}]`;
 //     }
-//     else neededId = userData.id;
+//     // Log the URL to verify it's correct
+//     console.log("API URL:", apiUrl);
 
-//     fetch(`http://3.6.41.54/api/orders?filters=[{"${userData.role.id==3 ? "catererId" : "userId"}":"${neededId}"}]`)
+//     // Fetch orders from the API
+//     fetch(apiUrl)
 //       .then((response) => response.json())
-//       .then((data) => setOrders(data.data))
-//       .catch((error) => console.error("Error fetching orders:", error));
+//       .then((data) => {
+//         console.log("Fetched Orders:", data); // Log fetched data for debugging
+//         setOrders(data.data);
+//       })
+//       .catch((error) => console.error("Error fetching orders:", error.message));
 //   }, []);
 
 //   const openModal = (order) => {
@@ -44,7 +54,6 @@
 //       dishes: item.menuItem.map((menu, menuIndex) => `${menu}`),
 //     }));
 //   };
-//   console.log(orders)
 
 //   return (
 //     <div className={styles.myOrderContainer}>
@@ -83,8 +92,8 @@
 //                 {new Date(order.deliveryDate).toLocaleDateString()}
 //               </b>
 //               <p>
-//                 Order By : {order.userId.firstName} {order.userId.lastName} |
-//                 Contact No: {order.userId.phone}
+//                 Order By : {order.userId?.firstName} {order.userId?.lastName} |
+//                 Contact No: {order.userId?.phone}
 //               </p>
 //             </div>
 //           </div>
@@ -129,6 +138,7 @@
 // export default MyOrder;
 
 
+
 import React, { useEffect, useState } from "react";
 import styles from "./MyOrder.module.css";
 import menuImage from "../../assets/caterer/myorder.png";
@@ -139,34 +149,52 @@ const MyOrder = () => {
   const [orders, setOrders] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  
+  const [page, setPage] = useState(1); // State to track current page
+  const [totalPages, setTotalPages] = useState(1); // State to track total pages
+  const limit = 10; // Number of orders per page
+
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
-    let apiUrl = " ";
-    console.log(userData.role.id)
+    let apiUrl = "";
+    console.log(userData.role.id);
 
+    // Modify the URL based on user role and add pagination parameters (limit, page)
     if (userData.role.id == 1) {
       // Admin (role.id === 1): Fetch all orders
-      apiUrl = `http://3.6.41.54/api/orders`;
+      apiUrl = `http://3.6.41.54/api/orders?limit=${limit}&page=${page}`;
     } else if (userData.role.id == 2) {
       // Caterer (role.id === 2): Fetch orders for that particular caterer
-      apiUrl = `http://3.6.41.54/api/orders?filters=[{"userId":"${userData.id}"}]`;
+      apiUrl = `http://3.6.41.54/api/orders?filters=[{"userId":"${userData.id}"}]&limit=${limit}&page=${page}`;
     } else if (userData.role.id == 3) {
       // User (role.id === 3): Fetch orders for that particular user
-      apiUrl = `http://3.6.41.54/api/orders?filters=[{"catererId":"${userData.id}"}]`;
+      apiUrl = `http://3.6.41.54/api/orders?filters=[{"catererId":"${userData.id}"}]&limit=${limit}&page=${page}`;
     }
-    // Log the URL to verify it's correct
+
     console.log("API URL:", apiUrl);
 
     // Fetch orders from the API
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Fetched Orders:", data); // Log fetched data for debugging
+        console.log("Fetched Orders:", data);
         setOrders(data.data);
+        setTotalPages(data.totalPages || 1); // Assuming API returns total pages
       })
       .catch((error) => console.error("Error fetching orders:", error.message));
-  }, []);
+  }, [page]); // Re-fetch when page changes
+
+  // Pagination handlers
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage((prevPage)=>prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage((prevPage)=>prevPage - 1);
+    }
+  };
 
   const openModal = (order) => {
     setSelectedOrder(order);
@@ -200,6 +228,7 @@ const MyOrder = () => {
                 />
                 <div className={styles.catererDetails}>
                   <h2 className={styles.catererName}>{order.catererId?.name}</h2>
+                  <h4 className={styles.catererName}>contact no:{order.catererId?.mobileNo}</h4>
                   <p>
                     Dish Items: {order.items.length} | Order Quantity:{" "}
                     {order.dishQuantity}
@@ -256,12 +285,20 @@ const MyOrder = () => {
             </div>
           </div>
 
-          
-          <Accordion
-            data={formatAccordionData(selectedOrder.items)}
-          />
+          <Accordion data={formatAccordionData(selectedOrder.items)} />
         </Modal>
       )}
+
+      {/* Pagination Controls */}
+      <div className={styles.pagination}>
+      <button onClick={handlePreviousPage} disabled={page == 1}>
+        Previous
+      </button>
+      <span>Page {page} of {totalPages}</span>
+      <button onClick={handleNextPage} disabled={page == totalPages}>
+        Next
+      </button>
+    </div>
     </div>
   );
 };
