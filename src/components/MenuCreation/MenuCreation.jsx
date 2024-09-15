@@ -4,7 +4,7 @@ import styles from './MenuCreation.module.css';
 import { CatererContext } from '../../App';
 import { toastMessage } from '../../../utility';
 
-export default function MenuCreation({setCurrentStep}) {
+export default function MenuCreation({ setCurrentStep }) {
     const { catererId } = useContext(CatererContext);
     const [menus, setMenus] = useState([
         {
@@ -50,6 +50,12 @@ export default function MenuCreation({setCurrentStep}) {
         ]);
     };
 
+    const handleRemoveMenu = (menuIndex) => {
+        const newMenus = [...menus];
+        newMenus.splice(menuIndex, 1); // Removes the menu at the specified index
+        setMenus(newMenus);
+    };
+
     const handleMenuNameChange = (index, value) => {
         const newMenus = [...menus];
         newMenus[index].menuName = value;
@@ -62,6 +68,12 @@ export default function MenuCreation({setCurrentStep}) {
         setMenus(newMenus);
     };
 
+    const handleRemoveItem = (menuIndex, menuType, itemIndex) => {
+        const newMenus = [...menus];
+        newMenus[menuIndex].menuData[menuType].splice(itemIndex, 1); // Removes the dish at the specified index
+        setMenus(newMenus);
+    };
+
     const handleChangeItem = (menuIndex, menuType, itemIndex, value) => {
         const newMenus = [...menus];
         newMenus[menuIndex].menuData[menuType][itemIndex] = value;
@@ -70,7 +82,7 @@ export default function MenuCreation({setCurrentStep}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         try {
             const createMenuPromises = menus.map(async (menu) => {
                 const payload = {
@@ -84,21 +96,19 @@ export default function MenuCreation({setCurrentStep}) {
                         id: 1
                     }
                 };
-    
+
                 const response = await axios.post('http://3.6.41.54/api/menus', payload);
                 console.log('Menu Created:', response.data);
-                
-                // Consider any 2xx status as success
+
                 return response.status >= 200 && response.status < 300;
             });
-    
+
             const results = await Promise.all(createMenuPromises);
-    
             const allMenusCreated = results.every(status => status);
-    
+
             if (allMenusCreated) {
                 toastMessage('All menus created successfully!');
-                setCurrentStep(3)
+                setCurrentStep(3);
             } else {
                 toastMessage('Some menus failed to create. Please try again.');
             }
@@ -107,7 +117,6 @@ export default function MenuCreation({setCurrentStep}) {
             toastMessage('Error creating menu. Please try again.');
         }
     };
-    
 
     return (
         <form className={styles.menuForm} onSubmit={handleSubmit}>
@@ -122,20 +131,26 @@ export default function MenuCreation({setCurrentStep}) {
                             onChange={(e) => handleMenuNameChange(menuIndex, e.target.value)}
                             required
                         />
+                        <button type="button" onClick={() => handleRemoveMenu(menuIndex)}>
+                            Remove Menu Category
+                        </button>
                     </div>
 
                     {cateringTypes.map(type => (
                         <div key={type} className={styles.menuTypeGroup}>
                             <h3>{type.replace(/^./, type[0].toUpperCase())}</h3>
-                            {menu.menuData[type].map((item, index) => (
-                                <div key={index} className={styles.menuItem}>
+                            {menu.menuData[type].map((item, itemIndex) => (
+                                <div key={itemIndex} className={styles.menuItem}>
                                     <input
                                         type="text"
                                         placeholder={`${type.replace(/^./, type[0].toUpperCase())} Dish Name`}
                                         value={item}
-                                        onChange={(e) => handleChangeItem(menuIndex, type, index, e.target.value)}
+                                        onChange={(e) => handleChangeItem(menuIndex, type, itemIndex, e.target.value)}
                                         required
                                     />
+                                    <button type="button" onClick={() => handleRemoveItem(menuIndex, type, itemIndex)}>
+                                        Remove {type.replace(/^./, type[0].toUpperCase())} Dish
+                                    </button>
                                 </div>
                             ))}
                             <button type="button" onClick={() => handleAddItem(menuIndex, type)}>
@@ -149,9 +164,8 @@ export default function MenuCreation({setCurrentStep}) {
             <button type="button" className={styles.addMenuButton} onClick={handleAddMenu}>
                 Add Menu Category
             </button>
-            
+
             <button className={styles.submitButton} type="submit">Submit Menus</button>
         </form>
     );
 }
-

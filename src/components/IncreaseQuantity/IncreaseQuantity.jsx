@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import Styles from './IncreaseQuantity.module.css';
 import Table from '../table/Table';
 
-export default function IncreaseQuantity({closeModal, storageObject, setStorageObject}) {
+export default function IncreaseQuantity({closeModal, storageObject, setStorageObject,menusData}) {
+  const itemCounts = menusData.map(category => {
+    return category.items.reduce((acc, item) => acc + item.items.length, 0);
+  });
+  console.log(itemCounts)
   const [updatedQuantities, setUpdatedQuantities] = useState(storageObject.map(item =>item=0));
   const handleQuantityChange = (index, newValue) => {
     const updatedQuantitiesCopy = [...updatedQuantities];
@@ -13,8 +17,8 @@ export default function IncreaseQuantity({closeModal, storageObject, setStorageO
   const handleSubmit = () => {
     const updatedStorageObject = storageObject.map((item, index) => ({
       ...item,
-      addon:item.addon+updatedQuantities[index],
-      quantity:item.quantity+updatedQuantities[index]
+      addon:itemCounts[index]>=item.addon+updatedQuantities[index]?item.addon+updatedQuantities[index]:item.addon,
+      quantity:itemCounts[index]>=item.quantity+updatedQuantities[index]?item.quantity+updatedQuantities[index]:item.quantity
     }));
     setStorageObject(updatedStorageObject);
     setUpdatedQuantities(updatedQuantities=>updatedQuantities=storageObject.map(item =>item=0))

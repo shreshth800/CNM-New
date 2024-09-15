@@ -418,13 +418,12 @@ const LoginRegisterModal = ({
       });
 
       if (!response.ok) {
-        toastMessage("Registration Failed");
+        toastMessage("Email or username already exists");
         throw new Error("Registration failed");
       }
 
       toastMessage("Registration successful");
       setIsLogin(true); // Switch to login mode after successful registration
-      onClose();
     } catch (error) {
       console.error("Error:", error);
     }

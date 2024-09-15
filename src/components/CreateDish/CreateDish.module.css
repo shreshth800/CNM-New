@@ -58,10 +58,24 @@
   .blueButton {
     background-color: #007bff;
     margin-top: 10px;
+    margin-right:10px;
   }
   
   .blueButton:hover {
     background-color: #0069d9;
+  }
+  
+  .redButton {
+    background-color: #ff4d4d;
+    padding:0.7rem 1.6rem;
+    border:none;
+    border-radius:0.3rem;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
   }
   
   

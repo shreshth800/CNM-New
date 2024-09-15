@@ -227,7 +227,6 @@ const AddToCart = () => {
 
           const transformedStorageObject = dish.items.map((item) => {
             const menu = menus.find((menu) => menu.id === item.id) || {};
-            console.log(menu, "menu");
             let currentDishes = [];
             categoriesArray.push(item.item);
 
@@ -344,6 +343,7 @@ const AddToCart = () => {
           setStorageObject={setStorageObject}
           onCategorySelect={handleCategorySelect}
           selectedCategory={selectedCategory}
+          menusData={menusData}
         />
         <DishSelection
           dishes={filteredDishes}

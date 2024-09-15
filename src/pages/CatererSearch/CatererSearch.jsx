@@ -120,7 +120,7 @@ const CatererSearch = () => {
               </select>
             </div>
             <div className={`${styles.filterItem} ${styles.foodType}`}>
-              <label htmlFor="food-type">Food Type: </label>
+              <label htmlFor="food-type">Cuisine Type: </label>
               <select
                 id="food-type"
                 className={styles.filterDropdown}

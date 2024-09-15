@@ -9,6 +9,7 @@ const SideBar = ({
   onCategorySelect,
   storageObject,
   setStorageObject,
+  menusData
 }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => setModalOpen(true);
@@ -18,8 +19,8 @@ const SideBar = ({
       {/* <Modal isOpen={isModalOpen} onClose={closeModal}><IncreaseQuantity closeModal={closeModal} initialState={initialState} setStorageObject={setStorageObject} storageObject={storageObject}/></Modal> */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <IncreaseQuantity
+        menusData={menusData}
           closeModal={closeModal}
-          initialState={storageObject}
           setStorageObject={setStorageObject}
           storageObject={storageObject}
         />
