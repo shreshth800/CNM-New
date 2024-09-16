@@ -201,7 +201,8 @@ const Bill = () => {
 
   const handleOrder = async () => {
     try {
-      const dish = JSON.parse(localStorage.getItem("dishDetails"));
+      const dishes = JSON.parse(localStorage.getItem("dishDetails"));
+      const dish=dishes.filter(dish)
       const user = JSON.parse(localStorage.getItem("user"));
       const cartItems = cartData.map((item) => ({
         item: item.name,
