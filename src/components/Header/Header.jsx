@@ -4,7 +4,7 @@ import CNMLogo from "../../assets/CNMLogo-NoBG.png";
 import LoginRegisterModal from "../loginRegisterModal/LoginRegisterModal";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { CatererContext } from "../../App";
+import {CatererContext} from "../../CatererContext";
 import { toastMessage } from "../../../utility";
 
 const Header = () => {

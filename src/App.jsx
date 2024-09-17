@@ -1,11 +1,15 @@
-import React, { createContext, Suspense, useState } from "react";
+import React, { Suspense } from "react";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Spinner from "./components/Spinner/Spinner";
-import CreateMenu from "./pages/CreateMenu/CreateMenu";
 import AuthProvider from "./context/AuthProvider";
-import CatererDashboard from "./pages/CatererDashboard/CatererDashboard";
+import { CatererProvider } from "./CatererContext";
+
+const CreateMenu = React.lazy(() => import("./pages/CreateMenu/CreateMenu"));
+const CatererDashboard = React.lazy(() =>
+  import("./pages/CatererDashboard/CatererDashboard")
+);
 const CatererSearch = React.lazy(() =>
   import("./pages/CatererSearch/CatererSearch")
 );
@@ -15,9 +19,6 @@ const AddToCart = React.lazy(() => import("./pages/AddToCart/AddToCart"));
 const Bill = React.lazy(() => import("./pages/Bill/Bill"));
 const MyOrder = React.lazy(() => import("./pages/MyOrders/MyOrder"));
 const AppLayout = React.lazy(() => import("./components/AppLayout"));
-// const AddToCart2 = React.lazy(() => import("./pages/AddToCart2/AddToCart2"));
-
-export const CatererContext = createContext();
 
 function App() {
   const router = createBrowserRouter([
@@ -45,14 +46,6 @@ function App() {
             </Suspense>
           ),
         },
-        // {
-        //   path: "/dev",
-        //   element: (
-        //     <Suspense fallback={<Spinner />}>
-        //       <NewFrontend/>
-        //     </Suspense>
-        //   ),
-        // },
         {
           path: "/catererDashboard",
           element: (
@@ -79,14 +72,6 @@ function App() {
             </ProtectedRoute>
           ),
         },
-        // {
-        //   path: "/add-to-cart2/:dishId",
-        //   element: (
-        //     <Suspense fallback={<Spinner />}>
-        //       <AddToCart2 />
-        //     </Suspense>
-        //   ),
-        // },
         {
           path: "/bill",
           element: (
@@ -116,23 +101,13 @@ function App() {
       ],
     },
   ]);
-  const [catererId, setCatererId] = useState("");
-  const [isCaterer, setIsCaterer] = useState(false);
+
   return (
-    <>
-      <AuthProvider>
-        <CatererContext.Provider
-          value={{
-            catererId,
-            setCatererId,
-            isCaterer,
-            setIsCaterer,
-          }}
-        >
-          <RouterProvider router={router} />
-        </CatererContext.Provider>
-      </AuthProvider>
-    </>
+    <AuthProvider>
+      <CatererProvider>
+        <RouterProvider router={router} />
+      </CatererProvider>
+    </AuthProvider>
   );
 }
 

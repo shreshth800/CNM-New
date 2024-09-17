@@ -150,6 +150,9 @@ const CatererSearch = () => {
         <div className={styles.catererList}>
           {Array.isArray(currentCaterers) &&
             currentCaterers.map((caterer) => {
+              if(caterer.dishes===undefined){
+                return null
+              }
               return (
                 <div key={caterer.id} className={styles.catererCard}>
                   <div className={styles.catererDetails}>

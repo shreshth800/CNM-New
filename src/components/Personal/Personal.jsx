@@ -1,7 +1,7 @@
 // import React, { useContext, useEffect, useState } from "react";
 // import styles from "./Personal.module.css";
 // import axios from "axios";
-// import { CatererContext } from "../../App";
+// import {CatererContext} from "../../CatererContext";
 
 // export default function Personal() {
 //   const {catererId,setCatererId}=useContext(CatererContext)
@@ -334,7 +334,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./Personal.module.css";
 import axios from "axios";
-import { CatererContext } from "../../App";
+import {CatererContext} from "../../CatererContext";
 import { toastMessage } from "../../../utility";
 import { formatDate } from "../../../utility";
 

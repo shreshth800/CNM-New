@@ -1,7 +1,7 @@
 // import React, { useState, useEffect, useContext } from "react";
 // import useAuth from "../../hooks/useAuth";
 // import styles from "./LoginRegisterModal.module.css";
-// import { CatererContext } from "../../App";
+// import {CatererContext} from "../../CatererContext";
 // import { toastMessage } from "../../../utility";
 
 // const LoginRegisterModal = ({
@@ -280,7 +280,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import useAuth from "../../hooks/useAuth";
 import styles from "./LoginRegisterModal.module.css";
-import { CatererContext } from "../../App";
+import {CatererContext} from "../../CatererContext";
 import { toastMessage } from "../../../utility";
 
 const LoginRegisterModal = ({

@@ -4,7 +4,7 @@
 // import Accordion from "../../components/Accordion/Accordion";
 // import styles from "./AddToCart.module.css";
 // import { useNavigate, useParams } from "react-router-dom";
-// import { CatererContext } from "../../App";
+// import {CatererContext} from "../../CatererContext";
 // import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 // const AddToCart = () => {

@@ -128,7 +128,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./Bill.module.css";
-import { CatererContext } from "../../App";
+import {CatererContext} from "../../CatererContext";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
@@ -201,14 +201,17 @@ const Bill = () => {
 
   const handleOrder = async () => {
     try {
-      const dishes = JSON.parse(localStorage.getItem("dishDetails"));
-      const dish=dishes.filter(dish)
+      const dish = JSON.parse(localStorage.getItem("dishDetails"));
       const user = JSON.parse(localStorage.getItem("user"));
-      const cartItems = cartData.map((item) => ({
+      const cartItem = cartData.map((item) => ({
         item: item.name,
         quantity: item.quantity,
         menuItem: item.dishes,
       }));
+      console.log(cartItem)
+      const cartItems = cartItem.filter(cartItem => cartItem.quantity !== 0);
+      console.log(cartItems)
+
 
       const myorder = {
         catererId:JSON.parse(localStorage.getItem('catererId')),
