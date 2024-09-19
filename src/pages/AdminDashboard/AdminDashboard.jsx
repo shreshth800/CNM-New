@@ -15,10 +15,10 @@ const AdminDashboard = () => {
           <h1>All Caterers</h1>
           <button onClick={() => navigate("/create-menu")}>View</button>
         </div>
-        <div className={styles.catererDashRight}>
+        {/* <div className={styles.catererDashRight}>
           <h1>All Users</h1>
           <button onClick={() => navigate("/create-menu")}>View</button>
-        </div>
+        </div> */}
       </div>
     </>
   );
