@@ -26,7 +26,7 @@ export default function Ourspeciality1() {
     {
       imageUrl:
         "https://caterernearme.netlify.app/assets/images/experts/expert5.png",
-      name: "Gujrati",
+      name: "Gujarati",
     },
     {
       imageUrl:

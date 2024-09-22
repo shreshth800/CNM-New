@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './MenuCreation.module.css';
-import { CatererContext } from '../../App';
+import { CatererContext } from '../../CatererContext';
 import { toastMessage } from '../../../utility';
 
 export default function MenuCreation({ setCurrentStep }) {

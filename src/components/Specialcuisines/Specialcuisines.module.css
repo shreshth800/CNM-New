@@ -1,21 +1,23 @@
 .container {
   border-radius: 1rem;
-  min-width: 20rem;
-  width: 20%;
+  min-width: 16rem;
+  width: 18%;
   background-size: contain;
-  padding: 2rem;
-  height: 18rem;
+  padding: 2rem 2rem 1.4rem 2rem;
+  height: 16rem;
   display: flex;
   flex-wrap: wrap;
   position: relative;
+  margin-bottom:1rem;
 }
 
 .image {
   display: inline-block;
-  width: 90%;
+  width: 100%;
   height:100%;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effect */
   cursor: pointer;
+  border-radius:9px;
 }
 
 /* Hover effect: Zoom and shadow */
@@ -41,7 +43,7 @@
   display: inline-block;
   position: absolute;
   top: 100%;
-  left: 45%;
+  left: 50%;
   transform: translate(-50%, 0);
 }
 

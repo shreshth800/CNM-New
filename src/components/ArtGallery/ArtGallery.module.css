@@ -1,8 +1,8 @@
 .header{
-    marging:0;
+    margin:0;
     text-align:center;
-    font-size:2.8rem;
-    padding:2rem 0;
+    font-size:2.3rem;
+    padding:3rem 0;
 }
 .container{
     margin:0 auto;
@@ -12,7 +12,8 @@
     display:grid;
     grid-template-columns:repeat(3,1fr);
     column-gap:2.5rem;
-    max-width:100rem;
+    max-width:87rem;
+    margin:0 auto;
 }
 .flexImg{
     width:100%;

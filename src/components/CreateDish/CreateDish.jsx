@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styles from './CreateDish.module.css';
 import axios from 'axios';
-import { CatererContext } from '../../App';
+import { CatererContext } from '../../CatererContext';
 import { toastMessage } from '../../../utility';
 
 export default function CreateDish() {
