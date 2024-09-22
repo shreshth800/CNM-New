@@ -29,7 +29,7 @@ export default function Footer1() {
             <p className={styles.footerheading}>Contact Us</p>
             <address className={styles.contacts}>
                 <p className={styles.address}>Andher west</p>
-                <a className={styles.footerlink} href="tel:876543210">876543210</a>
+                <a className={styles.footerlink} href="tel:+91 9321291563">+91 9321291563</a>
                 <a className={styles.footerlink} href="mailto:caterersnearme@gmail.com">caterersnearme@gmail.com</a>
             </address>
         </div>
