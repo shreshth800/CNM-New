@@ -9,9 +9,9 @@ import Reviews from "../../components/Reviews/Reviews";
 import CatererSummary from "../../components/CatererSummary/CatererSummary";
 import Map from "../../components/Map/Map";
 import CatererDetails from "../../components/OrderPageCatererDetails/CatererDetails";
-import {CatererContext} from "../../CatererContext";
+import { CatererContext } from "../../CatererContext";
 import Spinner from "../../components/Spinner/Spinner";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate"; 
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const OrderPage = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -23,7 +23,7 @@ const OrderPage = () => {
   useEffect(() => {
     const fetchCatererData = async () => {
       // try {
-      //   const response = await fetch(`http://3.6.41.54/api/caterer/${id}`);
+      //   const response = await fetch(`http://localhost:3000/api/caterer/${id}`);
       //   const data = await response.json();
       //   setCatererData(data);
       // } catch (error) {
@@ -31,7 +31,7 @@ const OrderPage = () => {
       // }
       try {
         const response = await axiosPrivate.get(
-          `http://3.6.41.54/api/caterer/${id}`
+          `http://localhost:3000/api/caterer/${id}`
         );
         if (response.data) {
           setCatererData(response.data);
@@ -46,14 +46,14 @@ const OrderPage = () => {
     if (id) {
       fetchCatererData();
     }
-    if (catererId=='') {
+    if (catererId == "") {
       setCatererId(id);
     }
   }, [id]);
-  if (catererId=='') {
+  if (catererId == "") {
     setCatererId(id);
   }
-  localStorage.setItem('catererId',JSON.stringify(id))
+  localStorage.setItem("catererId", JSON.stringify(id));
 
   if (!catererData) {
     return <Spinner />;

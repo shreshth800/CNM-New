@@ -57,7 +57,7 @@
 //     };
 
 //     try {
-//       const response = await fetch("http://3.6.41.54/api/auth/email/login", {
+//       const response = await fetch("http://localhost:3000/api/auth/email/login", {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -105,7 +105,7 @@
 //     };
 
 //     try {
-//       const response = await fetch("http://3.6.41.54/api/auth/email/register", {
+//       const response = await fetch("http://localhost:3000/api/auth/email/register", {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -280,7 +280,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import useAuth from "../../hooks/useAuth";
 import styles from "./LoginRegisterModal.module.css";
-import {CatererContext} from "../../CatererContext";
+import { CatererContext } from "../../CatererContext";
 import { toastMessage } from "../../../utility";
 
 const LoginRegisterModal = ({
@@ -339,44 +339,45 @@ const LoginRegisterModal = ({
   };
 
   const handleLoginSubmit = async (event) => {
-        event.preventDefault();
-    
-        const loginData = {
-          email,
-          password,
-        };
-    
-        try {
-          const response = await fetch("http://3.6.41.54/api/auth/email/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(loginData),
-          });
-    
-          if (!response.ok) {
-            toastMessage("Login Failed");
-            throw new Error("Login failed");
-          }
-    
-          const result = await response.json();
-          setIsLoggedName(true);
-          setFirstName(result.user.firstName);
-          localStorage.setItem("token", result.token); // Store tokens and user data in localStorage
-          localStorage.setItem("refreshToken", result.refreshToken);
-          localStorage.setItem("user", JSON.stringify(result.user));
-          setUser({ user: result.user, token: result.token }); // Set user state
-    
-          toastMessage('Login Successful!')
-          setIsCaterer(result.user.role.id==3?true:false)
-          onClose(); // Close the modal
-        } catch (error) {
-          console.error("Error:", error);
+    event.preventDefault();
+
+    const loginData = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/auth/email/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(loginData),
         }
-      };
+      );
 
+      if (!response.ok) {
+        toastMessage("Login Failed");
+        throw new Error("Login failed");
+      }
 
+      const result = await response.json();
+      setIsLoggedName(true);
+      setFirstName(result.user.firstName);
+      localStorage.setItem("token", result.token); // Store tokens and user data in localStorage
+      localStorage.setItem("refreshToken", result.refreshToken);
+      localStorage.setItem("user", JSON.stringify(result.user));
+      setUser({ user: result.user, token: result.token }); // Set user state
+
+      toastMessage("Login Successful!");
+      setIsCaterer(result.user.role.id == 3 ? true : false);
+      onClose(); // Close the modal
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   // Handle registration form submission
   const handleRegisterSubmit = async (event) => {
@@ -409,16 +410,22 @@ const LoginRegisterModal = ({
     };
 
     try {
-      const response = await fetch("http://3.6.41.54/api/auth/email/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(registerData),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/auth/email/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(registerData),
+        }
+      );
+
+      console.log(response);
+      console.log(registerData);
 
       if (!response.ok) {
-        toastMessage("Email or username already exists");
+        toastMessage("Email ,username or phonenumber already exists");
         throw new Error("Registration failed");
       }
 

@@ -1,12 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
-import styles from './CreateDish.module.css';
-import axios from 'axios';
-import { CatererContext } from '../../CatererContext';
-import { toastMessage } from '../../../utility';
+import React, { useContext, useEffect, useState } from "react";
+import styles from "./CreateDish.module.css";
+import axios from "axios";
+import { CatererContext } from "../../CatererContext";
+import { toastMessage } from "../../../utility";
 
 export default function CreateDish() {
   const { catererId } = useContext(CatererContext);
-  const [packages, setPackages] = useState([{ name: '', price: 0, dishType: '', items: [{ id: '', item: '', price: 0, quantity: '' }] }]);
+  const [packages, setPackages] = useState([
+    {
+      name: "",
+      price: 0,
+      dishType: "",
+      items: [{ id: "", item: "", price: 0, quantity: "" }],
+    },
+  ]);
   const [catererDish, setCatererDish] = useState([]);
   const [categoryType, setCategoryType] = useState([]); // To store fetched catering types
 
@@ -14,12 +21,16 @@ export default function CreateDish() {
   useEffect(() => {
     async function getMenu() {
       try {
-        const response = await fetch('http://3.6.41.54/api/Menus?limit=100000');
+        const response = await fetch(
+          "http://localhost:3000/api/Menus?limit=100000"
+        );
         const data = await response.json();
-        const catererData = data.data.filter(dish => dish.catererId === catererId);
+        const catererData = data.data.filter(
+          (dish) => dish.catererId === catererId
+        );
         setCatererDish(catererData);
       } catch (error) {
-        console.error('Error fetching menu data:', error);
+        console.error("Error fetching menu data:", error);
       }
     }
     getMenu();
@@ -29,11 +40,13 @@ export default function CreateDish() {
   useEffect(() => {
     async function fetchCateringTypes() {
       try {
-        const response = await axios.get(`http://3.6.41.54/api/caterer/${catererId}`);
+        const response = await axios.get(
+          `http://localhost:3000/api/caterer/${catererId}`
+        );
         const cateringData = response.data;
         setCategoryType(cateringData.cateringType || []);
       } catch (error) {
-        console.error('Error fetching catering types:', error);
+        console.error("Error fetching catering types:", error);
       }
     }
     fetchCateringTypes();
@@ -41,15 +54,23 @@ export default function CreateDish() {
 
   const handlePackageChange = (index, event) => {
     const updatedPackages = [...packages];
-    updatedPackages[index][event.target.name] = event.target.name === 'price' ? Number(event.target.value) : event.target.value;
+    updatedPackages[index][event.target.name] =
+      event.target.name === "price"
+        ? Number(event.target.value)
+        : event.target.value;
     setPackages(updatedPackages);
   };
 
   const handleDishChange = (packageIndex, dishIndex, event) => {
     const updatedPackages = [...packages];
-    const selectedDish = catererDish.find(dish => dish.name === event.target.value);
-    updatedPackages[packageIndex].items[dishIndex][event.target.name] = event.target.name === 'price' ? Number(event.target.value) : event.target.value;
-    if (event.target.name === 'item' && selectedDish) {
+    const selectedDish = catererDish.find(
+      (dish) => dish.name === event.target.value
+    );
+    updatedPackages[packageIndex].items[dishIndex][event.target.name] =
+      event.target.name === "price"
+        ? Number(event.target.value)
+        : event.target.value;
+    if (event.target.name === "item" && selectedDish) {
       updatedPackages[packageIndex].items[dishIndex].id = selectedDish.id; // Store the dish's ID
     }
     setPackages(updatedPackages);
@@ -57,7 +78,12 @@ export default function CreateDish() {
 
   const addDish = (packageIndex) => {
     const updatedPackages = [...packages];
-    updatedPackages[packageIndex].items.push({ id: '', item: '', price: 0, quantity: '' });
+    updatedPackages[packageIndex].items.push({
+      id: "",
+      item: "",
+      price: 0,
+      quantity: "",
+    });
     setPackages(updatedPackages);
   };
 
@@ -68,7 +94,15 @@ export default function CreateDish() {
   };
 
   const addPackage = () => {
-    setPackages([...packages, { name: '', price: 0, dishType: '', items: [{ id: '', item: '', price: 0, quantity: '' }] }]);
+    setPackages([
+      ...packages,
+      {
+        name: "",
+        price: 0,
+        dishType: "",
+        items: [{ id: "", item: "", price: 0, quantity: "" }],
+      },
+    ]);
   };
 
   const removePackage = (packageIndex) => {
@@ -80,32 +114,57 @@ export default function CreateDish() {
   async function SubmitForm(e) {
     e.preventDefault();
     try {
-      const response = await axios.get(`http://3.6.41.54/api/caterer/${catererId}`);
+      const response = await axios.get(
+        `http://localhost:3000/api/caterer/${catererId}`
+      );
       const caterersdish = response.data;
       let caterer;
       if (caterersdish.dishes) {
-        caterer = { ...caterersdish, dishes: caterersdish.dishes.map(dish => ({ ...dish, _id: dish.id })) };
+        caterer = {
+          ...caterersdish,
+          dishes: caterersdish.dishes.map((dish) => ({
+            ...dish,
+            _id: dish.id,
+          })),
+        };
       }
 
-      const updatedPackage = packages.map(pkg => ({ ...pkg, catererId }));
+      const updatedPackage = packages.map((pkg) => ({ ...pkg, catererId }));
 
       const results = await Promise.all(
-        updatedPackage.map(async pkg => {
-          const dishes = await axios.post(`http://3.6.41.54/api/dishes`, pkg);
+        updatedPackage.map(async (pkg) => {
+          const dishes = await axios.post(
+            `http://localhost:3000/api/dishes`,
+            pkg
+          );
           const dishD = dishes.data;
           return { ...dishD, _id: dishD.id };
         })
       );
 
-      const newCaterer = caterer?.dishes ? { dishes: [...caterer.dishes, ...results] } : { dishes: [...results] };
+      const newCaterer = caterer?.dishes
+        ? { dishes: [...caterer.dishes, ...results] }
+        : { dishes: [...results] };
 
-      await axios.patch(`http://3.6.41.54/api/caterer/${catererId}`, newCaterer);
+      await axios.patch(
+        `http://localhost:3000/api/caterer/${catererId}`,
+        newCaterer
+      );
 
-      toastMessage('Packages submitted successfully!');
-      setPackages([{ name: '', price: 0, dishType: '', items: [{ id: '', item: '', price: 0, quantity: '' }] }])
+      toastMessage("Packages submitted successfully!");
+      setPackages([
+        {
+          name: "",
+          price: 0,
+          dishType: "",
+          items: [{ id: "", item: "", price: 0, quantity: "" }],
+        },
+      ]);
     } catch (error) {
-      console.error('Error submitting form:', error);
-      toastMessage('There was an error submitting the packages. Please try again.');
+      console.error("Error submitting form:", error);
+      toastMessage(
+        "There was an error submitting the packages. Please try again."
+      );
     }
   }
 
@@ -140,7 +199,9 @@ export default function CreateDish() {
                 value={pkg.dishType}
                 onChange={(event) => handlePackageChange(pkgIndex, event)}
               >
-                <option value="" disabled>Select type</option>
+                <option value="" disabled>
+                  Select type
+                </option>
                 {categoryType.map((category, index) => (
                   <option key={index} value={category}>
                     {category}
@@ -156,9 +217,13 @@ export default function CreateDish() {
                   <select
                     name="item"
                     value={dish.item}
-                    onChange={(event) => handleDishChange(pkgIndex, dishIndex, event)}
+                    onChange={(event) =>
+                      handleDishChange(pkgIndex, dishIndex, event)
+                    }
                   >
-                    <option value="" disabled>Select a dish</option>
+                    <option value="" disabled>
+                      Select a dish
+                    </option>
                     {catererDish.map((catererDish) => (
                       <option key={catererDish.id} value={catererDish.name}>
                         {catererDish.name}
@@ -172,7 +237,9 @@ export default function CreateDish() {
                     type="text"
                     name="price"
                     value={dish.price}
-                    onChange={(event) => handleDishChange(pkgIndex, dishIndex, event)}
+                    onChange={(event) =>
+                      handleDishChange(pkgIndex, dishIndex, event)
+                    }
                   />
                 </div>
                 <div className={styles.inputGroup}>
@@ -181,7 +248,9 @@ export default function CreateDish() {
                     type="text"
                     name="quantity"
                     value={dish.quantity}
-                    onChange={(event) => handleDishChange(pkgIndex, dishIndex, event)}
+                    onChange={(event) =>
+                      handleDishChange(pkgIndex, dishIndex, event)
+                    }
                   />
                 </div>
                 <button
@@ -213,7 +282,11 @@ export default function CreateDish() {
           Add Package
         </button>
       </form>
-      <button type="button" onClick={(e) => SubmitForm(e)} className={styles.addButton}>
+      <button
+        type="button"
+        onClick={(e) => SubmitForm(e)}
+        className={styles.addButton}
+      >
         Submit
       </button>
     </>

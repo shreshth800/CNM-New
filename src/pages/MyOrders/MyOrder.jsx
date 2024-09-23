@@ -8,7 +8,7 @@
 //   const [orders, setOrders] = useState([]);
 //   const [isModalOpen, setModalOpen] = useState(false);
 //   const [selectedOrder, setSelectedOrder] = useState(null);
-  
+
 //   useEffect(() => {
 //     const userData = JSON.parse(localStorage.getItem("user"));
 //     let apiUrl = " ";
@@ -16,13 +16,13 @@
 
 //     if (userData.role.id == 1) {
 //       // Admin (role.id === 1): Fetch all orders
-//       apiUrl = `http://3.6.41.54/api/orders`;
+//       apiUrl = `http://localhost:3000/api/orders`;
 //     } else if (userData.role.id == 2) {
 //       // Caterer (role.id === 2): Fetch orders for that particular caterer
-//       apiUrl = `http://3.6.41.54/api/orders?filters=[{"userId":"${userData.id}"}]`;
+//       apiUrl = `http://localhost:3000/api/orders?filters=[{"userId":"${userData.id}"}]`;
 //     } else if (userData.role.id == 3) {
 //       // User (role.id === 3): Fetch orders for that particular user
-//       apiUrl = `http://3.6.41.54/api/orders?filters=[{"catererId":"${userData.id}"}]`;
+//       apiUrl = `http://localhost:3000/api/orders?filters=[{"catererId":"${userData.id}"}]`;
 //     }
 //     // Log the URL to verify it's correct
 //     console.log("API URL:", apiUrl);
@@ -125,7 +125,6 @@
 //             </div>
 //           </div>
 
-          
 //           <Accordion
 //             data={formatAccordionData(selectedOrder.items)}
 //           />
@@ -136,8 +135,6 @@
 // };
 
 // export default MyOrder;
-
-
 
 import React, { useEffect, useState } from "react";
 import styles from "./MyOrder.module.css";
@@ -161,13 +158,13 @@ const MyOrder = () => {
     // Modify the URL based on user role and add pagination parameters (limit, page)
     if (userData.role.id == 1) {
       // Admin (role.id === 1): Fetch all orders
-      apiUrl = `http://3.6.41.54/api/orders?limit=${limit}&page=${page}`;
+      apiUrl = `http://localhost:3000/api/orders?limit=${limit}&page=${page}`;
     } else if (userData.role.id == 2) {
       // Caterer (role.id === 2): Fetch orders for that particular caterer
-      apiUrl = `http://3.6.41.54/api/orders?filters=[{"userId":"${userData.id}"}]&limit=${limit}&page=${page}`;
+      apiUrl = `http://localhost:3000/api/orders?filters=[{"userId":"${userData.id}"}]&limit=${limit}&page=${page}`;
     } else if (userData.role.id == 3) {
       // User (role.id === 3): Fetch orders for that particular user
-      apiUrl = `http://3.6.41.54/api/orders?filters=[{"catererId":"${userData.id}"}]&limit=${limit}&page=${page}`;
+      apiUrl = `http://localhost:3000/api/orders?filters=[{"catererId":"${userData.id}"}]&limit=${limit}&page=${page}`;
     }
 
     console.log("API URL:", apiUrl);
@@ -227,8 +224,12 @@ const MyOrder = () => {
                   className={styles.catererImage}
                 />
                 <div className={styles.catererDetails}>
-                  <h2 className={styles.catererName}>{order.catererId?.name}</h2>
-                  <h4 className={styles.catererName}>contact no:{order.catererId?.mobileNo}</h4>
+                  <h2 className={styles.catererName}>
+                    {order.catererId?.name}
+                  </h2>
+                  <h4 className={styles.catererName}>
+                    contact no:{order.catererId?.mobileNo}
+                  </h4>
                   <p>
                     Dish Items: {order.items.length} | Order Quantity:{" "}
                     {order.dishQuantity}
@@ -289,7 +290,6 @@ const MyOrder = () => {
         </Modal>
       )}
 
-    
       {/* <div className={styles.pagination}>
       <button onClick={handlePreviousPage} disabled={page == 1}>
         Previous

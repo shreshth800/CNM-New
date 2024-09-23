@@ -128,7 +128,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Accordion from "../../components/Accordion/Accordion";
 import styles from "./Bill.module.css";
-import {CatererContext} from "../../CatererContext";
+import { CatererContext } from "../../CatererContext";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
@@ -208,13 +208,12 @@ const Bill = () => {
         quantity: item.quantity,
         menuItem: item.dishes,
       }));
-      console.log(cartItem)
-      const cartItems = cartItem.filter(cartItem => cartItem.quantity !== 0);
-      console.log(cartItems)
-
+      console.log(cartItem);
+      const cartItems = cartItem.filter((cartItem) => cartItem.quantity !== 0);
+      console.log(cartItems);
 
       const myorder = {
-        catererId:JSON.parse(localStorage.getItem('catererId')),
+        catererId: JSON.parse(localStorage.getItem("catererId")),
         dishId: dish?.id || "",
         userId: user?.id || "",
         items: cartItems,
@@ -230,7 +229,7 @@ const Bill = () => {
       console.log(myorder);
 
       const response = await axiosPrivate.post(
-        "http://3.6.41.54/api/orders",
+        "http://localhost:3000/api/orders",
         myorder
       );
       // console.log(response);

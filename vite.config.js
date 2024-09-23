@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import autoprefixer from 'autoprefixer';
-import postcssPresetEnv from 'postcss-preset-env';
+import autoprefixer from "autoprefixer";
+import postcssPresetEnv from "postcss-preset-env";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,7 +13,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://3.6.41.54/api/",
+        target: "http://localhost:3000/api/",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
@@ -21,12 +21,12 @@ export default defineConfig({
   },
   css: {
     modules: {
-      localsConvention: 'camelCaseOnly',
+      localsConvention: "camelCaseOnly",
     },
     postcss: {
       plugins: [
         autoprefixer(),
-        postcssPresetEnv({ browsers: 'last 2 versions' }),
+        postcssPresetEnv({ browsers: "last 2 versions" }),
       ],
     },
   },
