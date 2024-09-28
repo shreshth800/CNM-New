@@ -331,7 +331,7 @@
 //   );
 // }
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import styles from "./Personal.module.css";
 import axios from "axios";
 import { CatererContext } from "../../CatererContext";
@@ -340,11 +340,6 @@ import { formatDate } from "../../../utility";
 
 export default function Personal({ setCurrentStep }) {
   const { catererId, setCatererId } = useContext(CatererContext);
-  // const [serviceLocat, setServiceLocat] = useState({
-  //   location: '',
-  //   PinCode: 0 // chagned from string to a number
-  // });
-
   const [serviceLocat, setServiceLocat] = useState([
     {
       location: "",
@@ -365,7 +360,10 @@ export default function Personal({ setCurrentStep }) {
     inServiceFrom: "",
     cateringType: [],
     maximumServingCapacity: 0,
-    googleLocation: "45.422999999999999",
+    googleLocation: {
+      lat: "",
+      lng: "",
+    },
     serviceLocation: serviceLocat,
     maxPrice: 0,
     minPrice: 0,
@@ -373,6 +371,51 @@ export default function Personal({ setCurrentStep }) {
       id: 1,
     },
   });
+
+  const addressInputRef = useRef(null);
+
+  // Function to dynamically load Google Maps API
+  const loadGoogleMapsScript = () => {
+    if (!window.google) {
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAUD63maRlEe3fqMDi4ZTrspkP_vVVgcGo&libraries=places`;
+      script.async = true;
+      script.onload = () => initAutocomplete();
+      document.body.appendChild(script);
+    } else {
+      initAutocomplete();
+    }
+  };
+
+  const initAutocomplete = () => {
+    if (window.google) {
+      const autocomplete = new window.google.maps.places.Autocomplete(
+        addressInputRef.current,
+        {
+          types: ["geocode"],
+          componentRestrictions: { country: "in" }, // Optional: Restrict to a country
+        }
+      );
+
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        if (place.geometry) {
+          setFormData((prevData)=>({
+            ...prevData,
+            address: place.formatted_address,
+            googleLocation: {
+              lat: place.geometry.location.lat(),
+              lng: place.geometry.location.lng(),
+            },
+          }));
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    loadGoogleMapsScript();
+  }, []); // Load only once when the component mounts
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -565,11 +608,25 @@ export default function Personal({ setCurrentStep }) {
           type="text"
           id="address"
           name="address"
+          ref={addressInputRef}
+          value={formData.address}
+          onChange={handleChange}
+          placeholder="Start typing an address..."
+          required
+        />
+      </div>
+
+      {/* <div className={styles.formGroup}>
+        <label htmlFor="address">Address</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
           value={formData.address}
           onChange={handleChange}
           required
         />
-      </div>
+      </div> */}
 
       <div className={styles.formGroup}>
         <label htmlFor="mobileNo">Mobile Number</label>
@@ -659,6 +716,29 @@ export default function Personal({ setCurrentStep }) {
       </div>
 
       <div className={styles.formGroup}>
+        <label>Google Location</label>
+        <div>
+          <div className={styles.googleGroup}>
+            <label htmlFor="lat">Latitude</label>
+            <input
+              type="number"
+              id="lat"
+              name="lat"
+              value={formData.googleLocation.lat}
+              readOnly
+            />
+            <label htmlFor="lng">Longitude</label>
+            <input
+              type="number"
+              id="lng"
+              name="lng"
+              value={formData.googleLocation.lng}
+              readOnly
+            />
+          </div>
+        </div>
+      </div>
+      <div className={styles.formGroup}>
         <label htmlFor="maximumServingCapacity">Maximum Serving Capacity</label>
         <input
           type="number"
@@ -667,39 +747,6 @@ export default function Personal({ setCurrentStep }) {
           value={formData.maximumServingCapacity}
           onChange={handleChange}
         />
-      </div>
-
-      <div className={styles.formGroup}>
-        <label htmlFor="googleLocation">Google Location</label>
-        <input
-          type="text"
-          id="googleLocation"
-          name="googleLocation"
-          value={formData.googleLocation}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className={styles.formGroup}>
-        <label htmlFor="serviceLocation">Service Location</label>
-        <div className={styles.location}>
-          <label>Location:</label>
-          <input
-            type="text"
-            id="serviceLocationLocation"
-            name="serviceLocationLocation"
-            value={serviceLocat.location}
-            onChange={handleChangeLoc}
-          />
-          <label>Pincode:</label>
-          <input
-            type="text"
-            id="serviceLocationPinCode"
-            name="serviceLocationPincode"
-            value={serviceLocat.PinCode}
-            onChange={handleChangePin}
-          />
-        </div>
       </div>
 
       <div className={styles.formGroup}>
