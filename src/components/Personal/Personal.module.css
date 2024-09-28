@@ -70,6 +70,14 @@ textarea:focus {
   background-color: #e65c00;
 }
 
+.googleGroup{
+  display: flex;
+}
+
+.googleGroup label{
+  margin-top: 1rem;
+}
+
 /* Media Query for responsiveness */
 @media (max-width: 768px) {
   .catererForm {
