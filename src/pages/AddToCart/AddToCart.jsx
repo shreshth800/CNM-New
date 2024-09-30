@@ -25,7 +25,7 @@
 //   useEffect(() => {
 //     const fetchMenuData = async () => {
 //       try {
-//         const menuResponse = await fetch("http://localhost:3000//api/menus/");
+//         const menuResponse = await fetch("http://3.6.41.54//api/menus/");
 //         const menuData = await menuResponse.json();
 //         // console.log(menuData);
 
@@ -38,7 +38,7 @@
 //         }));
 
 //         const dishResponse = await fetch(
-//           `http://localhost:3000/api/caterer/${catererId}`
+//           `http://3.6.41.54/api/caterer/${catererId}`
 //         );
 //         const dishData = await dishResponse.json();
 //         // console.log(dishData);
@@ -66,7 +66,7 @@
 //         }
 
 //         // const menuResponse = await axiosPrivate.get(
-//         //   `http://localhost:3000//api/dishes/${dishId}`
+//         //   `http://3.6.41.54//api/dishes/${dishId}`
 //         // );
 //         // const menuData = await menuResponse.data;
 //         // console.log(menuData, "menuData");
@@ -214,7 +214,7 @@ const AddToCart = () => {
           const itemIds = dish.items.map((item) => item.id);
 
           const menuPromises = itemIds.map((id) =>
-            axiosPrivate.get(`http://localhost:3000/api/menus/${id}`)
+            axiosPrivate.get(`http://3.6.41.54/api/menus/${id}`)
           );
 
           const menusResponses = await Promise.all(menuPromises);

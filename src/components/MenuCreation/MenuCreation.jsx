@@ -13,15 +13,17 @@ export default function MenuCreation({ setCurrentStep }) {
     },
   ]);
   const [cateringTypes, setCateringTypes] = useState([]);
+  const [initialMenus, setInitialMenus] = useState([]);
 
   useEffect(() => {
     const fetchCateringTypes = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/caterer/${catererId}`
+          `http://3.6.41.54/api/caterer/${catererId}`
         );
         const fetchedCateringTypes = response.data.cateringType || [];
 
+        // Initialize with fetched catering types
         setMenus([
           {
             menuName: "",
@@ -37,6 +39,34 @@ export default function MenuCreation({ setCurrentStep }) {
         console.error("Error fetching cateringTypes:", error);
       }
     };
+
+    if (catererId) {
+      async function menuData() {
+        const response = await axios.get(
+          `http://3.6.41.54/api/menus?limit=1000000`
+        );
+        const data = response.data.data;
+        const fetchedMenus = data
+          .filter((dish) => dish.catererId === catererId)
+          .map((menu) => ({
+            id: menu.id,
+            menuName: menu.name,
+            menuData: menu.items.reduce((acc, item) => {
+              acc[item.menuType] = item.items; // Use the correct structure for existing menu items
+              return acc;
+            }, {}),
+          }));
+        setInitialMenus(JSON.parse(JSON.stringify(fetchedMenus)));
+        console.log("Fetched menus:", fetchedMenus);
+
+        // Update the menus state with both new and fetched menus
+        setMenus((prevMenus) => [
+          ...JSON.parse(JSON.stringify(fetchedMenus)),
+          ...prevMenus,
+        ]);
+      }
+      menuData();
+    }
 
     fetchCateringTypes();
   }, [catererId]);
@@ -84,11 +114,15 @@ export default function MenuCreation({ setCurrentStep }) {
     setMenus(newMenus);
   };
 
+  const isMenuDataEqual = (menu1, menu2) => {
+    return JSON.stringify(menu1) === JSON.stringify(menu2);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const createMenuPromises = menus.map(async (menu) => {
+      const menuPromises = menus.map(async (menu, index) => {
         const payload = {
           name: menu.menuName,
           catererId: catererId,
@@ -101,27 +135,44 @@ export default function MenuCreation({ setCurrentStep }) {
           },
         };
 
-        const response = await axios.post(
-          "http://localhost:3000/api/menus",
-          payload
-        );
-        console.log("Menu Created:", response.data);
+        // Check if the menu has an id for PATCH request or use POST for a new menu
+        if (menu.id) {
+          const originalMenu = initialMenus.find((m) => m.id === menu.id);
 
-        return response.status >= 200 && response.status < 300;
+          if (!isMenuDataEqual(menu, originalMenu)) {
+            const response = await axios.patch(
+              `http://3.6.41.54/api/menus/${menu.id}`,
+              payload
+            );
+            console.log("Menu Updated:", response.data);
+            return response.status >= 200 && response.status < 300;
+          } else {
+            // No need to update, as data is unchanged
+            console.log("Menu not changed:", menu.menuName);
+            return true;
+          }
+        } else {
+          const response = await axios.post(
+            "http://3.6.41.54/api/menus",
+            payload
+          );
+          console.log("Menu Created:", response.data);
+          return response.status >= 200 && response.status < 300;
+        }
       });
 
-      const results = await Promise.all(createMenuPromises);
-      const allMenusCreated = results.every((status) => status);
+      const results = await Promise.all(menuPromises);
+      const allMenusProcessed = results.every((status) => status);
 
-      if (allMenusCreated) {
-        toastMessage("All menus created successfully!");
+      if (allMenusProcessed) {
+        toastMessage("All menus processed successfully!");
         setCurrentStep(3);
       } else {
-        toastMessage("Some menus failed to create. Please try again.");
+        toastMessage("Some menus failed to process. Please try again.");
       }
     } catch (error) {
-      console.error("Error creating menu:", error);
-      toastMessage("Error creating menu. Please try again.");
+      console.error("Error processing menus:", error);
+      toastMessage("Error processing menus. Please try again.");
     }
   };
 
@@ -150,7 +201,7 @@ export default function MenuCreation({ setCurrentStep }) {
           {cateringTypes.map((type) => (
             <div key={type} className={styles.menuTypeGroup}>
               <h3>{type.replace(/^./, type[0].toUpperCase())}</h3>
-              {menu.menuData[type].map((item, itemIndex) => (
+              {menu.menuData[type]?.map((item, itemIndex) => (
                 <div key={itemIndex} className={styles.menuItem}>
                   <input
                     type="text"

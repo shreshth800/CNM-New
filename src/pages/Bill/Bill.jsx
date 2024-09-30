@@ -229,7 +229,7 @@ const Bill = () => {
       console.log(myorder);
 
       const response = await axiosPrivate.post(
-        "http://localhost:3000/api/orders",
+        "http://3.6.41.54/api/orders",
         myorder
       );
       // console.log(response);

@@ -57,7 +57,7 @@
 //     };
 
 //     try {
-//       const response = await fetch("http://localhost:3000/api/auth/email/login", {
+//       const response = await fetch("http://3.6.41.54/api/auth/email/login", {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -105,7 +105,7 @@
 //     };
 
 //     try {
-//       const response = await fetch("http://localhost:3000/api/auth/email/register", {
+//       const response = await fetch("http://3.6.41.54/api/auth/email/register", {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -347,16 +347,13 @@ const LoginRegisterModal = ({
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/auth/email/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(loginData),
-        }
-      );
+      const response = await fetch("http://3.6.41.54/api/auth/email/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
 
       if (!response.ok) {
         toastMessage("Login Failed");
@@ -410,16 +407,13 @@ const LoginRegisterModal = ({
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/auth/email/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(registerData),
-        }
-      );
+      const response = await fetch("http://3.6.41.54/api/auth/email/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(registerData),
+      });
 
       console.log(response);
       console.log(registerData);
