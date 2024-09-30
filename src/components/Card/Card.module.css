@@ -26,7 +26,11 @@
   margin-left: 3rem;
   margin-right: 3rem;
 }
-
+.catererInfo{
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+}
 .image {
   left: 0;
   right: 0;

@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import styles from "./Personal.module.css";
 import axios from "axios";
-import {CatererContext} from "../../CatererContext";
+import { CatererContext } from "../../CatererContext";
 import { toastMessage } from "../../../utility";
 import { formatDate } from "../../../utility";
 
 export default function Personal({ setCurrentStep }) {
   const { catererId, setCatererId } = useContext(CatererContext);
+  const [initial,setInitial]=useState()
   const [serviceLocat, setServiceLocat] = useState([
     {
       location: "",
@@ -21,7 +22,7 @@ export default function Personal({ setCurrentStep }) {
     mobileNo: 0,
     extraInformation: "",
     review: [],
-    dishes:[],
+    dishes: [],
     specialistIn: "",
     cuisinesOffered: [],
     inServiceFrom: "",
@@ -54,10 +55,6 @@ export default function Personal({ setCurrentStep }) {
     }
   };
 
-  
-
-
-
   const initAutocomplete = () => {
     if (window.google) {
       const autocomplete = new window.google.maps.places.Autocomplete(
@@ -71,14 +68,14 @@ export default function Personal({ setCurrentStep }) {
       autocomplete.addListener("place_changed", () => {
         const place = autocomplete.getPlace();
         if (place.geometry) {
-          setFormData({
-            ...formData,
+          setFormData((prevData)=>({
+            ...prevData,
             address: place.formatted_address,
             googleLocation: {
               lat: place.geometry.location.lat(),
               lng: place.geometry.location.lng(),
             },
-          });
+          }));
         }
       });
     }
@@ -108,37 +105,34 @@ export default function Personal({ setCurrentStep }) {
       setCatererId(JSON.parse(storage));
     }
   }, [catererId]);
-  const user=JSON.parse(localStorage.getItem('user'))
-  if(user){
-    const catererId=user.catererId
-    setCatererId(catererId)
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) {
+    const catererId = user.catererId;
+    setCatererId(catererId);
   }
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
-  
+
     if (checked) {
       setFormData((prevState) => {
         const isAlreadySelected = prevState.cateringType.includes(value);
         if (!isAlreadySelected) {
-          
           return {
             ...prevState,
             cateringType: [...prevState.cateringType, value],
           };
         }
-       
+
         return prevState;
       });
     } else {
-      
       setFormData((prevState) => ({
         ...prevState,
         cateringType: prevState.cateringType.filter((type) => type !== value),
       }));
     }
   };
-  
 
   const handleChangeLoc = (e) => {
     setServiceLocat({ ...serviceLocat, location: e.target.value });
@@ -147,45 +141,70 @@ export default function Personal({ setCurrentStep }) {
   const handleChangePin = (e) => {
     setServiceLocat({ ...serviceLocat, PinCode: e.target.value });
   };
+  const getUpdatedFields = (formData, initialState) => {
+    let updatedFields = {};
+    Object.keys(formData).forEach((key) => {
+      // If the current formData value is different from the initial value, include it in updatedFields
+      if(formData[key]!=="name"){
+      if (JSON.stringify(formData[key]) !==JSON.stringify(initialState[key])) {
+        updatedFields[key] = formData[key];
+      }
+    }
+    });
+    return updatedFields;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const typeofcusin=Array.isArray(formData.cuisinesOffered)
-    if(!typeofcusin){
+    const typeofcusin = Array.isArray(formData.cuisinesOffered);
+    if (!typeofcusin) {
       formData.cuisinesOffered = formData?.cuisinesOffered?.split(",");
     }
     console.log("Form Data:", formData);
 
     try {
-      const user=JSON.parse(localStorage.getItem('user'))
-      const catererid=user.catererId
-      if(!catererid){
-      const response = await axios.post("http://3.6.41.54/api/caterer", {
-        ...formData,
-      });
-      console.log(response.data);
-      setCatererId(response.data.id);
-      const userObj = JSON.parse(localStorage.getItem("user"))
-      const userId= userObj.id;
+      const user = JSON.parse(localStorage.getItem("user"));
+      const catererid = user.catererId;
+      if (!catererid) {
+        const response = await axios.post("http://localhost:3000/api/caterer", {
+          ...formData,
+        });
+        console.log(response.data);
+        setCatererId(response.data.id);
+        const userObj = JSON.parse(localStorage.getItem("user"));
+        const userId = userObj.id;
 
-      const catererIdSet = await axios.patch(`http://3.6.41.54/api/users/${userId}`,{"catererId":response.data.id});
-      console.log(catererIdSet.data);
-      localStorage.setItem('user',JSON.stringify({...catererIdSet.data,catererId:response.data.id}))
-      localStorage.setItem("catererData", JSON.stringify(response.data.id));
-      toastMessage("Caterer registered successfully!");
-      setCatererId(response.data.id)
-      localStorage.setItem('catererData',JSON.stringify(response.data.id))
-      setCurrentStep(2)
-    }else{
-      console.log(catererid)
-      const response = await axios.patch(`http://3.6.41.54/api/caterer/${catererid}`, {
-        ...formData,
-      });
-      setCatererId(response.data.id);
-      console.log(response)
-      toastMessage('updated')
-      setCurrentStep(2)
-    }
+        const catererIdSet = await axios.patch(
+          `http://localhost:3000/api/users/${userId}`,
+          { catererId: response.data.id }
+        );
+        console.log(catererIdSet.data);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ ...catererIdSet.data, catererId: response.data.id })
+        );
+        localStorage.setItem("catererData", JSON.stringify(response.data.id));
+        toastMessage("Caterer registered successfully!");
+        setCatererId(response.data.id);
+        localStorage.setItem("catererData", JSON.stringify(response.data.id));
+        setCurrentStep(2);
+      } else {
+        console.log( {
+          ...formData,dishes:formData.dishes.map(dish=>dish.id)
+        });
+        const updatedFields = getUpdatedFields(formData, initial);
+        console.log(updatedFields)
+        const response = await axios.patch(
+          `http://localhost:3000/api/caterer/${catererid}`,
+          {
+            ...updatedFields
+          }
+        );
+        setCatererId(response.data.id);
+        console.log(response);
+        toastMessage("updated");
+        setCurrentStep(2);
+      }
     } catch (error) {
       console.error("Error submitting form", error);
     }
@@ -193,52 +212,80 @@ export default function Personal({ setCurrentStep }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const user=JSON.parse(localStorage.getItem('user'))
-        const catererid=user.catererId
-        if(catererid){
-        const response = await axios.get(`http://3.6.41.54/api/caterer/${catererid}`);
-        let {
-          name,
-          gstNo,
-          address,
-          mobileNo,
-          extraInformation,
-          maxPrice,
-          minPrice,
-          cateringType,
-          maximumServingCapacity,
-          inServiceFrom,
-          cuisinesOffered,
-          specialistIn,
-          dishes
-        } = response.data;
-        inServiceFrom=formatDate(inServiceFrom)
-  
-        setFormData(prev => ({
-          ...prev,
-          name,
-          gstNo,
-          address,
-          mobileNo,
-          extraInformation,
-          maxPrice,
-          minPrice,
-          cateringType,
-          inServiceFrom,
-          maximumServingCapacity,
-          cuisinesOffered,
-          specialistIn,
-          dishes
-        }));
-      }
+        const user = JSON.parse(localStorage.getItem("user"));
+        const catererid = user.catererId;
+        if (catererid) {
+          const response = await axios.get(
+            `http://localhost:3000/api/caterer/${catererid}`
+          );
+          let {
+            name,
+            gstNo,
+            address,
+            mobileNo,
+            extraInformation,
+            maxPrice,
+            minPrice,
+            cateringType,
+            maximumServingCapacity,
+            inServiceFrom,
+            cuisinesOffered,
+            specialistIn,
+            googleLocation,
+            dishes,
+            serviceLocation,
+            review,
+            status
+          } = response.data;
+          inServiceFrom = formatDate(inServiceFrom);
+          setInitial(JSON.parse(JSON.stringify({
+            name,
+            gstNo,
+            address,
+            mobileNo,
+            extraInformation,
+            maxPrice,
+            minPrice,
+            cateringType,
+            maximumServingCapacity,
+            inServiceFrom,
+            cuisinesOffered,
+            specialistIn,
+            googleLocation,
+            dishes,
+            serviceLocation,
+            review,
+            status
+          })))
+
+          setFormData((prev) => ({
+            ...prev,
+            name,
+            gstNo,
+            address,
+            mobileNo,
+            extraInformation,
+            maxPrice,
+            minPrice,
+            cateringType,
+            inServiceFrom,
+            maximumServingCapacity,
+            cuisinesOffered,
+            specialistIn,
+            googleLocation,
+            dishes,
+            serviceLocation,
+            review,
+            status
+          }));
+        }
       } catch (error) {
         console.error("Error fetching caterer data:", error);
       }
     };
-  
+
     fetchData();
   }, [catererId]);
-  
 
   return (
     <form className={styles.catererForm} onSubmit={handleSubmit}>
@@ -263,6 +310,7 @@ export default function Personal({ setCurrentStep }) {
           value={formData.name}
           onChange={handleChange}
           required
+          disabled={formData.name.length>0}
         />
       </div>
 
@@ -291,7 +339,6 @@ export default function Personal({ setCurrentStep }) {
           required
         />
       </div> */}
-
 
       <div className={styles.formGroup}>
         <label htmlFor="mobileNo">Mobile Number</label>
@@ -383,26 +430,26 @@ export default function Personal({ setCurrentStep }) {
       <div className={styles.formGroup}>
         <label>Google Location</label>
         <div>
-        <div className={styles.googleGroup}>
-          <label htmlFor="lat">Latitude</label>
-          <input
-            type="number"
-            id="lat"
-            name="lat"
-            value={formData.googleLocation.lat}
-            readOnly
-          />
-          <label htmlFor="lng">Longitude</label>
-          <input
-            type="number"
-            id="lng"
-            name="lng"
-            value={formData.googleLocation.lng}
-            readOnly
-          />
+          <div className={styles.googleGroup}>
+            <label htmlFor="lat">Latitude</label>
+            <input
+              type="number"
+              id="lat"
+              name="lat"
+              value={formData.googleLocation.lat}
+              readOnly
+            />
+            <label htmlFor="lng">Longitude</label>
+            <input
+              type="number"
+              id="lng"
+              name="lng"
+              value={formData.googleLocation.lng}
+              readOnly
+            />
+          </div>
         </div>
-        </div>
-      </div> 
+      </div>
       <div className={styles.formGroup}>
         <label htmlFor="maximumServingCapacity">Maximum Serving Capacity</label>
         <input

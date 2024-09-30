@@ -6,6 +6,10 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import {CatererContext} from "../../CatererContext";
 import { toastMessage } from "../../../utility";
+import find from '../../assets/images/find.png'
+import booking from '../../assets/images/booking1.png'
+import profile from '../../assets/images/profile.jpg'
+import logout from '../../assets/images/logout.jpg'
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -107,6 +111,7 @@ const Header = () => {
             <img className={styles.logoImg} src={CNMLogo} alt="CNM" />
           </div> */}
           <h1 className={styles.logoText} onClick={() => navigate("/")}>
+            <img className={styles.logoImg} src={CNMLogo} alt='caterersnearme logo'/>
             CATERERSNEARME
           </h1>
         </div>
@@ -122,22 +127,35 @@ const Header = () => {
                     className={styles.findCaterers}
                     onClick={() => navigate("/caterer")}
                   >
+                    <img className={styles.findImg} src={find}/>
                     Find Caterers
                   </li>
                 )}
-                {isLoggedName && <li className={styles.booking} onClick={()=>navigate("/my-orders")}>Bookings</li>}
+                {isLoggedName && <li
+              className={styles.booking}
+              onClick={() => navigate("/my-orders")}
+            >
+              <img className={styles.findImg} src={booking}/>
+              Bookings
+            </li>}
                 {!isLoggedName && (
-                  <li className={styles.navLogin} onClick={openModal}>
+                  <li className={styles.booking} onClick={openModal}>
+                    <img className={styles.findImg} src={profile}/>
+                    <span>
                     Login/Register
+                    </span>
                   </li>
                 )}
                 {isLoggedName && (
-                  <li className={styles.navProfile}>{firstName}</li>
+                  <li className={styles.booking}><img className={styles.findImg} src={profile}/><span>{firstName}</span></li>
                 )}
                 {isLoggedName && (
-                  <li onClick={handleSignout} className={styles.signout}>
-                    SignOut
-                  </li>
+                  <li className={styles.booking} onClick={handleSignout}>
+                  <img className={styles.findImg} src={logout}/>
+                  <span>
+                  SignOut
+                  </span>
+                </li>
                 )}
               </ul>
             </div>
@@ -148,8 +166,10 @@ const Header = () => {
             <li
               className={styles.findCaterers}
               onClick={() => navigate("caterer")}
-            >
+            ><img className={styles.findImg} src={find}/>
+            <span>
               Find Caterers
+              </span>
             </li>
           )}
           {isLoggedName && (
@@ -157,19 +177,26 @@ const Header = () => {
               className={styles.booking}
               onClick={() => navigate("/my-orders")}
             >
+              <img className={styles.findImg} src={booking}/>
               Bookings
             </li>
           )}
           {/* <li className={styles.navContact}>+91 123456789</li> */}
           {!isLoggedName && (
-            <li className={styles.navLogin} onClick={openModal}>
+            <li className={styles.booking} onClick={openModal}>
+              <img className={styles.findImg} src={profile}/>
+              <span>
               Login/Register
+              </span>
             </li>
           )}
-          {isLoggedName && <li className={styles.navProfile}>{firstName}</li>}
+          {isLoggedName && <li className={styles.booking}><img className={styles.findImg} src={profile}/><span>{firstName}</span></li>}
           {isLoggedName && (
-            <li className={styles.signout} onClick={handleSignout}>
+            <li className={styles.booking} onClick={handleSignout}>
+              <img className={styles.findImg} src={logout}/>
+              <span>
               SignOut
+              </span>
             </li>
           )}
         </ul>

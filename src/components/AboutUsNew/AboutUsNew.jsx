@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./AboutUsNew.module.css";
 import SangeetDish from "../../assets/images/SangeetDish.jpeg";
 import { useNavigate } from "react-router-dom";
+import caterer2 from '../../assets/images/caterer2.jpg'
 
 const AboutUsNew = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const AboutUsNew = () => {
         <div className={styles.aboutUsImageContainer}>
           <img
             className={styles.aboutUsImage}
-            src={SangeetDish}
+            src={caterer2}
             alt="Catering"
           />
         </div>

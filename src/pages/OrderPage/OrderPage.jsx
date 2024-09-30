@@ -79,7 +79,7 @@ const OrderPage = () => {
         <div className={styles.mainSectionLeft}>
           <Card
             catererName={catererName}
-            tagline="Tag Line of the Caterer"
+            tagline="Flavors that bring people together, crafted with care"
             serviceStartYear={serviceStartYear}
           />
           <OrderPageDishes dishes={catererData.dishes} />

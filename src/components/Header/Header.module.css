@@ -4,6 +4,7 @@
   align-items: center;
   height: auto;
   padding: 1rem 3rem 1rem 1rem;
+  background-color:#fdf2e9;
 }
 
 .navLinks2{
@@ -11,6 +12,10 @@
   list-style:none;
   gap:1.7rem;
   flex-direction:row;
+  color:#333;
+  font-size:1.125rem;
+  font-weight:500;
+  align-items:center;
 }
 
 .logo {
@@ -31,16 +36,22 @@
 }
 
 .logoImg {
-  height: 40px;
+  height: 2.8rem;
+  margin-left:1rem;
+  background-color:#f3801a;
+  border-radius:2px;
+  width:4.4rem;
 }
 
 .logoText {
   font-size: 20px;
-  font-weight: bold;
-  color: black;
+  font-weight: 500;
+  color: #444;
   cursor: pointer;
-  margin-top: 10px;
-  margin-left: 2rem;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  justify-content:center;
 }
 
 .navLinks1{
@@ -62,43 +73,34 @@
 .booking {
   cursor: pointer;
 }
-
-.navLogin::before {
-  content: "\f007";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  margin-right: 8px;
+.findCaterers{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  flex-direction:row;
+  justify-content:center
 }
-
 .navContact::before {
   content: "\f10b";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   margin-right: 8px;
 }
-
-.findCaterers::before {
-  content: "\f805";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  margin-right: 8px;
+.findImg{
+  height:30px;
+  width:30px;
+  border-radius:50%;
 }
-
 .hamburger {
   display: none;
   cursor: pointer;
 }
-.booking::before {
-  content: "\f518";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  margin-right: 8px;
-}
-.navProfile::before {
-  content: "\f2bd";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  margin-right: 8px;
+.booking{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  flex-direction:row;
+  justify-content:center
 }
 
 .dropdown {
