@@ -31,7 +31,7 @@ const CatererSearch = () => {
   const [foodType, setFoodType] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [radius, setRadius] = useState(500);
+  const [radius, setRadius] = useState(15);
   const [isAddressSearch, setIsAddressSearch] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -203,14 +203,14 @@ const CatererSearch = () => {
                 setIsAddressSearch(false);
               }}
             />
-            <label>Radius</label>
+            {/* <label>Radius(km) </label>
             <input
               type="number"
               placeholder="Radius (km)"
               className={styles.radiusInput}
               value={radius}
               onChange={(e) => setRadius(e.target.value)}
-            />
+            /> */}
             <button className={styles.searchButton} onClick={handleSearch}>
               <i className="fa fa-search" aria-hidden="true"></i> Search
             </button>
