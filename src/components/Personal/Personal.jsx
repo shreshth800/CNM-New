@@ -68,7 +68,7 @@ export default function Personal({ setCurrentStep }) {
       autocomplete.addListener("place_changed", () => {
         const place = autocomplete.getPlace();
         if (place.geometry) {
-          setFormData((prevData)=>({
+          setFormData((prevData) => ({
             ...prevData,
             address: place.formatted_address,
             googleLocation: {
@@ -145,11 +145,13 @@ export default function Personal({ setCurrentStep }) {
     let updatedFields = {};
     Object.keys(formData).forEach((key) => {
       // If the current formData value is different from the initial value, include it in updatedFields
-      if(formData[key]!=="name"){
-      if (JSON.stringify(formData[key]) !==JSON.stringify(initialState[key])) {
-        updatedFields[key] = formData[key];
+      if (formData[key] !== "name") {
+        if (
+          JSON.stringify(formData[key]) !== JSON.stringify(initialState[key])
+        ) {
+          updatedFields[key] = formData[key];
+        }
       }
-    }
     });
     return updatedFields;
   };
@@ -193,7 +195,7 @@ export default function Personal({ setCurrentStep }) {
           ...formData,dishes:formData.dishes.map(dish=>dish.id)
         });
         const updatedFields = getUpdatedFields(formData, initial);
-        console.log(updatedFields)
+        console.log(updatedFields);
         const response = await axios.patch(
           `http://3.6.41.54/api/caterer/${catererid}`,
           {
@@ -235,7 +237,7 @@ export default function Personal({ setCurrentStep }) {
             dishes,
             serviceLocation,
             review,
-            status
+            status,
           } = response.data;
           inServiceFrom = formatDate(inServiceFrom);
           setInitial(JSON.parse(JSON.stringify({

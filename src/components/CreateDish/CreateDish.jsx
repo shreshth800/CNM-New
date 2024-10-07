@@ -16,7 +16,7 @@ export default function CreateDish() {
   ]);
   const [catererDish, setCatererDish] = useState([]);
   const [categoryType, setCategoryType] = useState([]); // To store fetched catering types
-  const [dishData,setDishData]=useState([])
+  const [dishData, setDishData] = useState([]);
 
   // Fetch menu data based on catererId
   useEffect(() => {
@@ -38,14 +38,19 @@ export default function CreateDish() {
 
     const user = JSON.parse(localStorage.getItem("user"));
     const catererid = user.catererId;
-    if(catererid){
-    async function getPreviousData(){
-      const caterer=await axios.get(`http://3.6.41.54/api/caterer/${catererid}`)
-      const dishesData=caterer.data.dishes
-      setDishData(JSON.parse(JSON.stringify(dishesData)))
-      setPackages(prev=>[...JSON.parse(JSON.stringify(dishesData)),...prev])
-    }
-    getPreviousData();
+    if (catererid) {
+      async function getPreviousData() {
+        const caterer = await axios.get(
+          `http://3.6.41.54/api/caterer/${catererid}`
+        );
+        const dishesData = caterer.data.dishes;
+        setDishData(JSON.parse(JSON.stringify(dishesData)));
+        setPackages((prev) => [
+          ...JSON.parse(JSON.stringify(dishesData)),
+          ...prev,
+        ]);
+      }
+      getPreviousData();
     }
     getMenu();
   }, [catererId]);
@@ -127,7 +132,7 @@ export default function CreateDish() {
 
   async function SubmitForm(e) {
     e.preventDefault();
-  
+
     try {
       const response = await axios.get(`http://3.6.41.54/api/caterer/${catererId}`);
       const caterersDish = response.data;
@@ -138,7 +143,7 @@ export default function CreateDish() {
       }
   
       // Prepare the updated packages with the catererId
-      const updatedPackages = packages.map(pkg =>
+      const updatedPackages = packages.map((pkg) =>
         pkg.catererId === undefined
           ? {
               ...pkg,
@@ -146,57 +151,70 @@ export default function CreateDish() {
             }
           : { ...pkg }
       );
-  
+
       // Filter and create new dish data by comparing with existing dishes
-      const updateDish = updatedPackages.filter(pkg => {
+      const updateDish = updatedPackages.filter((pkg) => {
         // Check if the package exists in the initial dishData
-        const existingPackage = dishData.find(dish => dish.id === pkg.id);
-  
+        const existingPackage = dishData.find((dish) => dish.id === pkg.id);
+
         // Only add to updateDish if there's a change between the current package and the existing one
         return (
           !existingPackage || // If package doesn't exist, it's a new package
           JSON.stringify(existingPackage) !== JSON.stringify(pkg) // Check for changes in existing package
         );
       });
-  
+
       // Process each package, handling POST and PATCH logic
       const results = await Promise.all(
-        updateDish.map(async pkg => {
-          const existingPackage = dishData.find(existing => existing.id === pkg.id);
-  
+        updateDish.map(async (pkg) => {
+          const existingPackage = dishData.find(
+            (existing) => existing.id === pkg.id
+          );
+
           // If package exists and has an id, patch it
           if (pkg.id && existingPackage) {
-            const updatedPackage = await axios.patch(`http://3.6.41.54/api/dishes/${pkg.id}`, {
-              items: pkg.items.map(item => ({
-                ...item,
-                price: Number(item.price), // Ensure prices are numbers
-                quantity: Number(item.quantity), // Ensure quantities are numbers
-              })),
-              dishType: pkg.dishType,
-              price: Number(pkg.price),
-              name: pkg.name,
-              catererId: pkg.catererId,
-            });
+            const updatedPackage = await axios.patch(
+              `http://3.6.41.54/api/dishes/${pkg.id}`,
+              {
+                items: pkg.items.map((item) => ({
+                  ...item,
+                  price: Number(item.price), // Ensure prices are numbers
+                  quantity: Number(item.quantity), // Ensure quantities are numbers
+                })),
+                dishType: pkg.dishType,
+                price: Number(pkg.price),
+                name: pkg.name,
+                catererId: pkg.catererId,
+              }
+            );
             return updatedPackage.data; // Return the updated package data
           } else {
             // If no id exists, create a new package (POST)
-            const newPackage = await axios.post(`http://3.6.41.54/api/dishes`, pkg);
+            const newPackage = await axios.post(
+              `http://3.6.41.54/api/dishes`,
+              pkg
+            );
             return { ...newPackage.data, _id: newPackage.data.id }; // Return the new package with an id
           }
         })
       );
-  
+
       // Only create newCaterer and send PATCH if new dishes were added via POST
-      const newDishes = results.filter(result => !dishData.some(existing => existing.id === result.id));
-  
+      const newDishes = results.filter(
+        (result) => !dishData.some((existing) => existing.id === result.id)
+      );
+
       // If there are new dishes from POST, merge them with existing dishes
       if (newDishes.length > 0) {
         const newCaterer = caterer?.dishes
           ? { dishes: [...caterer.dishes, ...newDishes] } // Merge only new dishes
           : { dishes: [...newDishes] };
-  
+
         // PATCH request to update the caterer with the new dishes
-        await axios.patch(`http://3.6.41.54/api/caterer/${catererId}`, newCaterer);
+        await axios.patch(
+          `http://3.6.41.54/api/caterer/${catererId}`,
+          newCaterer
+        );
       }
   
       toastMessage('Packages submitted successfully!');
@@ -207,11 +225,6 @@ export default function CreateDish() {
       );
     }
   }
-  
-  
-  
-  
-  
 
   return (
     <>

@@ -9,60 +9,78 @@ export default function MenuCreation({ setCurrentStep }) {
     const [menus, setMenus] = useState([
         {
             menuName: '',
-            menuData: {},
+            menuData: [],
         }
     ]);
     const [cateringTypes, setCateringTypes] = useState([]);
     const [initialMenus, setInitialMenus] = useState([]);
 
-  useEffect(() => {
-    const fetchCateringTypes = async () => {
-      try {
-        const response = await axios.get(
-          `http://3.6.41.54/api/caterer/${catererId}`
-        );
-        const fetchedCateringTypes = response.data.cateringType || [];
-
-                // Initialize with fetched catering types
-                setMenus([{
-                    menuName: '',
-                    menuData: fetchedCateringTypes.reduce((acc, type) => {
-                        acc[type] = [''];
-                        return acc;
-                    }, {}),
-                }]);
-
-                setCateringTypes(fetchedCateringTypes);
-            } catch (error) {
-                console.error('Error fetching cateringTypes:', error);
+    useEffect(() => {
+      const fetchCateringTypes = async () => {
+        try {
+          const response = await axios.get(`http://3.6.41.54/api/caterer/${catererId}`);
+          const fetchedCateringTypes = response.data.cateringType || [];
+          setCateringTypes(fetchedCateringTypes);
+    
+          setMenus(prevMenus => {
+            if (prevMenus.length === 1 && !prevMenus[0].menuName) {
+              // Only initialize if it's the default empty menu
+              return [{
+                menuName: '',
+                menuData: fetchedCateringTypes.reduce((acc, type) => {
+                  acc[type] = [''];
+                  return acc;
+                }, {}),
+              }];
             }
-        };
-
-        if (catererId) {
-            async function menuData() {
-                const response = await axios.get(`http://3.6.41.54/api/menus?limit=1000000`);
-                const data = response.data.data;
-                const fetchedMenus = data
-                    .filter(dish => dish.catererId === catererId)
-                    .map(menu => ({
-                        id:menu.id,
-                        menuName: menu.name,
-                        menuData: menu.items.reduce((acc, item) => {
-                            acc[item.menuType] = item.items; // Use the correct structure for existing menu items
-                            return acc;
-                        }, {})
-                    }));
-                setInitialMenus(JSON.parse(JSON.stringify(fetchedMenus)));
-                console.log('Fetched menus:', fetchedMenus);
-
-                // Update the menus state with both new and fetched menus
-                setMenus(prevMenus => [...JSON.parse(JSON.stringify(fetchedMenus)), ...prevMenus]);
-            }
-            menuData();
+            return prevMenus;
+          });
+        } catch (error) {
+          console.error('Error fetching cateringTypes:', error);
         }
-
-    fetchCateringTypes();
-  }, [catererId]);
+      };
+    
+      const fetchMenuData = async () => {
+        try {
+          const response = await axios.get(`http://3.6.41.54/api/menus?limit=1000000`);
+          const data = response.data.data;
+          const fetchedMenus = data
+            .filter(dish => dish.catererId === catererId)
+            .map(menu => ({
+              id: menu.id,
+              menuName: menu.name,
+              menuData: menu.items.reduce((acc, item) => {
+                acc[item.menuType] = item.items;
+                return acc;
+              }, {}),
+            }));
+    
+          setInitialMenus(fetchedMenus);
+          setMenus(prevMenus => {
+            let newMenus = [...fetchedMenus];
+            // Only add the empty menu if there are no fetched menus
+            if (newMenus.length === 0) {
+              newMenus.push({
+                menuName: '',
+                menuData: cateringTypes.reduce((acc, type) => {
+                  acc[type] = [''];
+                  return acc;
+                }, {}),
+              });
+            }
+            newMenus=[...newMenus,...prevMenus]
+            return newMenus;
+          });
+        } catch (error) {
+          console.error('Error fetching menu data:', error);
+        }
+      };
+    
+      if (catererId) {
+        fetchCateringTypes();
+        fetchMenuData();
+      }
+    }, [catererId]);
 
   const handleAddMenu = () => {
     setMenus([
