@@ -31,7 +31,7 @@ const CatererSearch = () => {
   const [foodType, setFoodType] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [radius, setRadius] = useState(500);
+  const [radius, setRadius] = useState(15);
   const [isAddressSearch, setIsAddressSearch] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,12 +47,12 @@ const CatererSearch = () => {
         const { lat, lng } = await getCurrentUserLocation();
         console.log(lat, lng);
 
-        const response = await axios.get(`http://localhost:3000/api/caterer/nearby?lat=${lat}&lng=${lng}&radius=${radius}`);
+        const response = await axios.get(`http://3.6.41.54/api/caterer/nearby?lat=${lat}&lng=${lng}&radius=${radius}`);
         if (response.data) {
           setCaterers(response.data);
           setFilteredCaterers(response.data);
         } else {
-          const fallbackResponse = await axios.get('http://localhost:3000/api/caterer');
+          const fallbackResponse = await axios.get('http://3.6.41.54/api/caterer');
           setCaterers(fallbackResponse.data);
           setFilteredCaterers(fallbackResponse.data);
         }
@@ -75,12 +75,6 @@ const CatererSearch = () => {
     fetchCaterers();
     loadGoogleMapsScript();
 
-    return () => {
-      const script = document.querySelector(`script[src*="${mapApiKey}"]`);
-      if (script) {
-        document.body.removeChild(script);
-      }
-    };
   }, []);
 
   const initAutocomplete = () => {
@@ -104,7 +98,7 @@ const CatererSearch = () => {
 
   const fetchNearbyCaterers = async (lat, lng) => {
     try {
-      const response = await axiosPrivate.get(`http://localhost:3000/api/caterer/nearby?lat=${lat}&lng=${lng}&radius=${radius}`);
+      const response = await axiosPrivate.get(`http://3.6.41.54/api/caterer/nearby?lat=${lat}&lng=${lng}&radius=${radius}`);
       console.log(response);
       if (Array.isArray(response.data)) {
         setCaterers(response.data);
@@ -195,14 +189,14 @@ const CatererSearch = () => {
               setIsAddressSearch(false);
             }}
           />
-          <label>Radius</label>
+          {/* <label>Radius</label>
           <input
             type="number"
             placeholder="Radius (km)"
             className={styles.radiusInput}
             value={radius}
             onChange={(e) => setRadius(e.target.value)}
-          />
+          /> */}
           <button className={styles.searchButton} onClick={handleSearch}>
             <i className="fa fa-search" aria-hidden="true"></i> Search
           </button>

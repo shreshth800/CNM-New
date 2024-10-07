@@ -23,7 +23,7 @@ export default function CreateDish() {
     async function getMenu() {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/Menus?limit=100000"
+          "http://3.6.41.54/api/Menus?limit=100000"
         );
         const data = await response.json();
         const catererData = data.data.filter(
@@ -34,18 +34,7 @@ export default function CreateDish() {
         console.error("Error fetching menu data:", error);
       }
     }
-
-    const user = JSON.parse(localStorage.getItem("user"));
-    const catererid = user.catererId;
-    if(catererid){
-    async function getPreviousData(){
-      const caterer=await axios.get(`http://3.6.41.54/api/caterer/${catererid}`)
-      const dishesData=caterer.data.dishes
-      setDishData(JSON.parse(JSON.stringify(dishesData)))
-      setPackages(prev=>[...JSON.parse(JSON.stringify(dishesData)),...prev])
-    }
-    getPreviousData();
-    }
+    
 
     const user = JSON.parse(localStorage.getItem("user"));
     const catererid = user.catererId;
@@ -66,7 +55,7 @@ export default function CreateDish() {
     async function fetchCateringTypes() {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/caterer/${catererId}`
+          `http://3.6.41.54/api/caterer/${catererId}`
         );
         const cateringData = response.data;
         setCategoryType(cateringData.cateringType || []);

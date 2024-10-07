@@ -19,7 +19,7 @@ export default function MenuCreation({ setCurrentStep }) {
     const fetchCateringTypes = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/caterer/${catererId}`
+          `http://3.6.41.54/api/caterer/${catererId}`
         );
         const fetchedCateringTypes = response.data.cateringType || [];
 
@@ -91,6 +91,13 @@ export default function MenuCreation({ setCurrentStep }) {
 
   const handleAddItem = (menuIndex, menuType) => {
     const newMenus = [...menus];
+    
+    // Ensure the menuData[menuType] is initialized as an array if it's undefined
+    if (!newMenus[menuIndex].menuData[menuType]) {
+      newMenus[menuIndex].menuData[menuType] = [];
+    }
+  
+    // Now push the new item to the array
     newMenus[menuIndex].menuData[menuType].push("");
     setMenus(newMenus);
   };

@@ -166,7 +166,7 @@ export default function Personal({ setCurrentStep }) {
       const user = JSON.parse(localStorage.getItem("user"));
       const catererid = user.catererId;
       if (!catererid) {
-        const response = await axios.post("http://localhost:3000/api/caterer", {
+        const response = await axios.post("http://3.6.41.54/api/caterer", {
           ...formData,
         });
         console.log(response.data);
@@ -175,7 +175,7 @@ export default function Personal({ setCurrentStep }) {
         const userId = userObj.id;
 
         const catererIdSet = await axios.patch(
-          `http://localhost:3000/api/users/${userId}`,
+          `http://3.6.41.54/api/users/${userId}`,
           { catererId: response.data.id }
         );
         console.log(catererIdSet.data);
@@ -195,7 +195,7 @@ export default function Personal({ setCurrentStep }) {
         const updatedFields = getUpdatedFields(formData, initial);
         console.log(updatedFields)
         const response = await axios.patch(
-          `http://localhost:3000/api/caterer/${catererid}`,
+          `http://3.6.41.54/api/caterer/${catererid}`,
           {
             ...updatedFields
           }
@@ -216,7 +216,7 @@ export default function Personal({ setCurrentStep }) {
         const catererid = user.catererId;
         if (catererid) {
           const response = await axios.get(
-            `http://localhost:3000/api/caterer/${catererid}`
+            `http://3.6.41.54/api/caterer/${catererid}`
           );
           let {
             name,
@@ -310,7 +310,6 @@ export default function Personal({ setCurrentStep }) {
           value={formData.name}
           onChange={handleChange}
           required
-          disabled={formData.name.length>0}
         />
       </div>
 
