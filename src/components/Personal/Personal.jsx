@@ -191,9 +191,6 @@ export default function Personal({ setCurrentStep }) {
         localStorage.setItem("catererData", JSON.stringify(response.data.id));
         setCurrentStep(2);
       } else {
-        console.log( {
-          ...formData,dishes:formData.dishes.map(dish=>dish.id)
-        });
         const updatedFields = getUpdatedFields(formData, initial);
         console.log(updatedFields);
         const response = await axios.patch(
@@ -404,7 +401,7 @@ export default function Personal({ setCurrentStep }) {
             type="checkbox"
             value="veg"
             onChange={handleCheckboxChange}
-            checked={formData.cateringType.includes("veg")}
+            checked={formData?.cateringType?.includes("veg")}
           />{" "}
           <label>Veg</label>
         </div>
@@ -413,7 +410,7 @@ export default function Personal({ setCurrentStep }) {
             type="checkbox"
             value="nonVeg"
             onChange={handleCheckboxChange}
-            checked={formData.cateringType.includes("nonVeg")}
+            checked={formData?.cateringType?.includes("nonVeg")}
           />{" "}
           <label>Non Veg</label>
         </div>
@@ -422,7 +419,7 @@ export default function Personal({ setCurrentStep }) {
             type="checkbox"
             value="jain"
             onChange={handleCheckboxChange}
-            checked={formData.cateringType.includes("jain")}
+            checked={formData?.cateringType?.includes("jain")}
           />{" "}
           <label>Jain</label>
         </div>

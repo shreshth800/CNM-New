@@ -55,7 +55,7 @@ export default function MenuCreation({ setCurrentStep }) {
               }, {}),
             }));
     
-          setInitialMenus(fetchedMenus);
+          setInitialMenus(JSON.parse(JSON.stringify(fetchedMenus)));
           setMenus(prevMenus => {
             let newMenus = [...fetchedMenus];
             // Only add the empty menu if there are no fetched menus
@@ -156,6 +156,7 @@ export default function MenuCreation({ setCurrentStep }) {
                 // Check if the menu has an id for PATCH request or use POST for a new menu
                 if (menu.id) {
                     const originalMenu = initialMenus.find(m => m.id === menu.id);
+                    console.log(menu,originalMenu)
                     
                     
                     if (!isMenuDataEqual(menu, originalMenu)) {
